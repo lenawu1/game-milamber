@@ -1,0 +1,51 @@
+#ifndef __RENDER_H__
+#define __RENDER_H__
+
+#include "scene.h"
+#include "color.h"
+
+
+list_t *create_oval_shape(double a, double b);
+
+list_t *create_enemy_shape(double radius);
+
+list_t *create_rectangle_shape(double x, double y);
+
+body_t *create_rectangle(double x, double y, double mass, int i);
+
+body_t *create_wall(double x, double y, double mass);
+
+body_t *create_enemy(double radius, double mass);
+
+body_t *create_ball(double a, double b, double mass);
+
+body_t *create_bullet(double x, double y, double mass, bool is_enemy);
+
+list_t *create_semicircle_shape(double radius);
+
+/**
+ * Creates a circle object_t
+ * @param radius The radius of the circle.
+ * @param mass The mass of the star.
+ * @return The body of circle.
+ */
+body_t *create_circle(double radius, double mass);
+
+/**
+ * Creates a n-pointed star.
+ *
+ * @param n The number of points of the star.
+ * @param size The radius of the circumscribing circle.
+ * @param mass The mass of the star.
+ * @return The body of circle.
+ */
+body_t *create_nstar(int n, double radius, double mass);
+
+/**
+ * Generates a random vector between two bounds.
+ * @param min Minimum vector generated
+ * @param max Maximum vector generated
+ */
+vector_t random_vector(vector_t min, vector_t max);
+
+#endif // #ifndef __SCENE_H__
