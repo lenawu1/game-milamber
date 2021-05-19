@@ -1,10 +1,10 @@
 # List of demo programs
-DEMOS = bounce gravity pacman nbodies damping spaceinvaders breakout pegs
+DEMOS = 
 # List of C files in "libraries" that we provide
 STAFF_LIBS = sdl_wrapper test_util
 # List of C files in "libraries" that you will write.
 # This also defines the order in which the tests are run.
-STUDENT_LIBS = vector list polygon color body scene forces collision physics render
+STUDENT_LIBS = vector list polygon color body scene forces collision physics render compound_body
 
 # If we're not on Windows...
 ifneq ($(OS), Windows_NT)
@@ -92,7 +92,6 @@ bin/pegs: out/pegs.o out/sdl_wrapper.o $(STUDENT_OBJS)
 # is that it doesn't link the SDL libraries.
 bin/test_suite_%: out/test_suite_%.o out/test_util.o $(STUDENT_OBJS)
 	$(CC) $(CFLAGS) $(LIB_MATH) $^ -o $@
-
 
 bin/student_tests: out/student_tests.o out/test_util.o $(STUDENT_OBJS)
 	$(CC) $(CFLAGS) $(LIB_MATH) $^ -o $@
@@ -210,23 +209,8 @@ out/%.obj: demo/%.c # or "demo"
 out/%.obj: tests/%.c # or "tests"
 	$(CC) -c $^ $(CFLAGS) -Fo"$@"
 
-bin/bounce.exe bin\bounce.exe: out/bounce.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
-	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
-
-bin/gravity.exe bin\gravity.exe: out/gravity.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
-	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
-
-bin/pacman.exe bin\pacman.exe: out/pacman.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
-	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
-
-bin/nbodies.exe: out/nbodies.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
-	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
-
-bin/damping.exe: out/damping.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
-	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
-
-bin/spaceinvaders.exe: out/spaceinvaders.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
-	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
+# bin/bounce.exe bin\bounce.exe: out/bounce.obj out/sdl_wrapper.obj $(STUDENT_OBJS) //TODO: Left here for example
+# 	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
 
 # Builds the test suite executables from the corresponding test .o file
 # and the library .o files. The only difference from the demo build command
@@ -235,12 +219,7 @@ bin/test_suite_%.exe bin\test_suite_%.exe: out/test_suite_%.obj out/test_util.ob
 	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) -out:"$@"
 
 # Empty recipes for cross-OS task compatibility.
-bin/bounce bin\bounce: bin/bounce.exe ;
-bin/gravity bin\gravity: bin/gravity.exe ;
-bin/pacman bin\pacman: bin/pacman.exe ;
-bin/nbodies bin\nbodies: bin/nbodies.exe; 
-bin/damping bin\damping: bin/damping.exe; 
-bin/spaceinvaders bin\spaceinvaders: bin/spaceinvaders.exe
+# bin/bounce bin\bounce: bin/bounce.exe ; //TODO: EXAMPLE
 bin/test_suite_% bin\test_suite_%: bin/test_suite_%.exe ;
 
 # CMD commands to test and clean
