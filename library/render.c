@@ -6,7 +6,7 @@
 #include "color.h"
 #include <stdbool.h>
 
-const int CIRCLE_APPROX = 100;
+const int CIRCLE_APPROX = 50;
 
 list_t *create_oval_shape(double a, double b){
     list_t *oval = list_init(CIRCLE_APPROX, (free_func_t) free);
@@ -109,18 +109,10 @@ body_t *create_enemy(double radius, double mass) {
     list_t *shape = create_enemy_shape(radius);
 
     rgb_color_t color = rgb_color_gray();
-    body_t *enemy = body_init(shape, mass, color); // No mass for this week
+    body_t *enemy = body_init(shape, mass, color);
     body_set_centroid(enemy, VEC_ZERO);
 
     return enemy;
-}
-
-body_t *create_ball(double a, double b, double mass) {
-    list_t *shape = create_oval_shape(a, b);
-    rgb_color_t color = rgb_color_gray();
-    body_t *ball = body_init(shape, mass, color); // No mass for this week
-    body_set_centroid(ball, VEC_ZERO);
-    return ball;
 }
 
 list_t *create_semicircle_shape(double radius) {

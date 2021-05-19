@@ -97,6 +97,20 @@ double vec_dot(vector_t v1, vector_t v2);
 double vec_cross(vector_t v1, vector_t v2);
 
 /**
+ * Rotates a vector by an angle around the given pivot.
+ * The angle is given in radians.
+ * Positive angles are counterclockwise, according to the right hand rule.
+ * See https://en.wikipedia.org/wiki/Rotation_matrix.
+ * (You can derive this matrix by noticing that rotation by a fixed angle
+ * is linear and then computing what it does to (1, 0) and (0, 1).)
+ *
+ * @param v the vector to rotate
+ * @param angle the angle to rotate the vector
+ * @return v rotated by the given angle
+ */
+vector_t vec_rotate_external(vector_t v, double angle, vector_t pivot);
+
+/**
  * Rotates a vector by an angle around (0, 0).
  * The angle is given in radians.
  * Positive angles are counterclockwise, according to the right hand rule.

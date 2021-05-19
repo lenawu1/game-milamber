@@ -115,6 +115,15 @@ rgb_color_t body_get_color(body_t *body);
 void *body_get_info(body_t *body);
 
 /**
+ * Translates a body by the given vector.
+ * The position is specified by the position of the body's center of mass.
+ *
+ * @param body a pointer to a body returned from body_init()
+ * @param v the vector to translate by
+ */
+void body_translate(body_t *body, vector_t v);
+
+/**
  * Translates a body to a new position.
  * The position is specified by the position of the body's center of mass.
  *
@@ -144,6 +153,16 @@ void body_set_velocity(body_t *body, vector_t v);
 
 /**
  * Changes a body's orientation in the plane.
+ * The body is rotated about the given pivot.
+ * Note that the angle is *absolute*, not relative to the current orientation.
+ *
+ * @param body a pointer to a body returned from body_init()
+ * @param angle the body's new angle in radians. Positive is counterclockwise.
+ */
+void body_rotate_external(body_t *body, double angle, vector_t pivot);
+
+/**
+ * Changes a body's orientation in the plane.
  * The body is rotated about its center of mass.
  * Note that the angle is *absolute*, not relative to the current orientation.
  *
@@ -151,7 +170,6 @@ void body_set_velocity(body_t *body, vector_t v);
  * @param angle the body's new angle in radians. Positive is counterclockwise.
  */
 void body_set_rotation(body_t *body, double angle);
-
 
 double body_get_rotation(body_t *body);
 /**

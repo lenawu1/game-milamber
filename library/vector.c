@@ -44,8 +44,15 @@ double vec_cross(vector_t v1, vector_t v2){
     return (v1.x*v2.y) - (v1.y*v2.x);
 }
 
+vector_t vec_rotate_external(vector_t v, double angle, vector_t pivot) {
+    vector_t ret = vec_subtract(v, pivot);
+    ret = (vector_t) {.x = ret.x*cos(angle) - ret.y*sin(angle),
+            .y = ret.x*sin(angle) + ret.y*cos(angle)};
+    return vec_add(pivot, ret);
+}
+
 vector_t vec_rotate(vector_t v, double angle){
-    return vec_init(v.x*cos(angle) - v.y*sin(angle), v.x*sin(angle) + v.y*cos(angle));
+    return vec_rotate_external(v, angle, VEC_ZERO);
 }
 
 vector_t vec_orthogonal(vector_t v){

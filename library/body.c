@@ -127,12 +127,6 @@ double body_get_mass(body_t *body) {
     return body->mass;
 }
 
-void body_translate(body_t *body, vector_t v)
-{
-    body->centroid = vec_add(v, body->centroid);
-    polygon_translate(body->shape, v);
-}
-
 rgb_color_t body_get_color(body_t *body) {
     return body->color;
 }
@@ -141,23 +135,32 @@ void *body_get_info(body_t *body) {
     return body->info;
 }
 
+void body_translate(body_t *body, vector_t v) {
+    polygon_translate(body->shape, v);
+    body->centroid = vec_add(body->centroid, v);
+}
+
 void body_set_centroid(body_t *body, vector_t x) {
     vector_t cur_centroid = body->centroid;
     vector_t displacement = vec_subtract(x, cur_centroid);
-    polygon_translate(body->shape, displacement);
-    body->centroid = x;
+    body_translate(body, displacement);
 }
 
 void body_set_velocity(body_t *body, vector_t v) {
     body->velocity = v;
 }
 
-void body_set_rotation(body_t *body, double angle) {
+void body_rotate_external(body_t *body, double angle, vector_t pivot) { 
     // Rotation is absolute not relative
-    // Rotate body upright then rotate to new orientation
-    polygon_rotate(body->shape, -1 * (body->orientation), body->centroid);
-    polygon_rotate(body->shape, angle, body->centroid);
-    body->orientation = angle;
+    // Rotate body upright then rotate to new orientation?
+    double rot_angle = angle - body->orientation; //FIXME: idt this will work
+    polygon_rotate(body->shape, rot_angle, pivot);
+    body->orientation = angle; //FIXME: figure out new orientation
+    body->centroid = vec_rotate_external(body->centroid, rot_angle, pivot);
+}
+
+void body_set_rotation(body_t *body, double angle) {
+    body_rotate_external(body, angle, body->centroid);
 }
 
 
