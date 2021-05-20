@@ -1,5 +1,5 @@
 #ifndef __COMPOUND_BODY_H__
-#define __COMBOUND_BODY_H__
+#define __COMPOUND_BODY_H__
 
 #include <stdbool.h>
 #include "body.h"
