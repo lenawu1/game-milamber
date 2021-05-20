@@ -4,7 +4,11 @@ DEMOS =
 STAFF_LIBS = sdl_wrapper test_util
 # List of C files in "libraries" that you will write.
 # This also defines the order in which the tests are run.
+<<<<<<< HEAD
 STUDENT_LIBS = vector list polygon color body scene forces collision physics render compound_body levels
+=======
+STUDENT_LIBS = vector list polygon color body scene forces collision physics render compound_body elements terrain
+>>>>>>> 20295daeffb5b1dc800c0fb32027118af63a4773
 
 # If we're not on Windows...
 ifneq ($(OS), Windows_NT)

@@ -1,5 +1,5 @@
 #ifndef __COMPOUND_BODY_H__
-#define __COMBOUND_BODY_H__
+#define __COMPOUND_BODY_H__
 
 #include <stdbool.h>
 #include "body.h"
@@ -37,8 +37,19 @@ void comp_body_add(comp_body_t *comp_body, body_t *body);
  */
 list_t *get_internal_bodies(comp_body_t *comp_body);
 
+/**
+ * Returns whether any of the composing bodies have collided.
+ *
+ * @param comp_body a pointer to a body returned from comp_body_init()
+ * @return a bool, true if any composing body has collided
+ */
 bool comp_body_collided(comp_body_t *comp_body);
 
+/**
+ * Sets the collision status of every composing body and the compound body.
+ *
+ * @param comp_body a pointer to a body returned from comp_body_init()
+ */
 void comp_body_set_collided(comp_body_t *comp_body, bool val);
 
 /**

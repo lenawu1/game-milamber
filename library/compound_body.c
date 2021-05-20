@@ -108,7 +108,8 @@ void comp_body_set_rotation(comp_body_t *comp, double angle) {
     vector_t pivot = comp->centroid;
     for (size_t i = 0; i < comp->size; i++) {
         body_t *body = list_get(comp->bodies, i);
-        body_rotate_external(body, angle, pivot);
+        double body_rel_angle = body_get_rotation(body) - comp->orientation;
+        body_rotate_external(body, angle + body_rel_angle, pivot);
     }
     comp->orientation = angle;
 }
