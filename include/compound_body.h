@@ -38,6 +38,16 @@ void comp_body_add(comp_body_t *comp_body, body_t *body);
 list_t *get_internal_bodies(comp_body_t *comp_body);
 
 /**
+ * Returns whether any of the composing bodies have collided
+ * with any of the composing bodies of the other body passed in
+ * 
+ * @param comp_body1 a pointer to a body returned from comp_body_init()
+ * @param comp_body2 a pointer to a body returned from comp_body_init()
+ * @return a bool, true if any composing bodies has collided
+ */
+bool comp_body_collided_with(comp_body_t *comp_body1, comp_body_t *comp_body2);
+
+/**
  * Returns whether any of the composing bodies have collided.
  *
  * @param comp_body a pointer to a body returned from comp_body_init()

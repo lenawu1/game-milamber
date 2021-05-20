@@ -64,6 +64,22 @@ list_t *get_internal_bodies(comp_body_t *comp) {
     return bodies_list;
 }
 
+bool comp_body_collided_with(comp_body_t *comp_body1, comp_body_t *comp_body2) {
+    list_t *bodies1 = comp_body1->bodies;
+    list_t *bodies2 = comp_body2->bodies;
+    for (size_t i = 0; i < comp_body1->size; i++) {
+        body_t *cur1 = list_get(bodies1, i);
+        list_t *collided1 = body_get_collisions(cur1);
+        for (size_t j = 0; j < comp_body2->size; j++) {
+            body_t *cur2 = list_get(bodies2, j);
+            if (list_contains(collided1, cur2)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool comp_body_collided(comp_body_t *comp) {
     return comp->collided;
 }
