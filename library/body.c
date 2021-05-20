@@ -153,13 +153,13 @@ void body_set_velocity(body_t *body, vector_t v) {
 void body_rotate_external(body_t *body, double angle, vector_t pivot) { 
     // Rotation is absolute not relative
     // Rotate body upright then rotate to new orientation?
-    double rot_angle = angle - body->orientation; //FIXME: idt this will work
+    double rot_angle = angle - body->orientation;
     polygon_rotate(body->shape, rot_angle, pivot);
-    body->orientation = angle; //FIXME: figure out new orientation
+    body->orientation = angle;
     body->centroid = vec_rotate_external(body->centroid, rot_angle, pivot);
 }
 
-void body_set_rotation(body_t *body, double angle) {
+void body_set_rotation(body_t *body, double angle) { // Absolute angle about centroid
     body_rotate_external(body, angle, body->centroid);
 }
 
