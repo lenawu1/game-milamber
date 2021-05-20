@@ -42,14 +42,14 @@ int main(int argc, char *argv[]) {
     comp_body_t *player = create_golf_ball();
     comp_body_t *hole = create_golf_hole();
 
+    // TODO
     // generate_walls(scene, ball);
 
     // sdl_on_key(handler,scene);
     
     double clock = 0.0;
     
-    bool level_is_over = sdl_is_done(scene, NULL); // FIXME: could someone else also take a look to make sure this works for edge cases?
-    while (!level_is_over){
+    while (!sdl_is_done(scene, NULL) && LEVEL == 1){
         double dt = time_since_last_tick();
         clock += dt;
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
                 body_remove(scene_get_body(scene, i));
             }
             clock = 0;
-            level_is_over = true;
+            LEVEL++;
         }
         player_in_bounds(scene);
         scene_tick(scene, dt);
