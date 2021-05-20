@@ -59,9 +59,9 @@ list_t *create_rectangle_shape(double x, double y){
     return rectangle;
 }
 
-body_t *create_rectangle(double x, double y, double mass, int i) {
+body_t *create_rectangle(double x, double y, double mass) {
     list_t *shape = create_rectangle_shape(x, y);
-    rgb_color_t color = rgb_color_rainbows(i);
+    rgb_color_t color = rgb_color_init(255, 255, 255);
     body_t *rect = body_init(shape, mass, color);
     body_set_centroid(rect, VEC_ZERO);
     return rect;
@@ -149,9 +149,21 @@ list_t *create_circle_shape(double radius) {
 body_t *create_circle(double radius, double mass) {
     list_t *shape = create_circle_shape(radius);
     rgb_color_t color = rgb_color_pastel();
-    body_t *circle = body_init(shape, mass, color); // No mass for this week
-    body_set_centroid(circle, VEC_ZERO);
+    body_t *circle = body_init(shape, mass, color);
     return circle;
+}
+
+body_t *create_lemniscate(double rad, double min_angle, double max_angle, double mass) {
+    list_t *shape = list_init(CIRCLE_APPROX, free);
+    for (int i = 0; i < CIRCLE_APPROX; i++) {
+        vector_t *point = malloc(sizeof(vector_t));
+        double angle = (max_angle - min_angle) / CIRCLE_APPROX * i;
+        point->x = (rad * cos(angle))/(1 + pow(sin(angle), 2));
+        point->y = (rad * sin(angle) * cos(angle))/(1 + pow(sin(angle), 2));
+    }
+    rgb_color_t color = rgb_color_gray();
+    body_t *lem = body_init(shape, mass, color);
+    return lem;
 }
 
 list_t *create_nstar_shape(int n, double size) {
@@ -159,7 +171,7 @@ list_t *create_nstar_shape(int n, double size) {
     vector_t *vex_point = malloc(sizeof(vector_t));
     vector_t *cave_point = malloc(sizeof(vector_t));
     for(int i = 0; i < n; i++) {
-        double angle = 2*M_PI / n * i;
+        double angle = 2 * M_PI / n * i;
         vex_point->x = 0;
         vex_point->y = size;
         vector_t *temp_v = malloc(sizeof(vector_t));

@@ -11,7 +11,7 @@ list_t *create_enemy_shape(double radius);
 
 list_t *create_rectangle_shape(double x, double y);
 
-body_t *create_rectangle(double x, double y, double mass, int i);
+body_t *create_rectangle(double x, double y, double mass);
 
 body_t *create_wall(double x, double y, double mass);
 
@@ -30,6 +30,19 @@ list_t *create_semicircle_shape(double radius);
  * @return The body of circle.
  */
 body_t *create_circle(double radius, double mass);
+
+/**
+ * Creates a lemniscate (https://mathworld.wolfram.com/Lemniscate.html) body
+ * Note that the infinity (∞) orientation is considered to be at orientation = 0.
+ * 
+ * @param a The half-radius of the lemniscate
+ * @param mass The mass of the lemniscate
+ * @param min_angle the starting angle for the lemniscate (≥ 0)
+ *                  *** counterclockwise from the +x-axis ***
+ * @param max_angle the ending angle (≤ 2π) from the * +x-axis *
+ * @return The lemniscate body
+ */
+body_t *create_lemniscate(double radius, double min_angle, double max_angle, double mass);
 
 /**
  * Creates a n-pointed star.
