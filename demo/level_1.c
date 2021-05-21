@@ -43,7 +43,7 @@ bool reaches_bottom(comp_body_t *golfball) {
     for (size_t i = 0; i < list_size(ball_points); i++) {
         double y = ((vector_t *) list_get(ball_points, i))->y;
         //TODO: replace 0 with the y of the terrain/ground.
-        if (y <= 0 && body_get_velocity(ball) < 0) {
+        if (y <= 0 && vec_norm(body_get_velocity(ball)) < 0) {
             return true;
         }
     }
