@@ -1,14 +1,10 @@
 # List of demo programs
-DEMOS = 
+DEMOS = level_1.c
 # List of C files in "libraries" that we provide
 STAFF_LIBS = sdl_wrapper test_util
 # List of C files in "libraries" that you will write.
 # This also defines the order in which the tests are run.
-<<<<<<< HEAD
-STUDENT_LIBS = vector list polygon color body scene forces collision physics render compound_body levels
-=======
 STUDENT_LIBS = vector list polygon color body scene forces collision physics render compound_body elements terrain
->>>>>>> 20295daeffb5b1dc800c0fb32027118af63a4773
 
 # If we're not on Windows...
 ifneq ($(OS), Windows_NT)
@@ -67,29 +63,9 @@ out/%.o: tests/%.c # or "tests"
 # Builds bin/bounce by linking the necessary .o files.
 # Unlike the out/%.o rule, this uses the LIBS flags and omits the -c flag,
 # since it is building a full executable.
-bin/bounce: out/bounce.o out/sdl_wrapper.o $(STUDENT_OBJS)
+bin/level_1.c: out/level_1.o out/sdl_wrapper.o $(STUDENT_OBJS)
 	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
-bin/gravity: out/gravity.o out/sdl_wrapper.o $(STUDENT_OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-
-bin/pacman: out/pacman.o out/sdl_wrapper.o $(STUDENT_OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-
-bin/nbodies: out/nbodies.o out/sdl_wrapper.o $(STUDENT_OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-
-bin/damping: out/damping.o out/sdl_wrapper.o $(STUDENT_OBJS)
-		$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-
-bin/spaceinvaders: out/spaceinvaders.o out/sdl_wrapper.o $(STUDENT_OBJS)
-		$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-
-bin/breakout: out/breakout.o out/sdl_wrapper.o $(STUDENT_OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-
-bin/pegs: out/pegs.o out/sdl_wrapper.o $(STUDENT_OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
 # Builds the test suite executables from the corresponding test .o file
 # and the library .o files. The only difference from the demo build command

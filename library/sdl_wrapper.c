@@ -119,7 +119,7 @@ void sdl_init(vector_t min, vector_t max) {
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
-bool sdl_is_done(scene_t *scene, list_t *bullets) {
+bool sdl_is_done(scene_t *scene) {
     SDL_Event *event = malloc(sizeof(*event));
     assert(event != NULL);
     while (SDL_PollEvent(event)) {
@@ -142,7 +142,7 @@ bool sdl_is_done(scene_t *scene, list_t *bullets) {
                 key_event_type_t type =
                     event->type == SDL_KEYDOWN ? KEY_PRESSED : KEY_RELEASED;
                 double held_time = (timestamp - key_start_timestamp) / MS_PER_S;
-                key_handler(key, type, held_time, scene, bullets);
+                key_handler(key, type, held_time, scene);
                 break;
         }
     }
@@ -218,7 +218,7 @@ void sdl_render_scene(scene_t *scene) {
     sdl_show();
 }
 
-void sdl_on_key(key_handler_t handler, void *aux) {
+void sdl_on_key(key_handler_t handler) {
     key_handler = handler;
 }
 

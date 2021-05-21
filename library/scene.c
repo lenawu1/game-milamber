@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string.h>
 #include "forces.h"
-#include "body.h"
+#include "compound_body.h"
 #include "scene.h"
 #include "math.h"
 #include "list.h"
@@ -50,7 +50,7 @@ force_creator_t get_force_bundle_forcer(force_bundle_t *force_bundle) {
 scene_t *scene_init(void) {
     scene_t *scene = malloc(sizeof(scene_t));
     assert(scene != NULL);
-    scene->bodies = list_init(INIT_CAPACITY, (free_func_t) body_free);
+    scene->bodies = list_init(INIT_CAPACITY, (free_func_t) comp_body_free);
     scene->force_bundles = list_init(INIT_CAPACITY, (free_func_t) force_bundle_free);
     return scene;
 }
@@ -65,7 +65,7 @@ size_t scene_bodies(scene_t *scene) {
     return list_size(scene->bodies);
 }
 
-body_t *scene_get_body(scene_t *scene, size_t index) {
+comp_body_t *scene_get_body(scene_t *scene, size_t index) {
     assert(index < scene_bodies(scene));
     return list_get(scene->bodies, index);
 }
@@ -74,14 +74,14 @@ list_t *scene_get_force_bundles(scene_t *scene) {
     return scene->force_bundles;
 }
 
-void scene_add_body(scene_t *scene, body_t *body) {
+void scene_add_body(scene_t *scene, comp_body_t *body) {
     list_add(scene->bodies, body);
 }
 
 void scene_remove_body(scene_t *scene, size_t index) {
     assert(index <= list_size(scene->bodies));
-    body_t *removed = list_remove(scene->bodies, index);
-    body_free(removed);
+    comp_body_t *removed = list_remove(scene->bodies, index);
+    comp_body_free(removed);
 }
 
 void scene_add_force_creator(
@@ -128,8 +128,8 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
     }
 
     for (size_t i = 0; i < scene_bodies(scene); i++) { // Remove bodies & forces if necessary
-        body_t *curr_body = scene_get_body(scene, i);
-        if (body_is_removed(curr_body)) {
+        comp_body_t *curr_body = scene_get_body(scene, i);
+        if (comp_body_is_removed(curr_body)) {
             for (size_t j = 0; j < list_size(scene->force_bundles); j++) {
                 force_bundle_t *force_bundle = list_get(scene->force_bundles, j);
                 list_t *bodies = force_bundle->bodies;
@@ -142,7 +142,7 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
             i--;
             continue;
         }
-        body_tick(curr_body, dt);
+        comp_body_tick(curr_body, dt);
         body_set_collided(curr_body, false);
     }
 }
