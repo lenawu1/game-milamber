@@ -13,6 +13,8 @@ list_t *create_rectangle_shape(double x, double y);
 
 body_t *create_rectangle(double x, double y, double mass);
 
+body_t *create_rectangle_colored(double x, double y, rgb_color_t color, double mass) ;
+
 body_t *create_wall(double x, double y, double mass);
 
 body_t *create_enemy(double radius, double mass);

@@ -67,6 +67,13 @@ body_t *create_rectangle(double x, double y, double mass) {
     return rect;
 }
 
+body_t *create_rectangle_colored(double x, double y, rgb_color_t color, double mass) {
+    list_t *shape = create_rectangle_shape(x, y);
+    body_t *rect = body_init(shape, mass, color);
+    body_set_centroid(rect, VEC_ZERO);
+    return rect;
+}
+
 body_t *create_wall(double x, double y, double mass) {
     list_t *shape = create_rectangle_shape(x, y);
     rgb_color_t color = rgb_color_init(255, 255, 255);

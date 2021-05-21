@@ -17,4 +17,16 @@
  */
 bool level_end(comp_body_t *ball, comp_body_t *hole);
 
+/**
+ * Generates sand that will have no elasticity and bring the speed of the ball to zero.
+ * Use with scene_add_body to add to scene.
+ *
+ * @param scene the scene in which the sand should be placed
+ * @param ball the golf ball
+ * @param shape the shape of the sand terrain, list of vectors
+ * @return a comp_body_t of the sand terrain that can be added to the scene
+ */
+comp_body_t *generate_sand(scene_t *scene, comp_body_t *ball, list_t *shape);
+
+
 #endif // ifndef __TERRAIN_H__
