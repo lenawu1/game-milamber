@@ -143,6 +143,6 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
             continue;
         }
         comp_body_tick(curr_body, dt);
-        body_set_collided(curr_body, false);
+        // body_set_collided(curr_body, false);
     }
 }

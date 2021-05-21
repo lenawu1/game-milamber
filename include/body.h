@@ -65,6 +65,8 @@ list_t *body_get_shape(body_t *body);
  */
 list_t *body_get_collisions(body_t *body);
 
+double body_get_bounding_radius(body_t *body);
+
 bool body_collided(body_t *body);
 
 void body_set_collided(body_t *body, bool val);

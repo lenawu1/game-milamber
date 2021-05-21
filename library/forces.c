@@ -228,12 +228,16 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
     body_t *body2 = list_get(bodies, 1);
     collision_handler_t handler = auxil->handler;
     void *coaux = auxil->aux;
-
+    // Bounding circles to see if collision needs to be checked at all
+    double r = body_get_bounding_radius(body1) + body_get_bounding_radius(body2);
+    double centroid_dist = vec_norm(vec_subtract(body_get_centroid(body1), body_get_centroid(body2)));
+    if(r < centroid_dist) {
+        auxil->collided = false;
+        return;
+    }
     collision_info_t info = find_collision(body_get_shape(body1), body_get_shape(body2));
-
     if (info.collided && !(auxil->collided)) {
         handler(body1, body2, info.axis, coaux);
     }
-
     auxil->collided = info.collided;
 }

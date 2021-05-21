@@ -16,6 +16,7 @@ typedef struct body {
     vector_t centroid;
     vector_t velocity;
     double orientation;
+    double bounding_radius;
 
     vector_t force;
     vector_t impulse;
@@ -44,6 +45,14 @@ body_t *body_init_with_info(
     object->color = color;
     object->info = info;
     object->info_freer = info_freer;
+    
+    double max_radius = 0;
+    for(size_t i = 0; i < list_size(shape); i++) {
+        vector_t *vertex = list_get(shape, i);
+        double r = vec_norm(*vertex);
+        if (r > max_radius) max_radius = r;
+    }
+    object->bounding_radius = max_radius;
 
     // Initialize other values
     object->centroid = (vector_t) {0, 0};
@@ -88,6 +97,11 @@ vector_t body_get_velocity(body_t *body) {
 double body_get_mass(body_t *body) {
     return body->mass;
 }
+
+double body_get_bounding_radius(body_t *body) {
+    return body->bounding_radius;
+}
+
 
 void body_translate(body_t *body, vector_t v)
 {
