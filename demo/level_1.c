@@ -20,7 +20,7 @@
 const double SCREEN_SIZE_Y = 750;
 const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 750, .y = 750};
-const double PLAYER_SPEED = 700;
+const vector_t PLAYER_SPEED = {.x = 700, .y = 700};
 const double BALL_MASS = 30.0;
 const double MASS = 10;
 const double RADIUS = 10;
@@ -33,10 +33,13 @@ const double GRAVITY = 7500;
 const double TRAIL_SIZE = 6;
 size_t LEVEL = 1;
 
-void bounce(comp_body_t *golfball, double held_time, double init_v) {
-    
+void bounce(comp_body_t *golfball, double held_time, vector_t init_v) {
+    vector_t last_v = comp_body_get_velocity(golfball);
+    vector_t with_gravity = vec_subtract(last_v, vec_init(0, held_time * GRAVITY));
+    body_set_velocity(golfball, with_gravity);
 }
 
+// may not need this if we have collision between terrain and ball
 bool reaches_bottom(comp_body_t *golfball) {
     body_t *ball = list_get(get_internal_bodies(golfball), 0);
     list_t *ball_points = body_get_shape(ball);
@@ -56,14 +59,17 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     if (type == KEY_PRESSED) {
         held_time += 1.5;
         if (key == RIGHT_ARROW) {
-            
+            vector_t right_v = {.x = PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
+            bounce(golfball, held_time, right_v);
         }
         else if (key == LEFT_ARROW) {
-            
+            vector_t left_v = {.x = -1.0 * PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
+            bounce(golfball, held_time, left_v);
         }
     }
-    else {
-
+    else { // this def needs fixing
+        vector_t last_v = comp_body_get_velocity(golfball);
+        body_set_velocity(golfball, vec_subtract(last_v, vec_init(0, GRAVITY)));
     }
 }
 /*
