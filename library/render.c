@@ -29,7 +29,6 @@ body_t *create_oval(double a, double b, double mass) {
     list_t *shape = create_oval_shape(a, b);
     rgb_color_t color = rgb_color_neon_green();
     body_t *oval = body_init(shape, mass, color); // No mass for this week
-    body_set_centroid(oval, VEC_ZERO);
     return oval;
 }
 
@@ -63,7 +62,6 @@ body_t *create_rectangle(double x, double y, double mass) {
     list_t *shape = create_rectangle_shape(x, y);
     rgb_color_t color = rgb_color_init(255, 255, 255);
     body_t *rect = body_init(shape, mass, color);
-    body_set_centroid(rect, VEC_ZERO);
     return rect;
 }
 
@@ -78,7 +76,6 @@ body_t *create_wall(double x, double y, double mass) {
     list_t *shape = create_rectangle_shape(x, y);
     rgb_color_t color = rgb_color_init(255, 255, 255);
     body_t *rect = body_init(shape, mass, color);
-    body_set_centroid(rect, VEC_ZERO);
     return rect;
 }
 
@@ -117,7 +114,6 @@ body_t *create_enemy(double radius, double mass) {
 
     rgb_color_t color = rgb_color_gray();
     body_t *enemy = body_init(shape, mass, color);
-    body_set_centroid(enemy, VEC_ZERO);
 
     return enemy;
 }
@@ -169,7 +165,7 @@ body_t *create_lemniscate(double rad, double min_angle, double max_angle, double
         point->y = (rad * sin(angle) * cos(angle))/(1 + pow(sin(angle), 2));
     }
     rgb_color_t color = rgb_color_gray();
-    body_t *lem = body_init(shape, mass, color);
+    body_t *lem = body_init(shape, mass, color); // centroid is the center of the infinity sign
     return lem;
 }
 
