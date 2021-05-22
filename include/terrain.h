@@ -23,8 +23,8 @@ bool level_end(comp_body_t *ball, comp_body_t *hole);
  *
  * @param scene the scene in which the sand should be placed
  * @param ball the golf ball
- * @param shape the shape of the sand terrain, list of vectors
- * @return a comp_body_t of the sand terrain that can be added to the scene
+ * @param shape list of vectors where the sand particles belong
+ * @return a compound body of the sand terrain that can be added to the scene
  */
 comp_body_t *generate_sand(scene_t *scene, comp_body_t *ball, list_t *shape);
 

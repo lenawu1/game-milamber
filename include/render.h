@@ -19,8 +19,6 @@ body_t *create_wall(double x, double y, double mass);
 
 body_t *create_enemy(double radius, double mass);
 
-body_t *create_ball(double a, double b, double mass);
-
 body_t *create_bullet(double x, double y, double mass, bool is_enemy);
 
 list_t *create_semicircle_shape(double radius);
