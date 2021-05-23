@@ -21,7 +21,7 @@
 const double SCREEN_SIZE_Y = 750;
 const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 750, .y = 750};
-const vector_t PLAYER_SPEED = {.x = 700, .y = 700};
+const vector_t PLAYER_SPEED = {.x = 500, .y = 1000};
 const double BALL_MASS = 30.0;
 const double MASS = 10;
 const double RADIUS = 10;
@@ -38,13 +38,12 @@ size_t LEVEL = 1;
 void handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
     comp_body_t *golfball = scene_get_body(scene, 0);
     if (type == KEY_PRESSED) {
-        held_time += 1.5;
-        if (key == RIGHT_ARROW) {
+            if (key == RIGHT_ARROW) {
             vector_t right_v = PLAYER_SPEED;
             comp_body_set_velocity(golfball, right_v);
         }
         else if (key == LEFT_ARROW) {
-            vector_t left_v = {.x = -1.0 * PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
+            vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
             comp_body_set_velocity(golfball, left_v);
         }
     }
