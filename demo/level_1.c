@@ -15,6 +15,7 @@
 #include "polygon.h"
 #include "compound_body.h"
 #include "elements.h"
+#include "physics.h"
 #include "terrain.h"
 
 const double SCREEN_SIZE_Y = 750;
@@ -33,45 +34,22 @@ const double GRAVITY = 7500;
 const double TRAIL_SIZE = 6;
 size_t LEVEL = 1;
 
-void bounce(comp_body_t *golfball, double held_time, vector_t init_v) {
-    vector_t last_v = comp_body_get_velocity(golfball);
-    vector_t with_gravity = vec_subtract(last_v, vec_init(0, held_time * GRAVITY));
-    body_set_velocity(golfball, with_gravity);
-}
-
-// may not need this if we have collision between terrain and ball
-bool reaches_bottom(comp_body_t *golfball) {
-    body_t *ball = list_get(get_internal_bodies(golfball), 0);
-    list_t *ball_points = body_get_shape(ball);
-    for (size_t i = 0; i < list_size(ball_points); i++) {
-        double y = ((vector_t *) list_get(ball_points, i))->y;
-        //TODO: replace 0 with the y of the terrain/ground.
-        if (y <= 0 && vec_norm(body_get_velocity(ball)) < 0) {
-            return true;
-        }
-    }
-    return false;
-}
-
 // TODO: handler of the scene keyboard manipulation
 void handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
     comp_body_t *golfball = scene_get_body(scene, 0);
     if (type == KEY_PRESSED) {
         held_time += 1.5;
         if (key == RIGHT_ARROW) {
-            vector_t right_v = {.x = PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
-            bounce(golfball, held_time, right_v);
+            vector_t right_v = PLAYER_SPEED;
+            comp_body_set_velocity(golfball, right_v);
         }
         else if (key == LEFT_ARROW) {
             vector_t left_v = {.x = -1.0 * PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
-            bounce(golfball, held_time, left_v);
+            comp_body_set_velocity(golfball, left_v);
         }
     }
-    else { // this def needs fixing
-        vector_t last_v = comp_body_get_velocity(golfball);
-        body_set_velocity(golfball, vec_subtract(last_v, vec_init(0, GRAVITY)));
-    }
 }
+
 /*
 void trail(comp_body_t *golfball)
 {
@@ -105,7 +83,9 @@ int main(int argc, char *argv[]) {
             clock = 0;
             LEVEL++;
         }
-        //player_in_bounds(scene);
+
+        
+        do_gravity(player, GRAVITY, dt);
         scene_tick(scene, dt);
         sdl_render_scene(scene);
     }
