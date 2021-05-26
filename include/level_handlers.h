@@ -6,6 +6,14 @@
 #include "compound_body.h"
 #include "sdl_wrapper.h"
 
+
+typedef enum {
+    BALL,
+    SAND,
+    GRASS,
+    BOOST
+} body_type_t;
+
 void freeze(body_t *ball, body_t *target, vector_t axis, void *aux);
 
 
