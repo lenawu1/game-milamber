@@ -53,6 +53,10 @@ list_t *get_force_bundle_bodies(force_bundle_t *force_bundle);
 
 size_t scene_get_points(scene_t *scene);
 
+size_t scene_get_level(scene_t *scene);
+
+int scene_get_state(scene_t *scene);
+
 /**
  * Gets the body at a given index in a scene.
  * Asserts that the index is valid.
@@ -77,6 +81,17 @@ void scene_add_body(scene_t *scene, body_t *body);
  * @param scene a pointer to a scene returned from scene_init()
  */
 size_t scene_add_point(scene_t *scene);
+
+/**
+ * Increases the level in the scene by 1.
+ *
+ * @param scene a pointer to a scene returned from scene_init()
+ */
+size_t scene_add_level(scene_t *scene);
+
+int scene_set_state(scene_t *scene, int state);
+
+size_t scene_set_level(scene_t *scene, size_t level);
 
 /**
  * @deprecated Use body_remove() instead

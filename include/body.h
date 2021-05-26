@@ -116,6 +116,8 @@ rgb_color_t body_get_color(body_t *body);
  */
 void *body_get_info(body_t *body);
 
+void body_set_info(body_t *body, void* info);
+
 /**
  * Translates a body by the given vector.
  * The position is specified by the position of the body's center of mass.
@@ -142,6 +144,16 @@ void body_set_centroid(body_t *body, vector_t x);
  * @return the polygon describing the body's current position
  */
 void body_set_collisions(body_t *body, list_t *col_list);
+
+/**
+ * Adds an anchor to the main body anchor list.
+ */
+void body_add_anchor(body_t *body, body_t *anchor);
+
+/**
+ * @return list of anchors for this body
+ */
+list_t *body_get_anchors(body_t *body);
 
 void body_set_color(body_t *body, rgb_color_t color);
 

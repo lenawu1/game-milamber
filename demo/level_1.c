@@ -17,10 +17,11 @@
 #include "elements.h"
 #include "physics.h"
 #include "terrain.h"
+#include "level_handlers.h"
 
-const double SCREEN_SIZE_Y = 750;
-const double SCREEN_SIZE_X = 750;
-const vector_t SCREEN_SIZE = {.x = 750, .y = 750};
+// const double SCREEN_SIZE_Y = 750;
+// const double SCREEN_SIZE_X = 750;
+const vector_t SCREEN_SIZE = {.x = 1000, .y = 500};
 const vector_t PLAYER_SPEED = {.x = 500, .y = 1000};
 const double BALL_MASS = 30.0;
 const double MASS = 10;
@@ -30,23 +31,22 @@ const double HOLE_SIZE = 10;
 const double PLAYER_POS = 20;
 const double LARGE_MASS = INFINITY;
 const double WALL_THICKNESS = 10;
-const double GRAVITY = 7500;
 const double TRAIL_SIZE = 6;
+// const rgb_color_t PORTAL_COLOR = {.R = 170, .G = 0, .B = 255}; just to remember the color
 size_t LEVEL = 1;
 
 void handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
-    comp_body_t *golfball = scene_get_body(scene, 0);
+    body_t *golfball = scene_get_body(scene, 0);
     if (type == KEY_PRESSED) {
         if (key == RIGHT_ARROW) {
             vector_t right_v = PLAYER_SPEED;
-            comp_body_set_velocity(golfball, right_v);
+            body_set_velocity(golfball, right_v);
             scene_add_point(scene);
         }
         else if (key == LEFT_ARROW) {
             vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
-            comp_body_set_velocity(golfball, left_v);
+            body_set_velocity(golfball, left_v);
             scene_add_point(scene);
-
         }
     }
 }
@@ -61,33 +61,33 @@ void trail(comp_body_t *golfball)
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
     scene_t *scene = scene_init();
-    comp_body_t *player = create_golf_ball(RADIUS, rgb_color_yellow(), BALL_MASS);
-    scene_add_body(scene, player);
-    comp_body_t *hole = create_golf_hole(RADIUS+2, rgb_color_gray(), MASS);
-    scene_add_body(scene, hole);
-
-    // TODO
-    // lv1_generate_walls(scene, ball);
-
-    // sdl_on_key(handler,scene);
+    list_t *ball_elements = create_golf_ball(RADIUS, rgb_color_yellow(), BALL_MASS);
+    body_t *player = list_get(ball_elements, 0);
+    for(size_t i = 0; i < list_size(ball_elements); i++) {
+        scene_add_body(scene, list_get(ball_elements, i));
+    }
+    generate_level1(scene, player);
+    sdl_on_key(handler,scene);
     
     double clock = 0.0;
     
-    while (!sdl_is_done(scene) && LEVEL == 1){
+    while (!sdl_is_done(scene) && scene_get_level(scene) == 1 && scene_get_state(scene) == 0){
         double dt = time_since_last_tick();
         clock += dt;
-
-        if (level_end(player, hole)) {
-            for (size_t i = 1; i < scene_bodies(scene); i++) {
-                body_remove(scene_get_body(scene, i));
-            }
-            clock = 0;
-            LEVEL++;
-        }
-
-        do_gravity(player, GRAVITY, dt);
+        
+        // do_gravity(player, GRAV_VAL, dt);
         scene_tick(scene, dt);
         sdl_render_scene(scene);
     }
+
+    int state = scene_get_state(scene);
+    if (state == -1) {
+        printf("Lost \n");        
+    }
+    else if (state == 1) {
+        scene_add_level(scene);
+        printf("Win \n");        
+    }
+
     scene_free(scene);
 }

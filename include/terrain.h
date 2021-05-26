@@ -8,14 +8,6 @@
 #include "render.h"
 #include "compound_body.h"
 
-/**
- * Marks a whether the level goal is achieved, at which point the level should end.
- *
- * @param ball the golf ball
- * @param hole the hole it should reach
- * @return a level number to proceed with
- */
-bool level_end(comp_body_t *ball, comp_body_t *hole);
 
 /**
  * Generates sand that will have no elasticity and bring the speed of the ball to zero.
@@ -26,7 +18,10 @@ bool level_end(comp_body_t *ball, comp_body_t *hole);
  * @param shape list of vectors where the sand particles belong
  * @return a compound body of the sand terrain that can be added to the scene
  */
-comp_body_t *generate_sand(scene_t *scene, comp_body_t *ball, list_t *shape);
+list_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape);
 
+list_t *generate_water(scene_t *scene, body_t *ball, list_t *shape);
+
+void generate_level1(scene_t *scene, body_t *ball);
 
 #endif // ifndef __TERRAIN_H__

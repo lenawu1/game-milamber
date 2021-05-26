@@ -17,10 +17,10 @@ typedef struct body {
     vector_t velocity;
     double orientation;
     double bounding_radius;
+    list_t *anchors;
 
     vector_t force;
     vector_t impulse;
-
     void *info;
     free_func_t info_freer;
     bool remove;
@@ -45,7 +45,8 @@ body_t *body_init_with_info(
     object->color = color;
     object->info = info;
     object->info_freer = info_freer;
-    
+    object->anchors = NULL;
+
     double max_radius = 0;
     for(size_t i = 0; i < list_size(shape); i++) {
         vector_t *vertex = list_get(shape, i);
@@ -72,6 +73,7 @@ void body_free(body_t *body) {
     }
     list_free(body->shape);
     free(body->info);
+    free(body->anchors);
     free(body);
 }
 
@@ -84,6 +86,10 @@ list_t *body_get_shape(body_t *body) {
         list_add(shape_cpy, temp);
     }
     return shape_cpy;
+}
+
+list_t *get_anchors(body_t *body) {
+    return body->anchors;
 }
 
 vector_t body_get_centroid(body_t *body) {
@@ -102,7 +108,6 @@ double body_get_bounding_radius(body_t *body) {
     return body->bounding_radius;
 }
 
-
 void body_translate(body_t *body, vector_t v)
 {
     body->centroid = vec_add(v, body->centroid);
@@ -117,11 +122,22 @@ void *body_get_info(body_t *body) {
     return body->info;
 }
 
+void body_set_info(body_t *body, void* info) {
+    body->info = info;
+}
+
 void body_set_centroid(body_t *body, vector_t x) {
     vector_t cur_centroid = body->centroid;
     vector_t displacement = vec_subtract(x, cur_centroid);
     polygon_translate(body->shape, displacement);
     body->centroid = x;
+
+    if (body->anchors != NULL) {
+        for (size_t i = 0; i < list_size(body->anchors); i++) {
+            body_t *curr = list_get(body->anchors, i);
+            body_translate(curr, displacement);
+        }
+    }
 }
 
 void body_set_velocity(body_t *body, vector_t v) {
@@ -148,6 +164,21 @@ void body_add_impulse(body_t *body, vector_t impulse) {
     body->impulse = vec_add(body->impulse, impulse);
 }
 
+void body_add_anchor(body_t *main_body, body_t *anchored_body) {
+    if (main_body->anchors == NULL) {
+        main_body->anchors = list_init(1, (free_func_t) body_free);
+    }
+    list_add(main_body->anchors, anchored_body);
+}
+
+list_t *body_get_anchors(body_t *body) {
+    return body->anchors;
+}
+
+void body_set_color(body_t *body, rgb_color_t color) {
+    body->color = color;
+}
+
 void body_tick(body_t *body, double dt) { // TODO: fix
     vector_t acceleration = vec_multiply((1.0 / body->mass), body->force);
 
@@ -160,6 +191,13 @@ void body_tick(body_t *body, double dt) { // TODO: fix
 
     vector_t dx = vec_multiply(dt, avg_v);
     body_translate(body, dx);
+
+    if(body->anchors != NULL) {
+        for(size_t i = 0; i < list_size(body->anchors); i++) {
+            body_translate(list_get(body->anchors, i), dx);
+            //FIXME: check ball rotations
+        }
+    }
 
     body->force = VEC_ZERO;
     body->impulse = VEC_ZERO;

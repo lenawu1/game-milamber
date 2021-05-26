@@ -78,6 +78,10 @@
         "unordered_map": "c",
         "utility": "c",
         "compound_body.h": "c",
+<<<<<<< HEAD
         "render.h": "c"
+=======
+        "stdlib.h": "c"
+>>>>>>> 69c4348957f193a22034d02ff19346049a003232
     }
 }
