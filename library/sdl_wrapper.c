@@ -218,7 +218,7 @@ void sdl_render_scene(scene_t *scene) {
     sdl_show();
 }
 
-void sdl_on_key(key_handler_t handler) {
+void sdl_on_key(key_handler_t handler, void *aux) {
     key_handler = handler;
 }
 

@@ -34,17 +34,20 @@ const double GRAVITY = 7500;
 const double TRAIL_SIZE = 6;
 size_t LEVEL = 1;
 
-// TODO: handler of the scene keyboard manipulation
 void handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
     comp_body_t *golfball = scene_get_body(scene, 0);
     if (type == KEY_PRESSED) {
-            if (key == RIGHT_ARROW) {
+        if (key == RIGHT_ARROW) {
             vector_t right_v = PLAYER_SPEED;
             comp_body_set_velocity(golfball, right_v);
         }
         else if (key == LEFT_ARROW) {
             vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
             comp_body_set_velocity(golfball, left_v);
+        }
+        else if (key == SPACE) {
+            scene_add_point(scene);
+            //TODO: space bar recognition
         }
     }
 }
@@ -65,7 +68,7 @@ int main(int argc, char *argv[]) {
     scene_add_body(scene, hole);
 
     // TODO
-    // generate_walls(scene, ball);
+    // lv1_generate_walls(scene, ball);
 
     // sdl_on_key(handler,scene);
     
@@ -83,7 +86,6 @@ int main(int argc, char *argv[]) {
             LEVEL++;
         }
 
-        
         do_gravity(player, GRAVITY, dt);
         scene_tick(scene, dt);
         sdl_render_scene(scene);

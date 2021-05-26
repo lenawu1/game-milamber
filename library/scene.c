@@ -15,6 +15,7 @@ const size_t INIT_CAPACITY = 100;
 typedef struct scene {
     list_t *bodies;
     list_t *force_bundles;
+    size_t points;
 } scene_t;
 
 typedef struct force {
@@ -52,6 +53,7 @@ scene_t *scene_init(void) {
     assert(scene != NULL);
     scene->bodies = list_init(INIT_CAPACITY, (free_func_t) comp_body_free);
     scene->force_bundles = list_init(INIT_CAPACITY, (free_func_t) force_bundle_free);
+    scene->points = 0;
     return scene;
 }
 
@@ -65,7 +67,7 @@ size_t scene_bodies(scene_t *scene) {
     return list_size(scene->bodies);
 }
 
-comp_body_t *scene_get_body(scene_t *scene, size_t index) {
+body_t *scene_get_body(scene_t *scene, size_t index) {
     assert(index < scene_bodies(scene));
     return list_get(scene->bodies, index);
 }
@@ -74,8 +76,17 @@ list_t *scene_get_force_bundles(scene_t *scene) {
     return scene->force_bundles;
 }
 
-void scene_add_body(scene_t *scene, comp_body_t *body) {
+size_t scene_get_points(scene_t *scene) {
+    return scene->points;
+}
+
+void scene_add_body(scene_t *scene, body_t *body) {
     list_add(scene->bodies, body);
+}
+
+size_t scene_add_point(scene_t *scene) {
+    scene->points++;
+    return scene->points;
 }
 
 void scene_remove_body(scene_t *scene, size_t index) {
@@ -128,7 +139,8 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
     }
 
     for (size_t i = 0; i < scene_bodies(scene); i++) { // Remove bodies & forces if necessary
-        comp_body_t *curr_body = scene_get_body(scene, i);
+        comp_body_t *curr_body = comp_body_init();
+        comp_body_add(curr_body, scene_get_body(scene, i));
         if (comp_body_is_removed(curr_body)) {
             for (size_t j = 0; j < list_size(scene->force_bundles); j++) {
                 force_bundle_t *force_bundle = list_get(scene->force_bundles, j);

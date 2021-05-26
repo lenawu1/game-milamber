@@ -51,6 +51,8 @@ force_creator_t get_force_bundle_forcer(force_bundle_t *force_bundle);
 
 list_t *get_force_bundle_bodies(force_bundle_t *force_bundle);
 
+size_t scene_get_points(scene_t *scene);
+
 /**
  * Gets the body at a given index in a scene.
  * Asserts that the index is valid.
@@ -68,6 +70,13 @@ body_t *scene_get_body(scene_t *scene, size_t index);
  * @param body a pointer to the body to add to the scene
  */
 void scene_add_body(scene_t *scene, body_t *body);
+
+/**
+ * Increases the point in the scene by 1.
+ *
+ * @param scene a pointer to a scene returned from scene_init()
+ */
+size_t scene_add_point(scene_t *scene);
 
 /**
  * @deprecated Use body_remove() instead

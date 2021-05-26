@@ -111,7 +111,7 @@ void sdl_render_scene(scene_t *scene);
  *
  * @param handler the function to call with each key press
  */
-void sdl_on_key(key_handler_t handler);
+void sdl_on_key(key_handler_t handler, void *aux);
 
 /**
  * Gets the amount of time that has passed since the last time
