@@ -40,14 +40,13 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
         if (key == RIGHT_ARROW) {
             vector_t right_v = PLAYER_SPEED;
             comp_body_set_velocity(golfball, right_v);
+            scene_add_point(scene);
         }
         else if (key == LEFT_ARROW) {
             vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
             comp_body_set_velocity(golfball, left_v);
-        }
-        else if (key == SPACE) {
             scene_add_point(scene);
-            //TODO: space bar recognition
+
         }
     }
 }
