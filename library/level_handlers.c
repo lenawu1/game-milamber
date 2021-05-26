@@ -16,5 +16,4 @@ void freeze(body_t *ball, body_t *target, vector_t axis, void *aux) {
     if(body_get_info(target) == SAND) {
         body_set_velocity(ball, VEC_ZERO);
     }
-    
 }
