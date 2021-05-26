@@ -1,5 +1,5 @@
 # List of demo programs
-DEMOS = level_1.c
+DEMOS = level_1
 # List of C files in "libraries" that we provide
 STAFF_LIBS = sdl_wrapper test_util
 # List of C files in "libraries" that you will write.
