@@ -77,6 +77,7 @@
         "string_view": "c",
         "unordered_map": "c",
         "utility": "c",
-        "compound_body.h": "c"
+        "compound_body.h": "c",
+        "render.h": "c"
     }
 }
