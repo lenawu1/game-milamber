@@ -4,12 +4,6 @@
 #include "sdl_wrapper.h"
 #include "body.h"
 
-typedef enum {
-    BALL,
-    SAND
-
-} body_type_t;
-
 /** Collision handler to freeze a ball when it collides with a frozen body */
 // FIXME: HANDLERS
 void freeze(body_t *ball, body_t *target, vector_t axis, void *aux) {
