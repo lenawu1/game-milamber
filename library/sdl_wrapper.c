@@ -2,8 +2,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL2_gfxPrimitives.h>
 #include "sdl_wrapper.h"
 
 const char WINDOW_TITLE[] = "CS 3";
@@ -117,6 +115,19 @@ void sdl_init(vector_t min, vector_t max) {
         SDL_WINDOW_RESIZABLE
     );
     renderer = SDL_CreateRenderer(window, -1, 0);
+}
+
+void create_text()
+{
+    SDL_Color textColor = {0, 0, 0, 255};
+    SDL_Color textBackgroundColor = {255, 255, 255, 255};
+    SDL_Rect *textRect;
+
+    TTF_Init();
+    TTF_Font* font=TTF_OpenFont("air.ttf", 32);
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "Hello world", textColor, textBackgroundColor);
+    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_RenderCopy(renderer, text, NULL, textRect);
 }
 
 bool sdl_is_done(scene_t *scene) {

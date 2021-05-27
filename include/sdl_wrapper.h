@@ -1,6 +1,10 @@
 #ifndef __SDL_WRAPPER_H__
 #define __SDL_WRAPPER_H__
-
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 #include <stdbool.h>
 #include "color.h"
 #include "list.h"
@@ -48,6 +52,8 @@ typedef void (*key_handler_t)(char key, key_event_type_t type, double held_time,
  * @param max the x and y coordinates of the top right of the scene
  */
 void sdl_init(vector_t min, vector_t max);
+
+void create_text();
 
 /**
  * Processes all SDL events and returns whether the window has been closed.
