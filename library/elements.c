@@ -25,7 +25,11 @@ list_t *create_golf_ball(double radius, rgb_color_t color, double mass) {
     body_set_color(frontwing, rgb_color_gray());
     list_add(golf_ball, frontwing);
     body_add_anchor(ball, frontwing);
+    vector_t starting_placement = {.x = 100, .y = 200};
 
+    for(size_t i = 0; i < list_size(golf_ball); i++) {
+        body_set_centroid(list_get(golf_ball, i), starting_placement);
+    }
     return golf_ball;
 }
 

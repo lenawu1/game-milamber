@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include "sdl_wrapper.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 
 const char WINDOW_TITLE[] = "CS 3";
 const int WINDOW_WIDTH = 1000;
@@ -117,7 +122,7 @@ void sdl_init(vector_t min, vector_t max) {
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
-void create_text()
+void center_screen_text()
 {
     SDL_Color textColor = {0, 0, 0, 255};
     SDL_Color textBackgroundColor = {255, 255, 255, 255};
@@ -128,6 +133,27 @@ void create_text()
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "Hello world", textColor, textBackgroundColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_RenderCopy(renderer, text, NULL, textRect);
+    TTF_CloseFont(font);
+    TTF_Quit();
+}
+
+void point_display(char *score)
+{
+    SDL_Color textColor = {0, 0, 0, 255};
+    SDL_Color textBackgroundColor = {255, 255, 255, 255};
+    SDL_Rect *textRect = malloc(sizeof(SDL_Rect));
+    textRect->x = 0;
+    textRect->y = 0;
+    textRect->w = 100;
+    textRect->h = 50;
+    TTF_Init();
+    TTF_Font* font=TTF_OpenFont("air.ttf", 32);
+
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, score, textColor, textBackgroundColor);
+    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_RenderCopy(renderer, text, NULL, textRect);
+    TTF_CloseFont(font);
+    TTF_Quit();
 }
 
 bool sdl_is_done(scene_t *scene) {
@@ -169,7 +195,7 @@ void sdl_clear(void) {
 void sdl_draw_polygon(list_t *points, rgb_color_t color) {
     // Check parameters
     size_t n = list_size(points);
-    assert(n >= 3);
+    //assert(n >= 3);
     assert(0 <= color.r && color.r <= 1);
     assert(0 <= color.g && color.g <= 1);
     assert(0 <= color.b && color.b <= 1);

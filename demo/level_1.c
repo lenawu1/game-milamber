@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <math.h>
+#include <string.h>
 #include "list.h"
 #include "vector.h"
 #include "sdl_wrapper.h"
@@ -21,8 +22,8 @@
 
 // const double SCREEN_SIZE_Y = 750;
 // const double SCREEN_SIZE_X = 750;
-const vector_t SCREEN_SIZE = {.x = 1000, .y = 500};
-const vector_t PLAYER_SPEED = {.x = 500, .y = 1000};
+const vector_t SCREEN_SIZE = {.x = 1800, .y = 500};
+const vector_t PLAYER_SPEED = {.x = 200, .y = 500};
 const double BALL_MASS = 30.0;
 const double MASS = 10;
 const double RADIUS = 10;
@@ -32,6 +33,7 @@ const double PLAYER_POS = 20;
 const double LARGE_MASS = INFINITY;
 const double WALL_THICKNESS = 10;
 const double TRAIL_SIZE = 6;
+const double GRAV_VAL = 1200;
 // const rgb_color_t PORTAL_COLOR = {.R = 170, .G = 0, .B = 255}; just to remember the color
 size_t LEVEL = 1;
 
@@ -51,12 +53,6 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     }
 }
 
-/*
-void trail(comp_body_t *golfball)
-{
-    
-}
-*/
 
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
@@ -74,8 +70,10 @@ int main(int argc, char *argv[]) {
     while (!sdl_is_done(scene) && scene_get_level(scene) == 1 && scene_get_state(scene) == 0){
         double dt = time_since_last_tick();
         clock += dt;
-        
-        // do_gravity(player, GRAV_VAL, dt);
+
+        //double curr_points = (double)scene_get_points(scene);
+        //point_display(curr_points);
+        do_gravity(player, GRAV_VAL, dt);
         scene_tick(scene, dt);
         sdl_render_scene(scene);
     }
