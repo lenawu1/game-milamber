@@ -58,6 +58,9 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             body_set_velocity(golfball, left_v);
             scene_add_point(scene);
         }
+        else if (key == SPACE) {
+            scene_set_state(scene, 0); // Continue playing
+        }
     }
 }
 
@@ -87,7 +90,8 @@ int main(int argc, char *argv[]) {
     // center_display("starting");
     double clock = 0.0;
     
-    while (!sdl_is_done(scene) && scene_get_level(scene) == 1 && scene_get_state(scene) == 0){
+    // while (!sdl_is_done(scene) && scene_get_level(scene) == 1 && scene_get_state(scene) == 0){
+    while (!sdl_is_done(scene)) {
         double dt = time_since_last_tick();
         clock += dt;
         // char score_str[10];
@@ -98,17 +102,17 @@ int main(int argc, char *argv[]) {
         sdl_render_scene(scene);
     }
 
-    int state = scene_get_state(scene);
+    // int state = scene_get_state(scene);
 
     //TODO: What to do if ball goes out of bounds? do they lose?
 
-    if (state == -1) {
-        printf("Sorry, you lost! \n");        
-    }
-    else if (state == 1) {
-        scene_add_level(scene);
-        printf("Good job! You won this level. \n");        
-    }
+    // if (state == -1) {
+    //     printf("Sorry, you lost! \n");        
+    // }
+    // else if (state == 1) {
+    //     scene_add_level(scene);
+    //     printf("Good job! You won this level. \n");        
+    // }
 
     scene_free(scene);
 }

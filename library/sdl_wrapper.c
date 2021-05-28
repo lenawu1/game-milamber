@@ -140,30 +140,24 @@ void center_screen_text()
 void center_display(char *message)
 {
     SDL_Color textColor = {0, 0, 0, 255};
-    SDL_Color textBackgroundColor = {255, 255, 255, 255};
-    SDL_Rect *textRect = malloc(sizeof(SDL_Rect));
-    textRect->x = 0;
-    textRect->y = 400;
-    textRect->w = 100;
-    textRect->h = 50;
-    TTF_Font* font=TTF_OpenFont("OpenSans-Regular.ttf", 32);
-
-    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, message, textColor, textBackgroundColor);
+    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 40);
+    if(!font) {
+        printf("TTF_OpenFont: %s\n", TTF_GetError());
+   // handle error
+    }
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_RenderCopy(renderer, text, NULL, textRect);
-    TTF_CloseFont(font);
-    TTF_Quit();
+    SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
+    Message_rect->x = 350; //controls the rect's x coordinate 
+    Message_rect->y = 200; // controls the rect's y coordinte
+    Message_rect->w = 400; // controls the width of the rect
+    Message_rect->h = 100; // controls the height of the rect
+    SDL_RenderCopy(renderer, text, NULL, Message_rect);
 }
 
 void point_display(char *score)
 {
     SDL_Color textColor = {0, 0, 0, 255};
-    // SDL_Color textBackgroundColor = {255, 255, 255, 255};
-    SDL_Rect *textRect = malloc(sizeof(SDL_Rect));
-    textRect->x = 0;
-    textRect->y = 0;
-    textRect->w = 100;
-    textRect->h = 50;
     TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 100);
     if(!font) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
@@ -172,10 +166,10 @@ void point_display(char *score)
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, score, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
-    Message_rect->x = 50;  //controls the rect's x coordinate 
-    Message_rect->y = 50; // controls the rect's y coordinte
-    Message_rect->w = 80; // controls the width of the rect
-    Message_rect->h = 100; // controls the height of the rect
+    Message_rect->x = 30; //controls the rect's x coordinate 
+    Message_rect->y = 30; // controls the rect's y coordinte
+    Message_rect->w = 30; // controls the width of the rect
+    Message_rect->h = 50; // controls the height of the rect
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
     // SDL_RenderPresent(renderer);
     // SDL_FreeSurface(textSurface);
@@ -273,16 +267,27 @@ void sdl_show(void) {
 
 void sdl_render_scene(scene_t *scene) {
     sdl_clear();
-    size_t body_count = scene_bodies(scene);
-    for (size_t i = 0; i < body_count; i++) {
-        body_t *body = scene_get_body(scene, i);
-        list_t *shape = body_get_shape(body);
-        sdl_draw_polygon(shape, body_get_color(body));
-        list_free(shape);
+    int state = scene_get_state(scene);
+    if (state == -1) {
+        printf("Sorry, you lost! \n");        
     }
-    char score_str[10];
-    sprintf(score_str, "%zu", scene_get_points(scene));
-    point_display(score_str);
+    else if (state == 1) {
+        scene_add_level(scene);
+        scene_set_points(scene, 0);
+        center_display("You Win this Level!");
+    }
+    else if (state == 0) {
+        size_t body_count = scene_bodies(scene);
+        for (size_t i = 0; i < body_count; i++) {
+            body_t *body = scene_get_body(scene, i);
+            list_t *shape = body_get_shape(body);
+            sdl_draw_polygon(shape, body_get_color(body));
+            list_free(shape);
+        }
+        char score_str[10];
+        sprintf(score_str, "%zu", scene_get_points(scene));
+        point_display(score_str);
+    }
     sdl_show();
 }
 
