@@ -152,8 +152,8 @@ void center_display(char *message)
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, message, textColor, textBackgroundColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_RenderCopy(renderer, text, NULL, textRect);
-    //TTF_CloseFont(font);
-    //TTF_Quit();
+    TTF_CloseFont(font);
+    TTF_Quit();
 }
 
 void point_display(char *score)
