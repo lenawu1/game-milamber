@@ -195,7 +195,7 @@ void sdl_clear(void) {
 void sdl_draw_polygon(list_t *points, rgb_color_t color) {
     // Check parameters
     size_t n = list_size(points);
-    //assert(n >= 3);
+    assert(n >= 3);
     assert(0 <= color.r && color.r <= 1);
     assert(0 <= color.g && color.g <= 1);
     assert(0 <= color.b && color.b <= 1);
