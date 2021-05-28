@@ -12,7 +12,7 @@
 #include "body.h"
 
 const size_t INIT_CAPACITY = 100;
-const double PADDING = 0.2;
+const double PADDING = 0.01;
 
 typedef struct scene {
     list_t *bodies;
