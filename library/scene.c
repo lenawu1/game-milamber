@@ -12,7 +12,7 @@
 #include "body.h"
 
 const size_t INIT_CAPACITY = 100;
-const double PADDING = 0.01;
+const double PADDING = 0.03;
 
 typedef struct scene {
     list_t *bodies;
@@ -105,6 +105,11 @@ void scene_add_body(scene_t *scene, body_t *body) {
 
 size_t scene_add_point(scene_t *scene) {
     scene->points++;
+    return scene->points;
+}
+
+size_t scene_set_points(scene_t *scene, size_t point) {
+    scene->points = point;
     return scene->points;
 }
 

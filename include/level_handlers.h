@@ -18,6 +18,10 @@ typedef enum {
     PORTAL
 } body_type_t;
 
+typedef struct score {
+    size_t points;
+} score_t;
+
 body_type_t *make_type_info(body_type_t type);
 
 body_type_t get_type(body_t *body);

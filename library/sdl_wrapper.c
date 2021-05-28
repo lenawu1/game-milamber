@@ -111,6 +111,7 @@ void sdl_init(vector_t min, vector_t max) {
     center = vec_multiply(0.5, vec_add(min, max));
     max_diff = vec_subtract(max, center);
     SDL_Init(SDL_INIT_EVERYTHING);
+    TTF_Init();
     window = SDL_CreateWindow(
         WINDOW_TITLE,
         SDL_WINDOWPOS_CENTERED,
@@ -128,7 +129,6 @@ void center_screen_text()
     SDL_Color textBackgroundColor = {255, 255, 255, 255};
     SDL_Rect *textRect;
 
-    TTF_Init();
     TTF_Font* font=TTF_OpenFont("air.ttf", 32);
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "Hello world", textColor, textBackgroundColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -146,7 +146,6 @@ void center_display(char *message)
     textRect->y = 400;
     textRect->w = 100;
     textRect->h = 50;
-    TTF_Init();
     TTF_Font* font=TTF_OpenFont("OpenSans-Regular.ttf", 32);
 
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, message, textColor, textBackgroundColor);
@@ -159,20 +158,30 @@ void center_display(char *message)
 void point_display(char *score)
 {
     SDL_Color textColor = {0, 0, 0, 255};
-    SDL_Color textBackgroundColor = {255, 255, 255, 255};
+    // SDL_Color textBackgroundColor = {255, 255, 255, 255};
     SDL_Rect *textRect = malloc(sizeof(SDL_Rect));
     textRect->x = 0;
     textRect->y = 0;
     textRect->w = 100;
     textRect->h = 50;
-    TTF_Init();
-    TTF_Font* font=TTF_OpenFont("OpenSans-Regular.ttf", 32);
-
-    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, score, textColor, textBackgroundColor);
+    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 100);
+    if(!font) {
+        printf("TTF_OpenFont: %s\n", TTF_GetError());
+   // handle error
+    }
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, score, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_RenderCopy(renderer, text, NULL, textRect);
-    TTF_CloseFont(font);
-    TTF_Quit();
+    SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
+    Message_rect->x = 50;  //controls the rect's x coordinate 
+    Message_rect->y = 50; // controls the rect's y coordinte
+    Message_rect->w = 80; // controls the width of the rect
+    Message_rect->h = 100; // controls the height of the rect
+    SDL_RenderCopy(renderer, text, NULL, Message_rect);
+    // SDL_RenderPresent(renderer);
+    // SDL_FreeSurface(textSurface);
+    // SDL_DestroyTexture(text);
+    // TTF_CloseFont(font);
+    // TTF_Quit();
 }
 
 bool sdl_is_done(scene_t *scene) {
@@ -271,6 +280,9 @@ void sdl_render_scene(scene_t *scene) {
         sdl_draw_polygon(shape, body_get_color(body));
         list_free(shape);
     }
+    char score_str[10];
+    sprintf(score_str, "%zu", scene_get_points(scene));
+    point_display(score_str);
     sdl_show();
 }
 

@@ -84,6 +84,8 @@ void scene_add_body(scene_t *scene, body_t *body);
  */
 size_t scene_add_point(scene_t *scene);
 
+size_t scene_set_points(scene_t *scene, size_t point);
+
 /**
  * Increases the level in the scene by 1.
  *
