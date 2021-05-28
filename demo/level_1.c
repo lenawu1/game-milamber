@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     }
     generate_level1(scene, player);
     sdl_on_key(handler,scene);
-    
+    center_display("starting");
     double clock = 0.0;
     
     while (!sdl_is_done(scene) && scene_get_level(scene) == 1 && scene_get_state(scene) == 0){

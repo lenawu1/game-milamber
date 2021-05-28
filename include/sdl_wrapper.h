@@ -49,6 +49,8 @@ typedef void (*key_handler_t)(char key, key_event_type_t type, double held_time,
  */
 void sdl_init(vector_t min, vector_t max);
 
+void center_display(char *message);
+
 void point_display(char *score);
 
 /**
