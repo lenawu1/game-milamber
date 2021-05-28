@@ -97,14 +97,14 @@ void generate_level1(scene_t *scene, body_t *ball) {
     create_newtonian_gravity(scene, G, ball, gravity_source);
     
     list_t *vertices = list_init(3, free);
+    list_add(vertices, vec_init_ptr(0, 250));
     list_add(vertices, vec_init_ptr(0,0));
-    list_add(vertices, vec_init_ptr(1000, 100));
-    list_add(vertices, vec_init_ptr(0, 200));
-    generate_grass(scene, ball, vertices);
+    list_add(vertices, vec_init_ptr(1800, 0));
+    scene_add_body(scene, generate_grass(scene, ball, vertices));
 
     list_t *hole_elements = create_golf_hole(HOLE_RADIUS, rgb_color_gray(), INFINITY);
     body_t *hole_bound = list_get(hole_elements, 0);
-    body_set_centroid(hole_bound, vec_init(800, 120));
+    body_set_centroid(hole_bound, vec_init(1700, 17));
     create_collision(scene, ball, hole_bound, level_end, scene, NULL);
     for (size_t j = 0; j < list_size(hole_elements); j++) {
         scene_add_body(scene, list_get(hole_elements, j));

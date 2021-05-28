@@ -57,8 +57,10 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
     scene_t *scene = scene_init();
-    list_t *ball_elements = create_golf_ball(RADIUS, rgb_color_yellow(), BALL_MASS);
+    list_t *ball_elements = create_golf_ball(RADIUS, rgb_color_red(), BALL_MASS);
+
     body_t *player = list_get(ball_elements, 0);
+    
     for(size_t i = 0; i < list_size(ball_elements); i++) {
         scene_add_body(scene, list_get(ball_elements, i));
     }
