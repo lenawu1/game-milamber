@@ -24,7 +24,7 @@
 // const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 1800, .y = 500};
 const vector_t PLAYER_SPEED = {.x = 200, .y = 500};
-const double BALL_MASS = 30.0;
+const double BALL_MASS = 40.0;
 const double MASS = 10;
 const double RADIUS = 10;
 const double BALL_SIZE = 6;
@@ -57,10 +57,10 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
     scene_t *scene = scene_init();
-    list_t *ball_elements = create_golf_ball(RADIUS, rgb_color_red(), BALL_MASS);
+    list_t *ball_elements = create_golf_ball(RADIUS, rgb_color_init(205, 99, 75), BALL_MASS);
 
     body_t *player = list_get(ball_elements, 0);
-    
+
     for(size_t i = 0; i < list_size(ball_elements); i++) {
         scene_add_body(scene, list_get(ball_elements, i));
     }
@@ -81,12 +81,15 @@ int main(int argc, char *argv[]) {
     }
 
     int state = scene_get_state(scene);
+
+    //TODO: What to do if ball goes out of bounds? do they lose?
+
     if (state == -1) {
-        printf("Lost \n");        
+        printf("Sorry, you lost! \n");        
     }
     else if (state == 1) {
         scene_add_level(scene);
-        printf("Win \n");        
+        printf("Good job! You won this level. \n");        
     }
 
     scene_free(scene);

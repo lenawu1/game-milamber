@@ -25,11 +25,11 @@ const rgb_color_t SAND_COLOR = {.r = .761, .g = .698, .b = .502};
 const double WATER_LENGTH = 10;
 const double WATER_HEIGHT = 50;
 const double HOLE_RADIUS = 8;
-const rgb_color_t WATER_COLOR = {.r = .529, .g = 0.808, .b = 0.980};
-const rgb_color_t GRASS_COLOR = {.r = .486, .g = .988, .b = 0.0};
+const rgb_color_t WATER_COLOR = {.r = .196, .g = 0.666, .b = 0.8117};
+const rgb_color_t GRASS_COLOR = {.r = .388, .g = .788, .b = 0.0};
 
 const double SAND_ELAS = 0.0;
-const double GRASS_ELAS = 0.8;
+const double GRASS_ELAS = 0.5;
 
 body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *sand = body_init_with_info(shape, INFINITY, SAND_COLOR, make_type_info(SAND), free);
@@ -68,6 +68,29 @@ body_t *generate_water(scene_t *scene, body_t *ball, list_t *shape) {
     return water;
 }
 
+list_t *generate_grass_shape(){
+    list_t *vertices = list_init(3, free);
+
+    list_add(vertices, vec_init_ptr(0, 0));
+    list_add(vertices, vec_init_ptr(0, 250));
+    list_add(vertices, vec_init_ptr(1800, 0));
+
+    /*list_add(vertices, vec_init_ptr(0,0));
+
+    list_add(vertices, vec_init_ptr(0, 250));
+
+    list_add(vertices, vec_init_ptr(500, 150));
+    list_add(vertices, vec_init_ptr(1000, 50));
+
+    list_add(vertices, vec_init_ptr(1400, 50));
+    list_add(vertices, vec_init_ptr(1800, 50));
+
+    list_add(vertices, vec_init_ptr(1800, 0));
+
+    list_add(vertices, vec_init_ptr(0, 0));*/
+    return vertices;
+}
+
 body_t *generate_grass(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *grass = body_init_with_info(shape, INFINITY, GRASS_COLOR, make_type_info(GRASS), free);
     create_physics_collision(scene, GRASS_ELAS, ball, grass);
@@ -96,15 +119,11 @@ void generate_level1(scene_t *scene, body_t *ball) {
     scene_add_body(scene, gravity_source);
     create_newtonian_gravity(scene, G, ball, gravity_source);
     
-    list_t *vertices = list_init(3, free);
-    list_add(vertices, vec_init_ptr(0, 250));
-    list_add(vertices, vec_init_ptr(0,0));
-    list_add(vertices, vec_init_ptr(1800, 0));
-    scene_add_body(scene, generate_grass(scene, ball, vertices));
+    scene_add_body(scene, generate_grass(scene, ball, generate_grass_shape()));
 
     list_t *hole_elements = create_golf_hole(HOLE_RADIUS, rgb_color_gray(), INFINITY);
     body_t *hole_bound = list_get(hole_elements, 0);
-    body_set_centroid(hole_bound, vec_init(1700, 17));
+    body_set_centroid(hole_bound, vec_init(1750, 7));
     create_collision(scene, ball, hole_bound, level_end, scene, NULL);
     for (size_t j = 0; j < list_size(hole_elements); j++) {
         scene_add_body(scene, list_get(hole_elements, j));
