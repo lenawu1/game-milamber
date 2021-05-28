@@ -137,6 +137,25 @@ void center_screen_text()
     TTF_Quit();
 }
 
+void center_display(char *message)
+{
+    SDL_Color textColor = {0, 0, 0, 255};
+    SDL_Color textBackgroundColor = {255, 255, 255, 255};
+    SDL_Rect *textRect = malloc(sizeof(SDL_Rect));
+    textRect->x = 0;
+    textRect->y = 400;
+    textRect->w = 100;
+    textRect->h = 50;
+    TTF_Init();
+    TTF_Font* font=TTF_OpenFont("OpenSans-Regular.ttf", 32);
+
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, message, textColor, textBackgroundColor);
+    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_RenderCopy(renderer, text, NULL, textRect);
+    TTF_CloseFont(font);
+    TTF_Quit();
+}
+
 void point_display(char *score)
 {
     SDL_Color textColor = {0, 0, 0, 255};
@@ -147,7 +166,7 @@ void point_display(char *score)
     textRect->w = 100;
     textRect->h = 50;
     TTF_Init();
-    TTF_Font* font=TTF_OpenFont("air.ttf", 32);
+    TTF_Font* font=TTF_OpenFont("OpenSans-Regular.ttf", 32);
 
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, score, textColor, textBackgroundColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
