@@ -16,7 +16,7 @@
  * @param mass the ball's mass, wings have the same mass (total mass = 3* mass)
  * @return a pointer to the newly created golf ball compoundbody
  */
-list_t *create_golf_ball(double radius, rgb_color_t color, double mass);
+list_t *create_golf_ball(double radius, rgb_color_t color, double mass, vector_t location);
 
 /**
  * Creates a colored golf ball with wings and mass.

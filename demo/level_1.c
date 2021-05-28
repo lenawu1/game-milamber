@@ -23,12 +23,13 @@
 // const double SCREEN_SIZE_Y = 750;
 // const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 2000, .y = 1000};
-const vector_t PLAYER_SPEED = {.x = 500, .y = 500};
+const vector_t PLAYER_SPEED = {.x = 1500, .y = 1500};
+const vector_t INIT_POS = {.x = 50, .y = 1000};
+
 const double BALL_MASS = 40.0;
 const double MASS = 10;
 const double RADIUS = 10;
-const double BALL_SIZE = 6;
-const double HOLE_SIZE = 10;
+const double BALL_SIZE = 20;
 const double PLAYER_POS = 20;
 const double LARGE_MASS = INFINITY;
 const double WALL_THICKNESS = 10;
@@ -57,8 +58,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
     scene_t *scene = scene_init();
-    list_t *ball_elements = create_golf_ball(RADIUS, rgb_color_init(205, 99, 75), BALL_MASS);
-
+    list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS);
     body_t *player = list_get(ball_elements, 0);
 
     for(size_t i = 0; i < list_size(ball_elements); i++) {

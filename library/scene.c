@@ -9,8 +9,10 @@
 #include "math.h"
 #include "list.h"
 #include "collision.h"
+#include "body.h"
 
 const size_t INIT_CAPACITY = 100;
+const double PADDING = 0.2;
 
 typedef struct scene {
     list_t *bodies;
@@ -18,6 +20,7 @@ typedef struct scene {
     size_t points;
     size_t level;
     int state;
+    vector_t bound;
 } scene_t;
 
 typedef struct force {
@@ -57,6 +60,7 @@ scene_t *scene_init(void) {
     scene->force_bundles = list_init(INIT_CAPACITY, (free_func_t) force_bundle_free);
     scene->points = 0;
     scene->state = 0;
+    scene->bound = (vector_t) {.x = 2000, .y = 1000};
     return scene;
 }
 
@@ -89,6 +93,10 @@ size_t scene_get_level(scene_t *scene) {
 
 int scene_get_state(scene_t *scene) {
     return scene->state;
+}
+
+vector_t scene_get_bound(scene_t *scene) {
+    return scene->bound;
 }
 
 void scene_add_body(scene_t *scene, body_t *body) {
@@ -163,6 +171,10 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
 
         }
     }
+    body_t *ball = scene_get_body(scene, 0);
+    vector_t center = vec_multiply(0.5, scene_get_bound(scene));
+    vector_t ball_disp;
+    
     for (size_t i = 0; i < scene_bodies(scene); i++) { // Remove bodies & forces if necessary
         body_t *curr_body = scene_get_body(scene, i);
         if (body_is_removed(curr_body)) {
@@ -179,6 +191,13 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
             continue;
         }
         body_tick(curr_body, dt);
+        if (i == 0) {
+            ball_disp = vec_subtract(center, body_get_centroid(ball));
+            // printf("(%f, %f) \n", center.x, center.y);
+            // printf("(%f, %f) \n", body_get_centroid(ball).x, body_get_centroid(ball).y);
+            // printf("(%f, %f) \n", ball_disp.x, ball_disp.y);
+        }
+        body_translate(curr_body, vec_multiply(PADDING, ball_disp));
     }
 
 // for (size_t i = 0; i < scene_bodies(scene); i++) { // Remove bodies & forces if necessary

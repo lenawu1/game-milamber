@@ -57,6 +57,8 @@ size_t scene_get_level(scene_t *scene);
 
 int scene_get_state(scene_t *scene);
 
+vector_t scene_get_bound(scene_t *scene);
+
 /**
  * Gets the body at a given index in a scene.
  * Asserts that the index is valid.
