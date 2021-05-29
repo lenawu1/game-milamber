@@ -21,6 +21,8 @@ body_t *create_enemy(double radius, double mass);
 
 body_t *create_bullet(double x, double y, double mass, bool is_enemy);
 
+list_t *create_circle_shape(double radius);
+
 list_t *create_semicircle_shape(double radius);
 
 /**

@@ -31,12 +31,12 @@
 // const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 2000, .y = 1000};
 const vector_t PLAYER_SPEED = {.x = 1500, .y = 1500};
-const vector_t INIT_POS = {.x = 50, .y = 1000};
+// const vector_t INIT_POS = {.x = 50, .y = 1000};
 
-const double BALL_MASS = 40.0;
+// const double BALL_MASS = 40.0;
 const double MASS = 10;
 const double RADIUS = 10;
-const double BALL_SIZE = 20;
+// const double BALL_SIZE = 20;
 const double PLAYER_POS = 20;
 const double LARGE_MASS = INFINITY;
 const double WALL_THICKNESS = 10;
@@ -50,15 +50,30 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     if (type == KEY_PRESSED) {
         if (key == RIGHT_ARROW) {
             vector_t right_v = PLAYER_SPEED;
+            body_translate(golfball, vec_init(0, 10));
             body_set_velocity(golfball, right_v);
             scene_add_point(scene);
         }
         else if (key == LEFT_ARROW) {
             vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
+            body_translate(golfball, vec_init(0, 10));
             body_set_velocity(golfball, left_v);
             scene_add_point(scene);
         }
         else if (key == SPACE) {
+            if(scene_get_state(scene) == -1) {
+                scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
+                scene_add_level(scene);
+                scene_set_points(scene, 0);
+                body_set_velocity(golfball, VEC_ZERO);
+            }
+            if(scene_get_state(scene) == 1) {
+                scene_add_level(scene);
+                // build_level(scene);
+                scene_set_points(scene, 0);
+                body_set_velocity(golfball, VEC_ZERO);
+
+            }
             scene_set_state(scene, 0); // Continue playing
         }
     }
@@ -79,32 +94,26 @@ int main(int argc, char *argv[]) {
     
     scene_t *scene = scene_init();
 
-    list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS);
-    body_t *player = list_get(ball_elements, 0);
+    // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS);
+    // body_t *player = list_get(ball_elements, 0);
 
-    for(size_t i = 0; i < list_size(ball_elements); i++) {
-        scene_add_body(scene, list_get(ball_elements, i));
-    }
-    generate_level1(scene, player);
+    // for(size_t i = 0; i < list_size(ball_elements); i++) {
+    //     scene_add_body(scene, list_get(ball_elements, i));
+    // }
+    // generate_level1(scene, player);
+    body_t *player = build_level(scene);
     sdl_on_key(handler, scene);
     // center_display("starting");
     double clock = 0.0;
-    
-    // while (!sdl_is_done(scene) && scene_get_level(scene) == 1 && scene_get_state(scene) == 0){
     while (!sdl_is_done(scene)) {
         double dt = time_since_last_tick();
         clock += dt;
-        // char score_str[10];
-        // sprintf(score_str, "%zu", scene_get_points(scene));
-        // point_display(score_str);
         do_gravity(player, GRAV_VAL, dt);
         scene_tick(scene, dt);
         sdl_render_scene(scene);
     }
 
     // int state = scene_get_state(scene);
-
-    //TODO: What to do if ball goes out of bounds? do they lose?
 
     // if (state == -1) {
     //     printf("Sorry, you lost! \n");        

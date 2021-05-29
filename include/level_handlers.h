@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include "compound_body.h"
 #include "sdl_wrapper.h"
-
-
 typedef enum {
     BALL,
     HOLE,
@@ -31,5 +29,17 @@ body_type_t get_type(body_t *body);
 void teleport(body_t *ball, body_t *portal, vector_t axis, void *aux);
 
 void level_end(body_t *ball, body_t *hole, vector_t axis, void *aux);
+
+void sanded(body_t *ball, body_t *target, vector_t axis, void *aux);
+
+
+/**
+ * A function called when a collision occurs.
+ * @param scene the game scene
+ * @param new_level the level to be generated
+ * @return a body pointer to the player object
+ */
+
+body_t *build_level(scene_t *scene);
 
 #endif // ifndef __LEVEL_HANDLERS_H__

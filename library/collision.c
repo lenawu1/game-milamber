@@ -10,7 +10,8 @@
 #include "assert.h"
 
 double min(double a, double b) {
-    return (a + b + fabs(a - b) / 2);
+    if (a < b) return a;
+    return b;
 }
 
 list_t *orthogonal_edges_of(list_t *shape) {
@@ -101,12 +102,12 @@ collision_info_t find_collision(list_t *shape1, list_t *shape2) {
         }
     }
     // Check that it points from shape 1 to shape 2
-    vector_t displacement = vec_subtract(polygon_centroid(shape1), polygon_centroid(shape2));
+    // vector_t displacement = vec_subtract(polygon_centroid(shape1), polygon_centroid(shape2));
 
     vector_t normalized_axis = (vec_multiply(1/vec_norm(min_vector), min_vector));
-    if(fabs(vec_dot(displacement, normalized_axis)) < 0.2) { // Is pointing from shape 2 to shape 1
-        normalized_axis = vec_orthogonal(normalized_axis);
-    }
+    // if(fabs(vec_dot(displacement, normalized_axis)) < 0.5) { // Is pointing from shape 2 to shape 1
+    //     normalized_axis = vec_orthogonal(normalized_axis);
+    // }
     res.collided = true;
     res.axis = normalized_axis;
     return res;

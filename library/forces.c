@@ -10,6 +10,7 @@
 #include "math.h"
 #include "collision.h"
 #include "polygon.h"
+#include "level_handlers.h"
 
 const double MIN_DISTANCE = 5.0;
     
@@ -236,8 +237,34 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
         return;
     }
     collision_info_t info = find_collision(body_get_shape(body1), body_get_shape(body2));
-    if (info.collided && !(auxil->collided)) {
-        handler(body1, body2, info.axis, coaux);
+    // body_type_t body1_info = get_type(body1);
+    // body_type_t body2_info = get_type(body2);
+    // if (body1_info == GRASS || body2_info == GRASS) { // Special collision
+    //     if(info.collided && vec_equals(body_get_impulse(body1), VEC_ZERO)) {
+    //         handler(body1, body2, info.axis, coaux);
+    //         // body_set_collided(body2, true);
+    //         // body_set_collided(body1, true);
+    //     }
+    // }
+    // else
+    if(info.collided && (get_type(body1) == SAND || get_type(body2) == SAND)) {
+
+    }
+    if(info.collided) {
+        if((get_type(body2) == GRASS)) {
+            if(fabs(vec_dot(body_get_velocity(body1), info.axis)) < 100) {
+                body_set_velocity(body1, vec_multiply(vec_dot(body_get_velocity(body1), vec_orthogonal(info.axis)), vec_orthogonal(info.axis)));
+                // body_set_velocity(body1, VEC_ZERO);
+            }
+        }
+        if((get_type(body1) == SAND || get_type(body2) == SAND)) {
+            if(get_type(body1) == SAND) handler(body2, body1, info.axis, coaux);
+            else handler(body1, body2, info.axis, coaux);
+            return;
+        }
+        else if (!auxil->collided) {
+            handler(body1, body2, info.axis, coaux);
+        }
     }
     auxil->collided = info.collided;
 }

@@ -5,7 +5,13 @@
 #include "sdl_wrapper.h"
 #include "body.h"
 #include "level_handlers.h"
+#include "terrain.h"
+#include "elements.h"
 
+
+const double BALL_SIZE = 20;
+const vector_t INIT_POS1 = {.x = 50, .y = 1000};
+const double BALL_MASS = 40.0;
 
 body_type_t *make_type_info(body_type_t type) {
     body_type_t *info = malloc(sizeof(*info));
@@ -39,11 +45,48 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
 
     if(target_info == HOLE) {
         // Win condition
-        scene_add_level(scene);
+        // scene_add_level(scene);
         scene_set_state(scene, 1);
     }
     if(target_info == WATER) {
         // Lose condition
         scene_set_state(scene, -1);
     }
+    body_set_velocity(ball, VEC_ZERO);
+}
+
+void sanded(body_t *ball, body_t *target, vector_t axis, void *aux) {
+    body_type_t ball_info = get_type(ball);
+    assert(ball_info == BALL);
+    body_set_velocity(ball, VEC_ZERO);
+}
+
+body_t *build_level(scene_t *scene) {
+    size_t level = scene_get_level(scene);
+    printf("%zu \n", level);
+    body_t *player;
+    // TODO: Get the nth level file path from some array
+    if (level == 1) {
+        list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
+         player = list_get(ball_elements, 0);
+
+        for(size_t i = 0; i < list_size(ball_elements); i++) {
+            scene_add_body(scene, list_get(ball_elements, i));
+        }
+        generate_level1(scene, player);
+    } else if (level == 2) {
+        // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
+        player = scene_get_body(scene, 0);
+        generate_level2(scene, player);
+    } else if (level == 3) {
+        // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
+        player = scene_get_body(scene, 0);
+        generate_level3(scene, player);
+    }
+    else{
+        printf("Unknown level\n");
+        return NULL;
+    }
+
+    return player;
 }

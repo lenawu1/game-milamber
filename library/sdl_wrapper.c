@@ -148,11 +148,14 @@ void center_display(char *message)
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
-    Message_rect->x = 350; //controls the rect's x coordinate 
-    Message_rect->y = 200; // controls the rect's y coordinte
+    Message_rect->x = 320; //controls the rect's x coordinate 
+    Message_rect->y = 180; // controls the rect's y coordinte
     Message_rect->w = 400; // controls the width of the rect
     Message_rect->h = 100; // controls the height of the rect
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
+    SDL_FreeSurface(textSurface);
+    // SDL_DestroyTexture(text);
+    TTF_CloseFont(font);
 }
 
 void point_display(char *score)
@@ -172,9 +175,9 @@ void point_display(char *score)
     Message_rect->h = 50; // controls the height of the rect
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
     // SDL_RenderPresent(renderer);
-    // SDL_FreeSurface(textSurface);
+    SDL_FreeSurface(textSurface);
     // SDL_DestroyTexture(text);
-    // TTF_CloseFont(font);
+    TTF_CloseFont(font);
     // TTF_Quit();
 }
 
@@ -269,11 +272,9 @@ void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
     if (state == -1) {
-        printf("Sorry, you lost! \n");        
+        center_display("You Lost this Level!");
     }
     else if (state == 1) {
-        scene_add_level(scene);
-        scene_set_points(scene, 0);
         center_display("You Win this Level!");
     }
     else if (state == 0) {

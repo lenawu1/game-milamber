@@ -18,6 +18,7 @@ typedef struct body {
     double orientation;
     double bounding_radius;
     list_t *anchors;
+    bool collided;
 
     vector_t force;
     vector_t impulse;
@@ -46,6 +47,7 @@ body_t *body_init_with_info(
     object->info = info;
     object->info_freer = info_freer;
     object->anchors = NULL;
+    object->collided = false;
 
     double max_radius = 0;
     for(size_t i = 0; i < list_size(shape); i++) {
@@ -88,6 +90,10 @@ list_t *body_get_shape(body_t *body) {
     return shape_cpy;
 }
 
+bool body_collided(body_t *body) {
+    return body->collided;
+}
+
 list_t *get_anchors(body_t *body) {
     return body->anchors;
 }
@@ -124,6 +130,10 @@ void *body_get_info(body_t *body) {
 
 void body_set_info(body_t *body, void* info) {
     body->info = info;
+}
+
+void body_set_collided(body_t *body, bool c) {
+    body->collided = c;
 }
 
 void body_set_centroid(body_t *body, vector_t x) {
@@ -173,6 +183,10 @@ void body_add_anchor(body_t *main_body, body_t *anchored_body) {
 
 list_t *body_get_anchors(body_t *body) {
     return body->anchors;
+}
+
+vector_t body_get_impulse(body_t *body) {
+    return body->impulse;
 }
 
 void body_set_color(body_t *body, rgb_color_t color) {
