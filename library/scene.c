@@ -9,6 +9,7 @@
 #include "math.h"
 #include "list.h"
 #include "collision.h"
+#include "level_handlers.h"
 #include "body.h"
 
 const size_t INIT_CAPACITY = 100;
@@ -61,6 +62,7 @@ scene_t *scene_init(void) {
     scene->points = 0;
     scene->state = 0;
     scene->bound = (vector_t) {.x = 2000, .y = 1000};
+    scene->level = 1;
     return scene;
 }
 
@@ -113,9 +115,21 @@ size_t scene_set_points(scene_t *scene, size_t point) {
     return scene->points;
 }
 
+void reset_scene(scene_t *scene) {
+    body_t *player = list_remove(scene->bodies, 0);
+    list_free(scene->bodies);
+    list_free(scene->force_bundles);
+    scene->bodies = list_init(INIT_CAPACITY, (free_func_t) body_free);
+    list_add(scene->bodies, player);
+    scene->force_bundles = list_init(INIT_CAPACITY, (free_func_t) force_bundle_free);
+    scene->points = 0;
+}
+
 size_t scene_add_level(scene_t *scene) {
-    scene->points++;
-    return scene->points;
+    reset_scene(scene);
+    scene->level++;
+    build_level(scene);
+    return scene->level;
 }
 
 int scene_set_state(scene_t *scene, int state) {
@@ -203,6 +217,7 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
             // printf("(%f, %f) \n", ball_disp.x, ball_disp.y);
         }
         body_translate(curr_body, vec_multiply(PADDING, ball_disp));
+        body_set_collided(curr_body, false);
     }
 
 // for (size_t i = 0; i < scene_bodies(scene); i++) { // Remove bodies & forces if necessary
