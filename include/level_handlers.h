@@ -13,7 +13,8 @@ typedef enum {
     GRASS,
     WATER,
     BOOST,
-    PORTAL
+    PORTAL,
+    SPIKE
 } body_type_t;
 
 typedef struct score {

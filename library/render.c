@@ -5,8 +5,17 @@
 #include "scene.h" 
 #include "color.h"
 #include <stdbool.h>
+#include "vector.h"
 
 const int CIRCLE_APPROX = 50;
+
+list_t *create_triangle_shape(double a) {
+    list_t *triangle = list_init(3, (free_func_t) free);
+    list_add(triangle, vec_init_ptr(0, 0));
+    list_add(triangle, vec_init_ptr(a, 0));
+    list_add(triangle, vec_init_ptr(a/2.0, a));
+    return triangle;
+}
 
 list_t *create_oval_shape(double a, double b){
     list_t *oval = list_init(CIRCLE_APPROX, (free_func_t) free);

@@ -68,6 +68,12 @@ body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape) {
     return boost;
 }
 
+body_t *generate_spike(scene_t *scene, body_t *ball, list_t *shape) {
+    body_t *spike = body_init_with_info(shape, INFINITY, rgb_color_gray(), make_type_info(WATER), free);
+    create_collision(scene, ball, spike, level_end, scene, NULL);
+    return spike;
+}
+
 body_t *get_gravity_body(scene_t *scene) {
     // Will be offscreen, so shape is irrelevant
     list_t *gravity_ball = create_rectangle_shape(1, 1);
@@ -121,7 +127,16 @@ void generate_level1(scene_t *scene, body_t *ball) {
     body_set_centroid(powerup, vec_init(1500, 500));
     create_collision(scene, ball, powerup, power_up, scene, NULL);
     scene_add_body(scene, powerup);
-    // scene_set_level(scene, 1);
+    
+    body_t *spike1 = generate_spike(scene, ball, create_triangle_shape(100.0));
+    body_set_centroid(spike1, vec_init(650, 275));
+    create_collision(scene, ball, spike1, level_end, scene, NULL);
+    scene_add_body(scene, spike1);
+
+    body_t *spike2 = generate_spike(scene, ball, create_triangle_shape(100.0));
+    body_set_centroid(spike2, vec_init(1200, 100));
+    create_collision(scene, ball, spike2, level_end, scene, NULL);
+    scene_add_body(scene, spike2);
 }
 
 void generate_level2(scene_t *scene, body_t *ball) {

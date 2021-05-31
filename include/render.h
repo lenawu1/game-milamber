@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "color.h"
 
+list_t *create_triangle_shape(double a);
 
 list_t *create_oval_shape(double a, double b);
 
