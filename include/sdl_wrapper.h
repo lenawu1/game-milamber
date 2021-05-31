@@ -53,6 +53,8 @@ void sdl_init(vector_t min, vector_t max);
 
 void center_display(char *message, int text_height, int x_pos, int font_size, int width, int height);
 
+void direction_display(char *message, int text_height, int font_size, int x_pos, int width, int height);
+
 void point_display(char *score);
 
 /**

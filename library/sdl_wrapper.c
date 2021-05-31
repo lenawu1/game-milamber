@@ -163,10 +163,23 @@ void center_display(char *message, int text_height, int font_size, int x_pos, in
 {
     SDL_Color textColor = {0, 0, 0, 255};
     TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", font_size);
-    if(!font) {
-        printf("TTF_OpenFont: %s\n", TTF_GetError());
-   // handle error
-    }
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
+    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
+    Message_rect->x = x_pos; //controls the rect's x coordinate 
+    Message_rect->y = text_height; // controls the rect's y coordinte
+    Message_rect->w = width; // controls the width of the rect
+    Message_rect->h = height; // controls the height of the rect
+    SDL_RenderCopy(renderer, text, NULL, Message_rect);
+    SDL_FreeSurface(textSurface);
+    // SDL_DestroyTexture(text);
+    TTF_CloseFont(font);
+}
+
+void direction_display(char *message, int text_height, int font_size, int x_pos, int width, int height)
+{
+    SDL_Color textColor = {0, 0, 255, 255};
+    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", font_size);
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
@@ -308,6 +321,8 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80);
 
+        center_display("press space to retry", 260, 30, 370, 250, 50);
+
     }
     else if (state == 1) {
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
@@ -324,6 +339,9 @@ void sdl_render_scene(scene_t *scene) {
         char str2[100] = "Level: ";
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80);
+
+        direction_display("press space to retry", 260, 30, 370, 250, 50);
+        direction_display("press up arrow to continue", 310, 365, 360, 280, 45);
     }
     else if (state == 0) {
         size_t body_count = scene_bodies(scene);
