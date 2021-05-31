@@ -32,4 +32,6 @@ void generate_level2(scene_t *scene, body_t *ball);
 
 void generate_level3(scene_t *scene, body_t *ball);
 
+void generate_final_screen(scene_t *scene, body_t *player);
+
 #endif // ifndef __TERRAIN_H__

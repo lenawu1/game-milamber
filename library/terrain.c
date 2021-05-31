@@ -9,7 +9,6 @@
 #include "color.h"
 #include "level_handlers.h"
 #include "elements.h"
-#include "scene.h"
 
 #define G 6.67E-11 // N m^2 / kg^2
 #define M 6E24 // kg
@@ -266,6 +265,10 @@ void generate_level3(scene_t *scene, body_t *ball) {
     body_set_centroid(powerup3, vec_init(850, 1250));
     create_collision(scene, ball, powerup3, power_up, scene, NULL);
     scene_add_body(scene, powerup3);
+}
+
+void generate_final_screen(scene_t *scene, body_t *player) {
+    exit(0);
 }
 
 // Looks pretty, can use again as another level

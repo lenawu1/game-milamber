@@ -89,11 +89,11 @@ body_t *build_level(scene_t *scene) {
         // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
         player = scene_get_body(scene, 0);
         generate_level3(scene, player);
+        scene_set_level(scene, 3);
     }
-    else{
-        printf("Unknown level\n");
-        return NULL;
+    else {
+        player = scene_get_body(scene, 0);
+        exit(0);
     }
-
     return player;
 }

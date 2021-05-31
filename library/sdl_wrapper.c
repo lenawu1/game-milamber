@@ -142,7 +142,6 @@ void sdl_free_sound(Mix_Chunk *sound) {
     Mix_Quit();
 }
 
-
 void options_screen_text(char *message, int text_height, int font_size, int x_pos, int width, int height)
 {
     SDL_Color textColor = {255, 255, 255, 255};
@@ -291,23 +290,9 @@ void sdl_show(void) {
     SDL_RenderPresent(renderer);
 }
 
-void sdl_render_scene(scene_t *scene) {
+void sdl_render_scene(scene_t *scene, int NUM_LEVELS) {
     sdl_clear();
     int state = scene_get_state(scene);
-    if (state == -2) {
-        center_display(("Thanks for playing!"), 60, 40, 320, 400, 100);
-        char score_str[50];
-        sprintf(score_str, "%zu", scene_get_points(scene));
-        char str1[100] = "Score: ";
-        strcat(str1, score_str);
-        center_display(str1, 140, 30, 440, 130, 70);
-
-        char level_str[50];
-        sprintf(level_str, "%zu", scene_get_level(scene));
-        char str2[100] = "Level: ";
-        strcat(str2, level_str);
-        center_display(str2, 190, 30, 400, 200, 80);
-    }
     if (state == -1) {
         center_display(("You Lost this Level!"), 60, 40, 320, 400, 100);
 
@@ -322,7 +307,6 @@ void sdl_render_scene(scene_t *scene) {
         char str2[100] = "Level: ";
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80);
-
     }
     else if (state == 1) {
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100);

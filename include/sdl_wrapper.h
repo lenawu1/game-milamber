@@ -94,7 +94,7 @@ void sdl_show(void);
  *
  * @param scene the scene to draw
  */
-void sdl_render_scene(scene_t *scene);
+void sdl_render_scene(scene_t *scene, int NUM_LEVELS);
 
 /**
  * Registers a function to be called every time a key is pressed.
