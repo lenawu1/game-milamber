@@ -52,18 +52,22 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     char *filepath = "../resources/popsound.wav";
     if (type == KEY_PRESSED) {
         if (key == RIGHT_ARROW) {
-            vector_t right_v = PLAYER_SPEED;
-            body_translate(golfball, vec_init(0, 10));
-            body_set_velocity(golfball, right_v);
-            scene_add_point(scene);
-            sdl_load_sound(filepath);
+            if (scene_get_state(scene) == 0) {
+                vector_t right_v = PLAYER_SPEED;
+                body_translate(golfball, vec_init(0, 10));
+                body_set_velocity(golfball, right_v);
+                scene_add_point(scene);
+                sdl_load_sound(filepath);
+            }
         }
         else if (key == LEFT_ARROW) {
-            vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
-            body_translate(golfball, vec_init(0, 10));
-            body_set_velocity(golfball, left_v);
-            scene_add_point(scene);
-            sdl_load_sound(filepath);
+            if (scene_get_state(scene) == 0) {
+                vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
+                body_translate(golfball, vec_init(0, 10));
+                body_set_velocity(golfball, left_v);
+                scene_add_point(scene);
+                sdl_load_sound(filepath);
+            }
         }
         else if (key == UP_ARROW) {
             if(scene_get_state(scene) == 1) {
