@@ -134,7 +134,7 @@ void generate_level1(scene_t *scene, body_t *ball) {
     scene_add_body(scene, spike1);
 
     body_t *spike2 = generate_spike(scene, ball, create_triangle_shape(100.0));
-    body_set_centroid(spike2, vec_init(1200, 100));
+    body_set_centroid(spike2, vec_init(1200, 110));
     create_collision(scene, ball, spike2, level_end, scene, NULL);
     scene_add_body(scene, spike2);
 }
