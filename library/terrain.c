@@ -267,9 +267,6 @@ void generate_level3(scene_t *scene, body_t *ball) {
     scene_add_body(scene, powerup3);
 }
 
-void generate_final_screen(scene_t *scene, body_t *player) {
-    exit(0);
-}
 
 // Looks pretty, can use again as another level
 // void set_frame(scene_t *scene, body_t *ball, vector_t size) {

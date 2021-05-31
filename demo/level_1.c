@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
         clock += dt;
         do_gravity(player, GRAV_VAL, dt);
         scene_tick(scene, dt);
-        sdl_render_scene(scene, 3);
+        sdl_render_scene(scene);
     }
     scene_free(scene);
 }

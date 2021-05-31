@@ -290,7 +290,7 @@ void sdl_show(void) {
     SDL_RenderPresent(renderer);
 }
 
-void sdl_render_scene(scene_t *scene, int NUM_LEVELS) {
+void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
     if (state == -1) {
@@ -307,13 +307,12 @@ void sdl_render_scene(scene_t *scene, int NUM_LEVELS) {
         char str2[100] = "Level: ";
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80);
+
     }
     else if (state == 1) {
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
-
         char *filepath = "../resources/levelwin.wav";
         sdl_load_sound(filepath);
-
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";
@@ -340,6 +339,7 @@ void sdl_render_scene(scene_t *scene, int NUM_LEVELS) {
     }
     sdl_show();
 }
+
 
 void sdl_on_key(key_handler_t handler, void *aux) {
     key_handler = handler;
