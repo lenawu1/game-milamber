@@ -236,7 +236,21 @@ void generate_level3(scene_t *scene, body_t *ball) {
     for (size_t j = 0; j < list_size(hole_elements); j++) {
         scene_add_body(scene, list_get(hole_elements, j));
     }
-    // scene_set_level(scene, 1);
+    
+    body_t *powerup1 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_set_centroid(powerup1,vec_init(300, 1000));
+    create_collision(scene, ball, powerup1, power_up, scene, NULL);
+    scene_add_body(scene, powerup1);
+
+    body_t *powerup2 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_set_centroid(powerup2,vec_init(500, 700));
+    create_collision(scene, ball, powerup2, power_up, scene, NULL);
+    scene_add_body(scene, powerup2);
+
+    body_t *powerup3 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_set_centroid(powerup3, vec_init(850, 1250));
+    create_collision(scene, ball, powerup3, power_up, scene, NULL);
+    scene_add_body(scene, powerup3);
 }
 
 // Looks pretty, can use again as another level
