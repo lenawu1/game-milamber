@@ -84,14 +84,14 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                     reset_scene(scene);
                     build_level(scene);
                     scene_set_points(scene, 0);
-                    //body_set_velocity(golfball, VEC_ZERO);
+                    body_set_velocity(golfball, VEC_ZERO);
                 }
                 else
                 {
                     scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
                     scene_add_level(scene);
                     scene_set_points(scene, 0);
-                    //body_set_velocity(golfball, VEC_ZERO);
+                    body_set_velocity(golfball, VEC_ZERO);
                 }
             }
             scene_set_state(scene, 0); // Continue playing
