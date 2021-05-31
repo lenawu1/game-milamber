@@ -112,7 +112,7 @@ list_t *create_enemy_shape(double radius) {
 body_t *create_enemy(double radius, double mass) {
     list_t *shape = create_enemy_shape(radius);
 
-    rgb_color_t color = rgb_color_gray();
+    rgb_color_t color = rgb_color_pastel();
     body_t *enemy = body_init(shape, mass, color);
 
     return enemy;

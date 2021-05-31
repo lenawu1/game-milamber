@@ -30,7 +30,7 @@ void teleport(body_t *ball, body_t *portal, vector_t axis, void *aux);
 
 void level_end(body_t *ball, body_t *hole, vector_t axis, void *aux);
 
-void poweredup(body_t *ball, body_t *target, vector_t axis, void *aux);
+void power_up(body_t *ball, body_t *target, vector_t axis, void *aux);
 
 void sanded(body_t *ball, body_t *target, vector_t axis, void *aux);
 

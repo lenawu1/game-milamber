@@ -62,9 +62,6 @@ void point_display(char *score);
  */
 bool sdl_is_done(scene_t *scene);
 
-
-void screen_handler(char key, key_event_type_t type, double held_time, scene_t *scene);
-
 /**
  * Clears the screen. Should be called before drawing polygons in each frame.
  */

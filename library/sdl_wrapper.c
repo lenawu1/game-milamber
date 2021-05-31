@@ -142,31 +142,21 @@ void sdl_free_sound(Mix_Chunk *sound) {
 }
 
 
-void center_screen_text()
+void options_screen_text(char *message, int text_height, int font_size, int x_pos, int width, int height)
 {
-    SDL_Color textColor = {0, 0, 0, 255};
-    SDL_Color textBackgroundColor = {255, 255, 255, 255};
-    SDL_Rect *textRect;
-
+    SDL_Color textColor = {255, 255, 255, 255};
+    SDL_Color textBackgroundColor = {0, 255, 0, 255};
+    SDL_Rect *text_rect = malloc(sizeof(SDL_Rect));
+    text_rect->x = x_pos; //controls the rect's x coordinate 
+    text_rect->y = text_height; // controls the rect's y coordinte
+    text_rect->w = width; // controls the width of the rect
+    text_rect->h = height; // controls the height of the rect
     TTF_Font* font=TTF_OpenFont("air.ttf", 32);
-    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "Hello world", textColor, textBackgroundColor);
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "NEXT(up arrow)", textColor, textBackgroundColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_RenderCopy(renderer, text, NULL, textRect);
+    SDL_RenderCopy(renderer, text, NULL, text_rect);
     TTF_CloseFont(font);
     TTF_Quit();
-}
-
-void screen_handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
-    if (type == KEY_PRESSED) {
-        if (key == SPACE) {
-            if(scene_get_state(scene) == 1) {
-                scene_set_level(scene, scene_get_level(scene)); // decrement scene
-                scene_add_level(scene);
-                scene_set_points(scene, 0);
-            }
-            scene_set_state(scene, 0); // Continue playing
-        }
-    }
 }
 
 void center_display(char *message, int text_height, int font_size, int x_pos, int width, int height)
@@ -304,8 +294,6 @@ void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
     if (state == -1) {
-
-        sdl_on_key(screen_handler, scene);
         center_display(("You Lost this Level!"), 60, 40, 320, 400, 100);
 
         char score_str[50];
@@ -322,7 +310,6 @@ void sdl_render_scene(scene_t *scene) {
 
     }
     else if (state == 1) {
-        sdl_on_key(screen_handler, scene);
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
         char *filepath = "../resources/levelwin.wav";
         sdl_load_sound(filepath);

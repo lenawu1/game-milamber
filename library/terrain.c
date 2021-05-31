@@ -64,7 +64,7 @@ body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape) {
 
 body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *boost = body_init_with_info(shape, INFINITY, rgb_color_pastel(), make_type_info(BOOST), free);
-    create_collision(scene, ball, boost, poweredup, NULL, NULL);
+    create_collision(scene, ball, boost, power_up, NULL, NULL);
     return boost;
 }
 
@@ -107,6 +107,7 @@ void generate_level1(scene_t *scene, body_t *ball) {
     // scene_add_body(scene, gravity_source);
     // create_newtonian_gravity(scene, G, ball, gravity_source);
     set_frame(scene, ball, scene_get_bound(scene));
+
     scene_add_body(scene, generate_grass(scene, ball, generate_grass_shape()));
     list_t *hole_elements = create_golf_hole(HOLE_RADIUS, rgb_color_gray(), INFINITY);
     body_t *hole_bound = list_get(hole_elements, 0);
@@ -115,6 +116,11 @@ void generate_level1(scene_t *scene, body_t *ball) {
     for (size_t j = 0; j < list_size(hole_elements); j++) {
         scene_add_body(scene, list_get(hole_elements, j));
     }
+
+    body_t *powerup = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_set_centroid(powerup, vec_init(1500, 500));
+    create_collision(scene, ball, powerup, power_up, scene, NULL);
+    scene_add_body(scene, powerup);
     // scene_set_level(scene, 1);
 }
 
@@ -168,7 +174,16 @@ void generate_level2(scene_t *scene, body_t *ball) {
     for (size_t j = 0; j < list_size(hole_elements); j++) {
         scene_add_body(scene, list_get(hole_elements, j));
     }
-    // scene_set_level(scene, 1);
+
+    body_t *powerup1 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_set_centroid(powerup1,vec_init(500, 750));
+    create_collision(scene, ball, powerup1, power_up, scene, NULL);
+    scene_add_body(scene, powerup1);
+
+    body_t *powerup2 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_set_centroid(powerup2,vec_init(1500, 1000));
+    create_collision(scene, ball, powerup2, power_up, scene, NULL);
+    scene_add_body(scene, powerup2);
 }
 
 void generate_level3(scene_t *scene, body_t *ball) {
