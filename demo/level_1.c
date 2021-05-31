@@ -79,6 +79,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     }
 }
 
+
 // void update_text(scene_t *scene) {
 //     TTF_Font *font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 12);
 //     SDL_Color textColor = {0, 0, 0, 255}; // Black
@@ -103,7 +104,6 @@ int main(int argc, char *argv[]) {
     // generate_level1(scene, player);
     body_t *player = build_level(scene);
     sdl_on_key(handler, scene);
-    // center_display("starting");
     double clock = 0.0;
     while (!sdl_is_done(scene)) {
         double dt = time_since_last_tick();

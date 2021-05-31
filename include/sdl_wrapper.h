@@ -49,7 +49,7 @@ typedef void (*key_handler_t)(char key, key_event_type_t type, double held_time,
  */
 void sdl_init(vector_t min, vector_t max);
 
-void center_display(char *message);
+void center_display(char *message, int text_height, int x_pos, int font_size, int width, int height);
 
 void point_display(char *score);
 
@@ -60,6 +60,9 @@ void point_display(char *score);
  * @return true if the window was closed, false otherwise
  */
 bool sdl_is_done(scene_t *scene);
+
+
+void screen_handler(char key, key_event_type_t type, double held_time, scene_t *scene);
 
 /**
  * Clears the screen. Should be called before drawing polygons in each frame.

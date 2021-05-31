@@ -137,10 +137,23 @@ void center_screen_text()
     TTF_Quit();
 }
 
-void center_display(char *message)
+void screen_handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
+    if (type == KEY_PRESSED) {
+        if (key == SPACE) {
+            if(scene_get_state(scene) == 1) {
+                scene_set_level(scene, scene_get_level(scene)); // decrement scene
+                scene_add_level(scene);
+                scene_set_points(scene, 0);
+            }
+            scene_set_state(scene, 0); // Continue playing
+        }
+    }
+}
+
+void center_display(char *message, int text_height, int font_size, int x_pos, int width, int height)
 {
     SDL_Color textColor = {0, 0, 0, 255};
-    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 40);
+    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", font_size);
     if(!font) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
    // handle error
@@ -148,10 +161,10 @@ void center_display(char *message)
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
-    Message_rect->x = 320; //controls the rect's x coordinate 
-    Message_rect->y = 180; // controls the rect's y coordinte
-    Message_rect->w = 400; // controls the width of the rect
-    Message_rect->h = 100; // controls the height of the rect
+    Message_rect->x = x_pos; //controls the rect's x coordinate 
+    Message_rect->y = text_height; // controls the rect's y coordinte
+    Message_rect->w = width; // controls the width of the rect
+    Message_rect->h = height; // controls the height of the rect
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
     SDL_FreeSurface(textSurface);
     // SDL_DestroyTexture(text);
@@ -272,10 +285,37 @@ void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
     if (state == -1) {
-        center_display("You Lost this Level!");
+
+        sdl_on_key(screen_handler, scene);
+        center_display(("You Lost this Level!"), 60, 40, 320, 400, 100);
+
+        char score_str[50];
+        sprintf(score_str, "%zu", scene_get_points(scene));
+        char str1[100] = "Score: ";
+        strcat(str1, score_str);
+        center_display(str1, 140, 30, 440, 130, 70);
+
+        char level_str[50];
+        sprintf(level_str, "%zu", scene_get_level(scene));
+        char str2[100] = "Level: ";
+        strcat(str2, level_str);
+        center_display(str2, 190, 30, 400, 200, 80);
+
     }
     else if (state == 1) {
-        center_display("You Win this Level!");
+        sdl_on_key(screen_handler, scene);
+        center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
+        char score_str[50];
+        sprintf(score_str, "%zu", scene_get_points(scene));
+        char str1[100] = "Score: ";
+        strcat(str1, score_str);
+        center_display(str1, 140, 30, 440, 130, 70);
+
+        char level_str[50];
+        sprintf(level_str, "%zu", scene_get_level(scene));
+        char str2[100] = "Level: ";
+        strcat(str2, level_str);
+        center_display(str2, 190, 30, 400, 200, 80);
     }
     else if (state == 0) {
         size_t body_count = scene_bodies(scene);
