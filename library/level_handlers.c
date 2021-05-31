@@ -61,6 +61,12 @@ void sanded(body_t *ball, body_t *target, vector_t axis, void *aux) {
     body_set_velocity(ball, VEC_ZERO);
 }
 
+void poweredup(body_t *ball, body_t *target, vector_t axis, void *aux) {
+    body_type_t ball_info = get_type(ball);
+    assert(ball_info == BALL);
+    body_set_velocity(ball, vec_multiply(1.2, body_get_velocity(ball)));
+}
+
 body_t *build_level(scene_t *scene) {
     size_t level = scene_get_level(scene);
     printf("%zu \n", level);

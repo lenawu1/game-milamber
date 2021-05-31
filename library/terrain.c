@@ -62,6 +62,12 @@ body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape) {
     return sand;
 }
 
+body_t *generate_bosot(scene_t *scene, body_t *ball, list_t *shape) {
+    body_t *boost = body_init_with_info(shape, INFINITY, rgb_color_pastel(), make_type_info(BOOST), free);
+    create_collision(scene, ball, boost, poweredup, NULL, NULL);
+    return boost;
+}
+
 body_t *get_gravity_body(scene_t *scene) {
     // Will be offscreen, so shape is irrelevant
     list_t *gravity_ball = create_rectangle_shape(1, 1);
