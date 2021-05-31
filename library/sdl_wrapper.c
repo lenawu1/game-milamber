@@ -98,6 +98,7 @@ char get_keycode(SDL_Keycode key) {
         case SDLK_RIGHT: return RIGHT_ARROW;
         case SDLK_DOWN:  return DOWN_ARROW;
         case SDLK_SPACE: return SPACE;
+        case SDLK_q: return Q_CHARACTER;
         default:
             // Only process 7-bit ASCII characters
             return key == (SDL_Keycode) (char) key ? key : '\0';
@@ -293,6 +294,20 @@ void sdl_show(void) {
 void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
+    if (state == -2) {
+        center_display(("Thanks for playing!"), 60, 40, 320, 400, 100);
+        char score_str[50];
+        sprintf(score_str, "%zu", scene_get_points(scene));
+        char str1[100] = "Score: ";
+        strcat(str1, score_str);
+        center_display(str1, 140, 30, 440, 130, 70);
+
+        char level_str[50];
+        sprintf(level_str, "%zu", scene_get_level(scene));
+        char str2[100] = "Level: ";
+        strcat(str2, level_str);
+        center_display(str2, 190, 30, 400, 200, 80);
+    }
     if (state == -1) {
         center_display(("You Lost this Level!"), 60, 40, 320, 400, 100);
 
@@ -311,8 +326,10 @@ void sdl_render_scene(scene_t *scene) {
     }
     else if (state == 1) {
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
+
         char *filepath = "../resources/levelwin.wav";
         sdl_load_sound(filepath);
+
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";

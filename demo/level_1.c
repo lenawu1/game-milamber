@@ -81,6 +81,11 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             }
             scene_set_state(scene, 0); // Continue playing
         }
+        else if (key == Q_CHARACTER) {
+            //scene_set_state(scene, -2);
+            SDL_Quit();
+            exit(0);
+        }
         /*
         else if (key == UP_ARROW) {
             if(scene_get_state(scene) == 1) {

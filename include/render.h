@@ -25,6 +25,8 @@ list_t *create_circle_shape(double radius);
 
 list_t *create_semicircle_shape(double radius);
 
+list_t *create_nstar_shape(int n, double size);
+
 /**
  * Creates a circle object_t
  * @param radius The radius of the circle.

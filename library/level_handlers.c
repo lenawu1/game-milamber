@@ -64,13 +64,13 @@ void sanded(body_t *ball, body_t *target, vector_t axis, void *aux) {
 void power_up(body_t *ball, body_t *target, vector_t axis, void *aux) {
     body_type_t ball_info = get_type(ball);
     assert(ball_info == BALL);
-    body_set_velocity(ball, vec_multiply(1.2, body_get_velocity(ball)));
+    body_set_velocity(ball, vec_multiply(2.0, body_get_velocity(ball)));
     body_remove(target);
 }
 
 body_t *build_level(scene_t *scene) {
     size_t level = scene_get_level(scene);
-    printf("%zu \n", level);
+    //printf("%zu \n", level);
     body_t *player;
     // TODO: Get the nth level file path from some array
     if (level == 1) {

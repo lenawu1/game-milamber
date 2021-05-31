@@ -117,7 +117,7 @@ void generate_level1(scene_t *scene, body_t *ball) {
         scene_add_body(scene, list_get(hole_elements, j));
     }
 
-    body_t *powerup = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_t *powerup = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
     body_set_centroid(powerup, vec_init(1500, 500));
     create_collision(scene, ball, powerup, power_up, scene, NULL);
     scene_add_body(scene, powerup);
@@ -175,12 +175,12 @@ void generate_level2(scene_t *scene, body_t *ball) {
         scene_add_body(scene, list_get(hole_elements, j));
     }
 
-    body_t *powerup1 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_t *powerup1 = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
     body_set_centroid(powerup1,vec_init(500, 750));
     create_collision(scene, ball, powerup1, power_up, scene, NULL);
     scene_add_body(scene, powerup1);
 
-    body_t *powerup2 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_t *powerup2 = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
     body_set_centroid(powerup2,vec_init(1500, 1000));
     create_collision(scene, ball, powerup2, power_up, scene, NULL);
     scene_add_body(scene, powerup2);
@@ -237,17 +237,17 @@ void generate_level3(scene_t *scene, body_t *ball) {
         scene_add_body(scene, list_get(hole_elements, j));
     }
     
-    body_t *powerup1 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_t *powerup1 = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
     body_set_centroid(powerup1,vec_init(300, 1000));
     create_collision(scene, ball, powerup1, power_up, scene, NULL);
     scene_add_body(scene, powerup1);
 
-    body_t *powerup2 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_t *powerup2 = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
     body_set_centroid(powerup2,vec_init(500, 700));
     create_collision(scene, ball, powerup2, power_up, scene, NULL);
     scene_add_body(scene, powerup2);
 
-    body_t *powerup3 = generate_boost(scene, ball, create_enemy_shape(50.0));
+    body_t *powerup3 = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
     body_set_centroid(powerup3, vec_init(850, 1250));
     create_collision(scene, ball, powerup3, power_up, scene, NULL);
     scene_add_body(scene, powerup3);

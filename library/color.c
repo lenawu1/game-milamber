@@ -82,7 +82,7 @@ rgb_color_t rgb_color_pastel(){
     rgb_color_t *spanish_pink = rgb_color_list_init(242, 183, 184);
     rgb_color_t *pastel_orange = rgb_color_list_init(249, 216, 206);
     rgb_color_t *salmon_pink = rgb_color_list_init(244, 179, 206);
-    rgb_color_t *pastel_yellow = rgb_color_list_init(250, 239, 215);
+    rgb_color_t *pastel_yellow = rgb_color_list_init(244, 179, 206);
     rgb_color_t *pastel_aqua = rgb_color_list_init(104, 209, 197);
 
     list_t *pastels = list_init(6, (free_func_t) free);
