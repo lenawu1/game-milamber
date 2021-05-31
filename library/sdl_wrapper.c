@@ -8,6 +8,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_mixer.h>
 
 const char WINDOW_TITLE[] = "CS 3";
 const int WINDOW_WIDTH = 1000;
@@ -122,6 +123,24 @@ void sdl_init(vector_t min, vector_t max) {
     );
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
+
+void sdl_load_sound(char *filepath) {
+    Mix_Chunk *sound = NULL;
+    int success = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    if (success < 0) {
+        printf("Unable to open sound.");
+    }
+    sound = Mix_LoadWAV(filepath);
+    Mix_PlayChannel(-1, sound, 0);
+    //sdl_free_sounds(pop); TODO: memory leak?
+}
+
+void sdl_free_sound(Mix_Chunk *sound) {
+    Mix_FreeChunk(sound);
+    //Mix_CloseAudio();
+    Mix_Quit();
+}
+
 
 void center_screen_text()
 {
@@ -305,6 +324,8 @@ void sdl_render_scene(scene_t *scene) {
     else if (state == 1) {
         sdl_on_key(screen_handler, scene);
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
+        char *filepath = "../resources/levelwin.wav";
+        sdl_load_sound(filepath);
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";

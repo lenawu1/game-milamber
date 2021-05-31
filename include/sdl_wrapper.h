@@ -6,6 +6,7 @@
 #include "list.h"
 #include "scene.h"
 #include "vector.h"
+#include <SDL2/SDL_mixer.h>
 
 // Values passed to a key handler when the given arrow key is pressed
 typedef enum {
@@ -68,6 +69,11 @@ void screen_handler(char key, key_event_type_t type, double held_time, scene_t *
  * Clears the screen. Should be called before drawing polygons in each frame.
  */
 void sdl_clear(void);
+
+void sdl_load_sound(char *filepath);
+
+void sdl_free_sound(Mix_Chunk *sound);
+
 
 /**
  * Draws a polygon from the given list of vertices and a color.
