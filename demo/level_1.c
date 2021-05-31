@@ -84,8 +84,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                     reset_scene(scene);
                     build_level(scene);
                     scene_set_points(scene, 0);
-                    body_set_velocity(golfball, VEC_ZERO);
-                    body_set_centroid(golfball, VEC_ZERO);
+                    //body_set_velocity(golfball, VEC_ZERO);
                 }
                 else
                 {
