@@ -65,28 +65,6 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             scene_add_point(scene);
             sdl_load_sound(filepath);
         }
-        else if (key == SPACE) {
-            if(scene_get_state(scene) == -1) {
-                scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
-                scene_add_level(scene);
-                scene_set_points(scene, 0);
-                body_set_velocity(golfball, VEC_ZERO);
-            }
-            if(scene_get_state(scene) == 1) {
-                scene_add_level(scene);
-                // build_level(scene);
-                scene_set_points(scene, 0);
-                body_set_velocity(golfball, VEC_ZERO);
-
-            }
-            scene_set_state(scene, 0); // Continue playing
-        }
-        else if (key == Q_CHARACTER) {
-            //scene_set_state(scene, -2);
-            SDL_Quit();
-            exit(0);
-        }
-        /*
         else if (key == UP_ARROW) {
             if(scene_get_state(scene) == 1) {
                 scene_add_level(scene);
@@ -98,14 +76,34 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             scene_set_state(scene, 0); // Continue playing
         }
         else if (key == SPACE) {
-            if(scene_get_state(scene) == -1 || 1) {
-                scene_set_level(scene, scene_get_level(scene)-1); // decrement scene
-                scene_add_level(scene);
-                scene_set_points(scene, 0);
-                body_set_velocity(golfball, VEC_ZERO);
+            if(scene_get_state(scene) == -1 || 1)
+            {
+                if(scene_get_level(scene) == 1)
+                {
+                    scene_set_level(scene,1);
+                    reset_scene(scene);
+                    build_level(scene);
+                    scene_set_points(scene, 0);
+                    body_set_velocity(golfball, VEC_ZERO);
+                    body_set_centroid(golfball, VEC_ZERO);
+                }
+                else
+                {
+                    scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
+                    scene_add_level(scene);
+                    scene_set_points(scene, 0);
+                    //body_set_velocity(golfball, VEC_ZERO);
+                }
             }
             scene_set_state(scene, 0); // Continue playing
         }
+        else if (key == Q_CHARACTER) {
+            //scene_set_state(scene, -2);
+            SDL_Quit();
+            exit(0);
+        }
+        /*
+        
         */
     }
 }

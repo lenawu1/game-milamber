@@ -55,6 +55,12 @@ size_t scene_get_points(scene_t *scene);
 
 size_t scene_get_level(scene_t *scene);
 
+void reset_scene(scene_t *scene);
+
+bool scene_set_first_try(scene_t *scene, bool retry_first_level);
+
+bool scene_get_first_try(scene_t *scene);
+
 int scene_get_state(scene_t *scene);
 
 vector_t scene_get_bound(scene_t *scene);

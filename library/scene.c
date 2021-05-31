@@ -21,6 +21,7 @@ typedef struct scene {
     size_t points;
     size_t level;
     int state;
+    bool first_try;
     vector_t bound;
 } scene_t;
 
@@ -63,6 +64,7 @@ scene_t *scene_init(void) {
     scene->state = 0;
     scene->bound = (vector_t) {.x = 2000, .y = 1000};
     scene->level = 1;
+    scene->first_try = true;
     return scene;
 }
 
@@ -110,6 +112,17 @@ size_t scene_add_point(scene_t *scene) {
     return scene->points;
 }
 
+bool scene_set_first_try(scene_t *scene, bool retry_first_level)
+{
+    scene->first_try = false;
+    return scene->first_try;
+}
+
+bool scene_get_first_try(scene_t *scene)
+{
+    return scene->first_try;
+}
+
 size_t scene_set_points(scene_t *scene, size_t point) {
     scene->points = point;
     return scene->points;
@@ -131,6 +144,8 @@ size_t scene_add_level(scene_t *scene) {
     build_level(scene);
     return scene->level;
 }
+
+
 
 int scene_set_state(scene_t *scene, int state) {
     scene->state = state;

@@ -73,7 +73,8 @@ body_t *build_level(scene_t *scene) {
     //printf("%zu \n", level);
     body_t *player;
     // TODO: Get the nth level file path from some array
-    if (level == 1) {
+    if (level == 1 && scene_get_first_try(scene)) 
+    {
         list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
          player = list_get(ball_elements, 0);
 
@@ -81,7 +82,15 @@ body_t *build_level(scene_t *scene) {
             scene_add_body(scene, list_get(ball_elements, i));
         }
         generate_level1(scene, player);
-    } else if (level == 2) {
+        scene_set_first_try(scene, false);
+    } 
+    else if (level == 1) 
+    {
+        player = scene_get_body(scene, 0);
+        body_set_centroid(player, INIT_POS1);
+        generate_level1(scene, player);
+    } 
+    else if (level == 2) {
         // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
         player = scene_get_body(scene, 0);
         generate_level2(scene, player);
