@@ -62,7 +62,7 @@ body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape) {
     return sand;
 }
 
-body_t *generate_bosot(scene_t *scene, body_t *ball, list_t *shape) {
+body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *boost = body_init_with_info(shape, INFINITY, rgb_color_pastel(), make_type_info(BOOST), free);
     create_collision(scene, ball, boost, poweredup, NULL, NULL);
     return boost;
