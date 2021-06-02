@@ -321,7 +321,7 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80);
 
-        center_display("press space to retry", 260, 30, 370, 250, 50);
+        center_display("Press space to retry.", 260, 30, 370, 250, 50);
 
     }
     else if (state == 1) {
@@ -340,8 +340,8 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80);
 
-        direction_display("press space to retry", 260, 30, 370, 250, 50);
-        direction_display("press up arrow to continue", 310, 365, 360, 280, 45);
+        direction_display("Press space to retry.", 260, 30, 370, 250, 50);
+        direction_display("Press up arrow to continue.", 310, 365, 360, 280, 45);
     }
     else if (state == 0) {
         size_t body_count = scene_bodies(scene);
@@ -354,6 +354,25 @@ void sdl_render_scene(scene_t *scene) {
         char score_str[10];
         sprintf(score_str, "%zu", scene_get_points(scene));
         point_display(score_str);
+    }
+    else if (state == 2) {
+        center_display(("You've won all the levels. Good job!"), 60, 40, 320, 400, 100);
+
+        char score_str[50];
+        sprintf(score_str, "%zu", scene_get_points(scene));
+        char str1[100] = "Score: ";
+        strcat(str1, score_str);
+        center_display(str1, 140, 30, 440, 130, 70);
+
+        char level_str[50];
+        sprintf(level_str, "%zu", scene_get_level(scene));
+        char str2[100] = "Level: ";
+        strcat(str2, level_str);
+        center_display(str2, 190, 30, 400, 200, 80);
+
+        direction_display("Press space to retry.", 260, 30, 370, 250, 50);
+        direction_display("Press 'q' to quit.", 310, 365, 360, 280, 45);
+
     }
     sdl_show();
 }
