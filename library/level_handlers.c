@@ -39,14 +39,15 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
-const int LEVELS = 5;
+const int LEVELS = 6;
 
-char level_data[5][50] = {
-                            "resources/level6.txt",
+char level_data[6][50] = {
+                            "resources/level4.txt",
                             "resources/level2.txt",
                             "resources/level3.txt",
                             "resources/level4.txt",
                             "resources/level5.txt",
+                            "resources/level6.txt"
                             };
 
 const double BALL_SIZE = 20;
@@ -86,7 +87,7 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
     assert(ball_info == BALL);
 
     if(target_info == HOLE) {
-        if (scene_get_level(scene) == 5) {
+        if (scene_get_level(scene) == LEVELS) {
             scene_set_state(scene, 2);
             char *filepath = "../resources/gamewin.wav";
             sdl_load_sound(filepath, 8);
@@ -100,10 +101,10 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
         }
     }
     if(target_info == WATER) {
-        // Lose condition
-        scene_set_state(scene, -1);
         char *filepath = "../resources/lost.wav";
         sdl_load_sound(filepath, 12);
+        // Lose condition
+        scene_set_state(scene, -1);
     }
     body_set_velocity(ball, VEC_ZERO);
 }

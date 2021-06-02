@@ -28,6 +28,8 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
+const int NUM_LEVELS = 6;
+
 
 // const double SCREEN_SIZE_Y = 750;
 // const double SCREEN_SIZE_X = 750;
@@ -70,7 +72,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             }
         }
         else if (key == UP_ARROW) {
-            if (scene_get_level(scene) == 5) {
+            if (scene_get_level(scene) == NUM_LEVELS) {
                 scene_set_state(scene, 2);
             }
             else if (scene_get_state(scene) == -1) {
@@ -79,7 +81,6 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             else {
                 if (scene_get_state(scene) == 1) {
                     scene_add_level(scene);
-                    // build_level(scene);
                     scene_set_points(scene, 0);
                     body_set_velocity(golfball, VEC_ZERO);
                 }
@@ -103,18 +104,15 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                     scene_add_level(scene);
                     scene_set_points(scene, 0);
                     body_set_velocity(golfball, VEC_ZERO);
+                    //body_set_centroid(golfball, VEC_ZERO);
                 }
             }
             scene_set_state(scene, 0); // Continue playing
         }
         else if (key == Q_CHARACTER) {
-            //scene_set_state(scene, -2);
             SDL_Quit();
             exit(0);
         }
-        /*
-        
-        */
     }
 }
 
@@ -125,7 +123,6 @@ int main(int argc, char *argv[]) {
 
     body_t *player = build_level(scene);
     sdl_on_key(handler, scene);
-    // center_display("starting");
     double clock = 0.0;
     while (!sdl_is_done(scene)) {
         double dt = time_since_last_tick();

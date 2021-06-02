@@ -299,6 +299,7 @@ void sdl_render_scene(scene_t *scene) {
 
     }
     else if (state == 1) {
+        body_set_velocity(scene_get_body(scene, 0), VEC_ZERO); //necessary to stop the ball from "rolling" even when game is done.
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
