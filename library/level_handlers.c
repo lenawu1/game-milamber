@@ -8,6 +8,12 @@
 #include "terrain.h"
 #include "elements.h"
 
+char level_data[5][50] = {
+                            "resources/level1.txt",
+                            "resources/level2.txt",
+                            "resources/level3.txt",
+                            "resources/level4.txt",
+                            };
 
 const double BALL_SIZE = 20;
 const vector_t INIT_POS1 = {.x = 50, .y = 1000};
@@ -70,9 +76,12 @@ void power_up(body_t *ball, body_t *target, vector_t axis, void *aux) {
 
 body_t *build_level(scene_t *scene) {
     size_t level = scene_get_level(scene);
-    //printf("%zu \n", level);
     body_t *player;
     // TODO: Get the nth level file path from some array
+    // Array of all the resource json files for each level
+    // Access the specific file
+    // Build the terrain based on that file
+    // If level == 1, make sure we create the ball since its not recreated each time
     if (level == 1 && scene_get_first_try(scene)) 
     {
         list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
@@ -81,28 +90,16 @@ body_t *build_level(scene_t *scene) {
         for(size_t i = 0; i < list_size(ball_elements); i++) {
             scene_add_body(scene, list_get(ball_elements, i));
         }
-        generate_level1(scene, player);
+        generate_level(scene, player, level_data[level - 1]);
         scene_set_first_try(scene, false);
     } 
-    else if (level == 1) 
-    {
-        player = scene_get_body(scene, 0);
-        body_set_centroid(player, INIT_POS1);
-        generate_level1(scene, player);
-    } 
-    else if (level == 2) {
-        // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
-        player = scene_get_body(scene, 0);
-        generate_level2(scene, player);
-    } else if (level == 3) {
-        // list_t *ball_elements = create_golf_ball(BALL_SIZE, rgb_color_init(205, 99, 75), BALL_MASS, INIT_POS1);
-        player = scene_get_body(scene, 0);
-        generate_level3(scene, player);
-        scene_set_level(scene, 3);
-    }
     else {
+        if(level == 5) { // TODO: hen we get the last level make some special screen
+            printf("Invalid level. \n");
+            exit(0);
+        }
         player = scene_get_body(scene, 0);
-        exit(0);
+        generate_level(scene, player, level_data[level - 1]);
     }
     return player;
 }

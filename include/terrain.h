@@ -26,6 +26,8 @@ body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape);
 
 body_t *generate_spike(scene_t *scene, body_t *ball, list_t *shape);
 
+void generate_level(scene_t *scene, body_t *ball, char* level);
+
 void generate_level1(scene_t *scene, body_t *ball);
 
 void generate_level2(scene_t *scene, body_t *ball);
