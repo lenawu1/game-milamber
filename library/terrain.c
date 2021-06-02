@@ -70,12 +70,6 @@ body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape) {
     return boost;
 }
 
-body_t *generate_spike(scene_t *scene, body_t *ball, list_t *shape) {
-    body_t *spike = body_init_with_info(shape, INFINITY, rgb_color_gray(), make_type_info(WATER), free);
-    create_collision(scene, ball, spike, level_end, scene, NULL);
-    return spike;
-}
-
 body_t *generate_portals(scene_t *scene, body_t *ball, list_t *shape, list_t *out_shape, vector_t dir) {
     body_t *in = body_init_with_info(shape, INFINITY, T_IN_COLOR, make_type_info(PORTAL), free);
     body_t *out = body_init_with_info(out_shape, INFINITY, T_OUT_COLOR, make_type_info(PORTAL), free);
@@ -193,7 +187,7 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
                 list_add(shape, vertex);
             }
         }
-        // BALL, GRASS, CIRCLE_GRASS, POWER, SPIKE, WATER, SAND, HOLE, TELEPORT_IN, TELEPORT_OUT
+        // BALL, GRASS, CIRCLE_GRASS, POWER, WATER, SAND, HOLE, TELEPORT_IN, TELEPORT_OUT
         if(strcmp(type, "BALL") == 0) {
             body_set_centroid(ball, vec_init(pos_x, pos_y));
         }
@@ -229,11 +223,6 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
             body_t* powerup = generate_boost(scene, ball, create_nstar_shape(5, 50.0));
             body_set_centroid(powerup, vec_init(pos_x, pos_y));
             scene_add_body(scene, powerup);
-        }
-        else if(strcmp(type, "SPIKE") == 0) {
-            body_t *spike = generate_spike(scene, ball, create_triangle_shape(100.0));
-            body_set_centroid(spike, vec_init(pos_x, pos_y));
-            scene_add_body(scene, spike);
         }
         else if(strcmp(type, "TELEPORT") == 0) {
             cJSON *out_p = cJSON_GetObjectItemCaseSensitive(object, "out");
@@ -283,16 +272,7 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
 //     body_set_centroid(powerup, vec_init(1500, 500));
 //     create_collision(scene, ball, powerup, power_up, scene, NULL);
 //     scene_add_body(scene, powerup);
-    
-//     body_t *spike1 = generate_spike(scene, ball, create_triangle_shape(100.0));
-//     body_set_centroid(spike1, vec_init(650, 275));
-//     create_collision(scene, ball, spike1, level_end, scene, NULL);
-//     scene_add_body(scene, spike1);
 
-//     body_t *spike2 = generate_spike(scene, ball, create_triangle_shape(100.0));
-//     body_set_centroid(spike2, vec_init(1200, 110));
-//     create_collision(scene, ball, spike2, level_end, scene, NULL);
-//     scene_add_body(scene, spike2);
 // }
 
 // void generate_level2(scene_t *scene, body_t *ball) {

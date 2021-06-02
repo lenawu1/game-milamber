@@ -126,17 +126,14 @@ void sdl_init(vector_t min, vector_t max) {
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
-void sdl_load_sound(char *filepath) {
+void sdl_load_sound(char *filepath, int volume) {
     Mix_Chunk *sound = NULL;
     int success = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     if (success < 0) {
         printf("Unable to open sound.");
     }
     sound = Mix_LoadWAV(filepath);
-    char *very_loud_file = "../resources/levelwin.wav";
-    if ( strcmp(filepath, very_loud_file) == 0) {
-        Mix_VolumeChunk(sound, 7);
-    }
+    Mix_VolumeChunk(sound, volume);
     Mix_PlayChannel(-1, sound, 0);
     //sdl_free_sounds(pop); TODO: memory leak?
 }

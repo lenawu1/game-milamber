@@ -261,7 +261,7 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
         else if (!auxil->collided) {
             char *teleportsound = "../resources/teleport.wav";
             if(get_type(body2) == PORTAL) {
-                sdl_load_sound(teleportsound);
+                sdl_load_sound(teleportsound, 8);
             }
             handler(body1, body2, info.axis, coaux);
         }

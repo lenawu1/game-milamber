@@ -88,18 +88,22 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
     if(target_info == HOLE) {
         if (scene_get_level(scene) == 5) {
             scene_set_state(scene, 2);
+            char *filepath = "../resources/gamewin.wav";
+            sdl_load_sound(filepath, 8);
         }
         // Win condition
         // scene_add_level(scene);
         else {
             scene_set_state(scene, 1);
             char *filepath = "../resources/levelwin.wav";
-            sdl_load_sound(filepath);
+            sdl_load_sound(filepath, 8);
         }
     }
     if(target_info == WATER) {
         // Lose condition
         scene_set_state(scene, -1);
+        char *filepath = "../resources/lost.wav";
+        sdl_load_sound(filepath, 12);
     }
     body_set_velocity(ball, VEC_ZERO);
 }
@@ -115,6 +119,8 @@ void power_up(body_t *ball, body_t *target, vector_t axis, void *aux) {
     assert(ball_info == BALL);
     body_set_velocity(ball, vec_multiply(2.0, body_get_velocity(ball)));
     body_remove(target);
+    char *filepath = "../resources/powerup.wav";
+    sdl_load_sound(filepath, 8);
 }
 
 body_t *build_level(scene_t *scene) {
