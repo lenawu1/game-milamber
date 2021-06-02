@@ -142,72 +142,44 @@ void sdl_free_sound(Mix_Chunk *sound) {
     Mix_Quit();
 }
 
-void options_screen_text(char *message, int text_height, int font_size, int x_pos, int width, int height)
-{
-    SDL_Color textColor = {255, 255, 255, 255};
-    SDL_Color textBackgroundColor = {0, 255, 0, 255};
-    SDL_Rect *text_rect = malloc(sizeof(SDL_Rect));
-    text_rect->x = x_pos; //controls the rect's x coordinate 
-    text_rect->y = text_height; // controls the rect's y coordinte
-    text_rect->w = width; // controls the width of the rect
-    text_rect->h = height; // controls the height of the rect
-    TTF_Font* font=TTF_OpenFont("air.ttf", 32);
-    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "NEXT(up arrow)", textColor, textBackgroundColor);
-    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_RenderCopy(renderer, text, NULL, text_rect);
-    TTF_CloseFont(font);
-    TTF_Quit();
-}
+void center_display(char *message, int text_height, int font_size, int x_pos, int width, int height, rgb_color_t color){
+    SDL_Color textColor = {color.r * 255, color.g * 255, color.b * 255, 255};
+    TTF_Font* font = TTF_OpenFont("resources/gamefont.ttf", font_size);
 
-void center_display(char *message, int text_height, int font_size, int x_pos, int width, int height)
-{
-    SDL_Color textColor = {0, 0, 0, 255};
-    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", font_size);
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, message, textColor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
+    int w = textSurface->w;
+    int h = textSurface->h;
     Message_rect->x = x_pos; //controls the rect's x coordinate 
     Message_rect->y = text_height; // controls the rect's y coordinte
-    Message_rect->w = width; // controls the width of the rect
-    Message_rect->h = height; // controls the height of the rect
+    Message_rect->w = w; // controls the width of the rect
+    Message_rect->h = h; // controls the height of the rect
+
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
     SDL_FreeSurface(textSurface);
-    // SDL_DestroyTexture(text);
     TTF_CloseFont(font);
 }
 
-void direction_display(char *message, int text_height, int font_size, int x_pos, int width, int height)
-{
-    SDL_Color textColor = {0, 0, 255, 255};
-    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", font_size);
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, message, textColor);
-    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
-    Message_rect->x = x_pos; //controls the rect's x coordinate 
-    Message_rect->y = text_height; // controls the rect's y coordinte
-    Message_rect->w = width; // controls the width of the rect
-    Message_rect->h = height; // controls the height of the rect
-    SDL_RenderCopy(renderer, text, NULL, Message_rect);
-    SDL_FreeSurface(textSurface);
-    // SDL_DestroyTexture(text);
-    TTF_CloseFont(font);
-}
-
-void point_display(char *score)
-{
+void point_display(char *score) {
     SDL_Color textColor = {0, 0, 0, 255};
-    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 100);
+    TTF_Font* font = TTF_OpenFont("resources/gamefont.ttf", 50);
     if(!font) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
    // handle error
     }
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, score, textColor);
+    int w = textSurface->w;
+    int h = textSurface->h;
+
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
     Message_rect->x = 30; //controls the rect's x coordinate 
     Message_rect->y = 30; // controls the rect's y coordinte
-    Message_rect->w = 30; // controls the width of the rect
-    Message_rect->h = 50; // controls the height of the rect
+    Message_rect->w = w; // controls the width of the rect
+    Message_rect->h = h; // controls the height of the rect
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
     // SDL_RenderPresent(renderer);
     SDL_FreeSurface(textSurface);
@@ -307,41 +279,41 @@ void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
     if (state == -1) {
-        center_display(("You Lost this Level!"), 60, 40, 320, 400, 100);
+        center_display(("You Lost this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
 
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";
         strcat(str1, score_str);
-        center_display(str1, 140, 30, 440, 130, 70);
+        center_display(str1, 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
         char level_str[50];
         sprintf(level_str, "%zu", scene_get_level(scene));
         char str2[100] = "Level: ";
         strcat(str2, level_str);
-        center_display(str2, 190, 30, 400, 200, 80);
+        center_display(str2, 190, 30, 450, 200, 80, rgb_color_rainbows(1));
 
-        center_display("Press space to retry.", 260, 30, 370, 250, 50);
+        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
 
     }
     else if (state == 1) {
-        center_display(("You Win this Level!"), 60, 40, 320, 400, 100);
+        center_display(("You Win this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
         char *filepath = "../resources/levelwin.wav";
         sdl_load_sound(filepath);
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";
         strcat(str1, score_str);
-        center_display(str1, 140, 30, 440, 130, 70);
+        center_display(str1, 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
         char level_str[50];
         sprintf(level_str, "%zu", scene_get_level(scene));
         char str2[100] = "Level: ";
         strcat(str2, level_str);
-        center_display(str2, 190, 30, 400, 200, 80);
+        center_display(str2, 190, 30, 450, 200, 80, rgb_color_rainbows(1));
 
-        direction_display("Press space to retry.", 260, 30, 370, 250, 50);
-        direction_display("Press up arrow to continue.", 310, 365, 360, 280, 45);
+        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
+        center_display("Press up arrow to continue.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
     }
     else if (state == 0) {
         size_t body_count = scene_bodies(scene);
@@ -356,23 +328,22 @@ void sdl_render_scene(scene_t *scene) {
         point_display(score_str);
     }
     else if (state == 2) {
-        center_display(("You've won all the levels. Good job!"), 60, 40, 320, 400, 100);
+        center_display(("You've won all the levels. Good job!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
 
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";
         strcat(str1, score_str);
-        center_display(str1, 140, 30, 440, 130, 70);
+        center_display(str1, 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
         char level_str[50];
         sprintf(level_str, "%zu", scene_get_level(scene));
         char str2[100] = "Level: ";
         strcat(str2, level_str);
-        center_display(str2, 190, 30, 400, 200, 80);
+        center_display(str2, 190, 30, 400, 200, 80, rgb_color_rainbows(1));
 
-        direction_display("Press space to retry.", 260, 30, 370, 250, 50);
-        direction_display("Press 'q' to quit.", 310, 365, 360, 280, 45);
-
+        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
+        center_display("Press 'q' to quit.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
     }
     sdl_show();
 }

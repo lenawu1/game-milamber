@@ -58,11 +58,11 @@ rgb_color_t rgb_color_rainbows(int i) {
     list_t *rainbow = list_init(6, (free_func_t) free);
     assert (rainbow != NULL);
 
-    list_add(rainbow, rgb_color_list_init(255, 154, 162));
-    list_add(rainbow, rgb_color_list_init(255, 183, 178));
-    list_add(rainbow, rgb_color_list_init(255, 218, 193));
-    list_add(rainbow, rgb_color_list_init(238, 215, 199));
-    list_add(rainbow, rgb_color_list_init(255, 255, 204));
+    list_add(rainbow, rgb_color_list_init(255, 50, 0));
+    list_add(rainbow, rgb_color_list_init(255, 127, 0));
+    list_add(rainbow, rgb_color_list_init(0, 241, 29));
+    list_add(rainbow, rgb_color_list_init(0, 121, 155));
+    list_add(rainbow, rgb_color_list_init(168, 0, 255));
 
     list_add(rainbow, rgb_color_list_init(226, 240, 203));
     list_add(rainbow, rgb_color_list_init(181, 234, 215));

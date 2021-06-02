@@ -115,16 +115,6 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     }
 }
 
-// void update_text(scene_t *scene) {
-//     TTF_Font *font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 12);
-//     SDL_Color textColor = {0, 0, 0, 255}; // Black
-//     SDL_Color textBackgroundColor = {255, 255, 255, 255}; // White
-//     char score_str[10];
-//     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, itoa(scene_get_points(scene), score_str, 10),
-//                                                      textColor, textBackgroundColor);
-//     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-// }
-
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
     
