@@ -342,7 +342,7 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80, rgb_color_rainbows(1));
 
-        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
+        center_display("Press space to retry this level.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
         center_display("Press 'q' to quit.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
     }
     sdl_show();
