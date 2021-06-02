@@ -32,7 +32,7 @@
 // const double SCREEN_SIZE_Y = 750;
 // const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 2000, .y = 1000};
-const vector_t PLAYER_SPEED = {.x = 1500, .y = 1500};
+const vector_t PLAYER_SPEED = {.x = 1000, .y = 1000};
 // const vector_t INIT_POS = {.x = 50, .y = 1000};
 
 // const double BALL_MASS = 40.0;
@@ -43,7 +43,7 @@ const double PLAYER_POS = 20;
 const double LARGE_MASS = INFINITY;
 const double WALL_THICKNESS = 10;
 const double TRAIL_SIZE = 6;
-const double GRAV_VAL = 7500;
+const double GRAV_VAL = 3500;
 // const rgb_color_t PORTAL_COLOR = {.R = 170, .G = 0, .B = 255}; just to remember the color
 size_t LEVEL = 1;
 

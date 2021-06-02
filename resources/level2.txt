@@ -9,7 +9,7 @@
         {
             "type": "BALL",
             "pos_x": 50.0,
-            "pos_y": 1000.0
+            "pos_y": 950.0
         },
         {
             "type": "WATER",

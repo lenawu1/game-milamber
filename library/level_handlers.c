@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "compound_body.h"
 #include "sdl_wrapper.h"
+#include "compound_body.h"
 #include "body.h"
 #include "level_handlers.h"
 #include "terrain.h"

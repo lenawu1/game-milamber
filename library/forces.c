@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
+#include "sdl_wrapper.h"
 #include "forces.h"
 #include "body.h"
 #include "scene.h"
@@ -237,22 +238,9 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
         return;
     }
     collision_info_t info = find_collision(body_get_shape(body1), body_get_shape(body2));
-    // body_type_t body1_info = get_type(body1);
-    // body_type_t body2_info = get_type(body2);
-    // if (body1_info == GRASS || body2_info == GRASS) { // Special collision
-    //     if(info.collided && vec_equals(body_get_impulse(body1), VEC_ZERO)) {
-    //         handler(body1, body2, info.axis, coaux);
-    //         // body_set_collided(body2, true);
-    //         // body_set_collided(body1, true);
-    //     }
-    // }
-    // else
-    if(info.collided && (get_type(body1) == SAND || get_type(body2) == SAND)) {
-
-    }
     if(info.collided) {
         if((get_type(body2) == GRASS)) {
-            if(fabs(vec_dot(body_get_velocity(body1), info.axis)) < 100) {
+            if(fabs(vec_dot(body_get_velocity(body1), info.axis)) < 150) {
                 body_set_velocity(body1, vec_multiply(vec_dot(body_get_velocity(body1), vec_orthogonal(info.axis)), vec_orthogonal(info.axis)));
                 // body_set_velocity(body1, VEC_ZERO);
             }
@@ -263,6 +251,10 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
             return;
         }
         else if (!auxil->collided) {
+            // FIXME: this doesn't work.
+            // if(get_type(body2) == PORTAL) {
+            //     sdl_load_sound("resources/teleport.wav");
+            // }
             handler(body1, body2, info.axis, coaux);
         }
     }
