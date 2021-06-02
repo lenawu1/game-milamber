@@ -133,6 +133,10 @@ void sdl_load_sound(char *filepath) {
         printf("Unable to open sound.");
     }
     sound = Mix_LoadWAV(filepath);
+    char *very_loud_file = "../resources/levelwin.wav";
+    if ( strcmp(filepath, very_loud_file) == 0) {
+        Mix_VolumeChunk(sound, 7);
+    }
     Mix_PlayChannel(-1, sound, 0);
     //sdl_free_sounds(pop); TODO: memory leak?
 }
