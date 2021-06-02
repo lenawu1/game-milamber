@@ -13,6 +13,14 @@
 #include "polygon.h"
 #include "level_handlers.h"
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
+
+
 const double MIN_DISTANCE = 5.0;
     
 typedef struct drag_aux {
@@ -251,10 +259,10 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
             return;
         }
         else if (!auxil->collided) {
-            // FIXME: this doesn't work.
-            // if(get_type(body2) == PORTAL) {
-            //     sdl_load_sound("resources/teleport.wav");
-            // }
+            /*char *teleportsound = "../resources/teleport.wav";
+            if(get_type(body2) == PORTAL) {
+                sdl_load_sound(teleportsound);
+            }*/
             handler(body1, body2, info.axis, coaux);
         }
     }

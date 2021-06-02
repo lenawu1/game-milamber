@@ -74,14 +74,14 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                 scene_set_state(scene, 2);
             }
             else {
-                if(scene_get_state(scene) == 1) {
+                if (scene_get_state(scene) == 1) {
                     scene_add_level(scene);
                     // build_level(scene);
                     scene_set_points(scene, 0);
                     body_set_velocity(golfball, VEC_ZERO);
                 }
                 scene_set_state(scene, 0); // Continue playing
-            }
+            }  
         }
         else if (key == SPACE) {
             if(scene_get_state(scene) == -1 || 1)

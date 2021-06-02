@@ -9,6 +9,36 @@
 #include "elements.h"
 #include "polygon.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <math.h>
+#include <string.h>
+#include "assert.h"
+#include "list.h"
+#include "vector.h"
+#include "sdl_wrapper.h"
+#include "scene.h"
+#include "forces.h"
+#include "body.h"
+#include "color.h"
+#include "render.h"
+#include "collision.h"
+#include "polygon.h"
+#include "compound_body.h"
+#include "elements.h"
+#include "physics.h"
+#include "terrain.h"
+#include "level_handlers.h"
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
+
 const int LEVELS = 5;
 
 char level_data[5][50] = {
@@ -56,9 +86,16 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
     assert(ball_info == BALL);
 
     if(target_info == HOLE) {
+        if (scene_get_level(scene) == 5) {
+            scene_set_state(scene, 2);
+        }
         // Win condition
         // scene_add_level(scene);
-        scene_set_state(scene, 1);
+        else {
+            scene_set_state(scene, 1);
+            char *filepath = "../resources/levelwin.wav";
+            sdl_load_sound(filepath);
+        }
     }
     if(target_info == WATER) {
         // Lose condition

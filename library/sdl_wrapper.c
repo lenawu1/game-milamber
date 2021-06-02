@@ -298,8 +298,6 @@ void sdl_render_scene(scene_t *scene) {
     }
     else if (state == 1) {
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
-        char *filepath = "../resources/levelwin.wav";
-        sdl_load_sound(filepath);
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
         char str1[100] = "Score: ";
