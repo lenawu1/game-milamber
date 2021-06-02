@@ -64,7 +64,7 @@ double vec_abs_angle(vector_t v){
 }
 
 double vec_norm(vector_t v){
-    return sqrt(vec_dot(v, v));
+    return sqrt(fabs(vec_dot(v, v)));
 }
 
 vector_t vec_normalize(vector_t v){

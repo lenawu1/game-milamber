@@ -7,12 +7,16 @@
 #include "level_handlers.h"
 #include "terrain.h"
 #include "elements.h"
+#include "polygon.h"
+
+const int LEVELS = 5;
 
 char level_data[5][50] = {
                             "resources/level1.txt",
                             "resources/level2.txt",
                             "resources/level3.txt",
                             "resources/level4.txt",
+                            "resources/level5.txt",
                             };
 
 const double BALL_SIZE = 20;
@@ -29,18 +33,20 @@ body_type_t get_type(body_t *body) {
     return *(body_type_t *) body_get_info(body);
 }
 
-/** Collision handler to freeze a ball when it collides with a frozen body */
-// TODO: HANDLERS
-// void sand_hit(body_t *ball, body_t *target, vector_t axis, void *aux) {
-//     if(body_get_info(target) == SAND) {
-//         body_set_velocity(ball, VEC_ZERO);
-//     }
-// }
+teleport_aux_t *make_teleport_aux(body_t *out, vector_t dir) {
+    teleport_aux_t *aux = malloc(sizeof(teleport_aux_t));
+    aux->direction = dir;
+    aux->out = out;
+    return aux;
+}
 
 void teleport(body_t *ball, body_t *portal, vector_t axis, void *aux) {
-    vector_t coords = body_get_centroid(body_get_info(portal));
-    vector_t vel = body_get_velocity(ball);
-    body_set_centroid(ball, vec_add(coords, vec_multiply(1, vel)));
+    body_t *out = ((teleport_aux_t*) aux)->out;
+    vector_t dir = ((teleport_aux_t*) aux)->direction;
+    body_set_centroid(ball, polygon_centroid(body_get_shape(out)));
+    vector_t cur_v = body_get_velocity(ball);
+    vector_t new_v = vec_multiply(-vec_norm(cur_v), dir);
+    body_set_velocity(ball, new_v);
 }
 
 void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
@@ -77,7 +83,6 @@ void power_up(body_t *ball, body_t *target, vector_t axis, void *aux) {
 body_t *build_level(scene_t *scene) {
     size_t level = scene_get_level(scene);
     body_t *player;
-    // TODO: Get the nth level file path from some array
     // Array of all the resource json files for each level
     // Access the specific file
     // Build the terrain based on that file
@@ -94,7 +99,7 @@ body_t *build_level(scene_t *scene) {
         scene_set_first_try(scene, false);
     } 
     else {
-        if(level == 5) { // TODO: hen we get the last level make some special screen
+        if(level > LEVELS) { // TODO: hen we get the last level make some special screen
             printf("Invalid level. \n");
             exit(0);
         }

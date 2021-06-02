@@ -21,11 +21,16 @@ typedef struct score {
     size_t points;
 } score_t;
 
+typedef struct teleport_aux {
+    body_t *out;
+    vector_t direction;
+} teleport_aux_t;
+
 body_type_t *make_type_info(body_type_t type);
 
 body_type_t get_type(body_t *body);
 
-// void sand_hit(body_t *ball, body_t *target, vector_t axis, void *aux);
+teleport_aux_t *make_teleport_aux(body_t *out, vector_t dir);
 
 void teleport(body_t *ball, body_t *portal, vector_t axis, void *aux);
 

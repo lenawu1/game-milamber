@@ -28,6 +28,8 @@ const double WATER_HEIGHT = 50;
 const double HOLE_RADIUS = 30;
 const rgb_color_t WATER_COLOR = {.r = .196, .g = 0.666, .b = 0.8117};
 const rgb_color_t GRASS_COLOR = {.r = .388, .g = .788, .b = 0.0};
+const rgb_color_t T_IN_COLOR = {.r = .1, .g = .913, .b = 0.886};
+const rgb_color_t T_OUT_COLOR = {.r = 1.0, .g = .6, .b = 0.2};
 
 const double SAND_ELAS = 0.0;
 const double GRASS_ELAS = 0.7;
@@ -72,6 +74,15 @@ body_t *generate_spike(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *spike = body_init_with_info(shape, INFINITY, rgb_color_gray(), make_type_info(WATER), free);
     create_collision(scene, ball, spike, level_end, scene, NULL);
     return spike;
+}
+
+body_t *generate_portals(scene_t *scene, body_t *ball, list_t *shape, list_t *out_shape, vector_t dir) {
+    body_t *in = body_init_with_info(shape, INFINITY, T_IN_COLOR, make_type_info(PORTAL), free);
+    body_t *out = body_init_with_info(out_shape, INFINITY, T_OUT_COLOR, make_type_info(PORTAL), free);
+    scene_add_body(scene, out);
+    teleport_aux_t *aux = make_teleport_aux(out, dir);
+    create_collision(scene, ball, in, teleport, aux, free);
+    return in;
 }
 
 body_t *get_gravity_body(scene_t *scene) {
@@ -169,7 +180,8 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
         double pos_x = pos_x_p->valuedouble;
         double pos_y = pos_y_p->valuedouble;
         
-        if(strcmp(type, "GRASS") == 0 || strcmp(type, "WATER") == 0 || strcmp(type, "SAND") == 0) {
+        if(strcmp(type, "GRASS") == 0 || strcmp(type, "WATER") == 0 ||
+           strcmp(type, "SAND") == 0 || strcmp(type, "TELEPORT") == 0) {
             shape_p = cJSON_GetObjectItemCaseSensitive(object, "shape");
             cJSON *vertex_p = NULL;
             shape = list_init(5, free);
@@ -181,7 +193,7 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
                 list_add(shape, vertex);
             }
         }
-        // BALL, GRASS, CIRCLE_GRASS, POWER, SPIKE, WATER, SAND, HOLE
+        // BALL, GRASS, CIRCLE_GRASS, POWER, SPIKE, WATER, SAND, HOLE, TELEPORT_IN, TELEPORT_OUT
         if(strcmp(type, "BALL") == 0) {
             body_set_centroid(ball, vec_init(pos_x, pos_y));
         }
@@ -218,11 +230,30 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
             body_set_centroid(powerup, vec_init(pos_x, pos_y));
             scene_add_body(scene, powerup);
         }
-        
         else if(strcmp(type, "SPIKE") == 0) {
             body_t *spike = generate_spike(scene, ball, create_triangle_shape(100.0));
             body_set_centroid(spike, vec_init(pos_x, pos_y));
             scene_add_body(scene, spike);
+        }
+        else if(strcmp(type, "TELEPORT") == 0) {
+            cJSON *out_p = cJSON_GetObjectItemCaseSensitive(object, "out");
+            cJSON *vertex_p = NULL;
+            list_t *out_shape = list_init(5, free);
+            cJSON_ArrayForEach(vertex_p, out_p)
+            {
+                cJSON *x_p = cJSON_GetObjectItemCaseSensitive(vertex_p, "x");
+                cJSON *y_p = cJSON_GetObjectItemCaseSensitive(vertex_p, "y");
+                vector_t *vertex = vec_init_ptr(x_p->valuedouble, y_p->valuedouble);
+                list_add(out_shape, vertex);
+            }
+
+            cJSON *dir_p = cJSON_GetObjectItemCaseSensitive(object, "direction");
+            cJSON *dir_x = cJSON_GetObjectItemCaseSensitive(dir_p, "x");
+            cJSON *dir_y = cJSON_GetObjectItemCaseSensitive(dir_p, "y");
+            vector_t dir = vec_init(dir_x->valuedouble, dir_y->valuedouble);
+
+            body_t *in = generate_portals(scene, ball, shape, out_shape, dir);
+            scene_add_body(scene, in);
         }
     }
     goto end;

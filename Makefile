@@ -1,5 +1,5 @@
 # List of demo programs
-DEMOS = level_1
+DEMOS = game
 # List of C files in "libraries" that we provide
 STAFF_LIBS = sdl_wrapper test_util
 # List of C files in "libraries" that you will write.
@@ -64,7 +64,7 @@ out/%.o: tests/%.c # or "tests"
 # Builds bin/bounce by linking the necessary .o files.
 # Unlike the out/%.o rule, this uses the LIBS flags and omits the -c flag,
 # since it is building a full executable.
-bin/level_1: out/level_1.o out/sdl_wrapper.o $(STUDENT_OBJS)
+bin/game: out/game.o out/sdl_wrapper.o $(STUDENT_OBJS)
 	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
 

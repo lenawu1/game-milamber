@@ -58,8 +58,9 @@ body_t *body_init_with_info(
     object->bounding_radius = max_radius;
 
     // Initialize other values
-    object->centroid = (vector_t) {0, 0};
-    object->velocity = (vector_t) {0, 0};
+    // object->centroid = polygon_centroid(shape); FIXME: Technically this is the right way to do it but its too much effort to change everything I think
+    object->centroid = VEC_ZERO;
+    object->velocity = VEC_ZERO;
     object->orientation = (double) 0.0;
     object->remove = false;
 

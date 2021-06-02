@@ -36,9 +36,9 @@
         },
         {
             "type": "CIRCLE_GRASS",
-            "radius": 150,
-            "pos_x": 150.0,
-            "pos_y": 700.0
+            "radius": 250,
+            "pos_x": 70.0,
+            "pos_y": 600.0
         },
         {
             "type": "GRASS",
