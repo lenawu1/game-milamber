@@ -152,7 +152,7 @@ void center_display(char *message, int text_height, int font_size, int x_pos, in
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
     int w = textSurface->w;
     int h = textSurface->h;
-    Message_rect->x = x_pos; //controls the rect's x coordinate 
+    Message_rect->x = WINDOW_WIDTH/2 - (w/2); //controls the rect's x coordinate 
     Message_rect->y = text_height; // controls the rect's y coordinte
     Message_rect->w = w; // controls the width of the rect
     Message_rect->h = h; // controls the height of the rect
