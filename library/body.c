@@ -193,7 +193,7 @@ void body_set_color(body_t *body, rgb_color_t color) {
     body->color = color;
 }
 
-void body_tick(body_t *body, double dt) { // TODO: fix
+void body_tick(body_t *body, double dt) {
     vector_t acceleration = vec_multiply((1.0 / body->mass), body->force);
 
     vector_t dv = vec_multiply((1.0 / body->mass), body->impulse);
