@@ -29,6 +29,8 @@ const double HOLE_RADIUS = 30;
 const rgb_color_t WATER_COLOR = {.r = .196, .g = 0.666, .b = 0.8117};
 const rgb_color_t GRASS_COLOR = {.r = .388, .g = .788, .b = 0.0};
 const rgb_color_t SKY_COLOR = {.r = 0.651, .g = 0.914, .b = 0.953};
+const rgb_color_t MOUNTAIN_COLOR = {.r = 0.294, .g = 0.431, .b = 0.318};
+const rgb_color_t SNOW_COLOR = {.r = 0.717, .g = 0.968, .b = 0.960};
 const rgb_color_t T_IN_COLOR = {.r = .1, .g = .913, .b = 0.886};
 const rgb_color_t T_OUT_COLOR = {.r = 1.0, .g = .6, .b = 0.2};
 
@@ -289,6 +291,12 @@ void generate_background(scene_t *scene) {
         rgb_color_t color = rgb_color_init(0, 0, 0);
         if(strcmp(type, "SKY") == 0) {
             color = SKY_COLOR;
+        }
+        if(strcmp(type, "MOUNTAIN") == 0) {
+            color = MOUNTAIN_COLOR;
+        }
+        if(strcmp(type, "SNOW") == 0) {
+            color = SNOW_COLOR;
         }
         body_t *cbody = body_init_with_info(shape, INFINITY, color, make_type_info(BACKGROUND), free);
         scene_add_background_element(scene, cbody);

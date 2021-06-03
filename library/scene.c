@@ -247,6 +247,6 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
 
     for (size_t i = 0; i < list_size(scene->background_elements); i++) {
         body_t *curr_body = scene_get_background_element(scene, i);
-        body_translate(curr_body, vec_multiply(PADDING / 10, ball_disp)); // Parallax effect
+        body_translate(curr_body, vec_multiply(PADDING / 5, ball_disp)); // Parallax effect
     }
 }
