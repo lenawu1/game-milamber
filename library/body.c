@@ -145,10 +145,8 @@ void body_set_centroid(body_t *body, vector_t x) {
 
     if (body->anchors != NULL) {
         for (size_t i = 0; i < list_size(body->anchors); i++) {
-            printf("Set\n");
             body_t *curr = list_get(body->anchors, i);
             body_translate(curr, displacement);
-            printf("(%f, %f) \n", curr->centroid.x, curr->centroid.y);
         }
     }
 }

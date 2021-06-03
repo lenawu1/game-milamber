@@ -227,9 +227,6 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
         body_tick(curr_body, dt);
         if (i == 0) {
             ball_disp = vec_subtract(center, body_get_centroid(ball));
-            // printf("(%f, %f) \n", center.x, center.y);
-            // printf("(%f, %f) \n", body_get_centroid(ball).x, body_get_centroid(ball).y);
-            // printf("(%f, %f) \n", ball_disp.x, ball_disp.y);
         }
         body_translate(curr_body, vec_multiply(PADDING, ball_disp));
         body_set_collided(curr_body, false);

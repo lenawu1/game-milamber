@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "vector.h"
 
-const int CIRCLE_APPROX = 50;
+const int CIRCLE_APPROX = 75;
 
 list_t *create_triangle_shape(double a) {
     list_t *triangle = list_init(3, (free_func_t) free);

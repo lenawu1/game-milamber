@@ -143,7 +143,7 @@ body_t *build_level(scene_t *scene) {
         scene_set_first_try(scene, false);
     } 
     else {
-        if(level > LEVELS) { // TODO: hen we get the last level make some special screen
+        if(level > LEVELS) {
             printf("Invalid level. \n");
             exit(0);
         }
