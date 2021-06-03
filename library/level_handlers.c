@@ -42,7 +42,7 @@
 const int LEVELS = 6;
 
 char level_data[6][50] = {
-                            "resources/level4.txt",
+                            "resources/level1.txt",
                             "resources/level2.txt",
                             "resources/level3.txt",
                             "resources/level4.txt",
