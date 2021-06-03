@@ -197,8 +197,10 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
             body_set_centroid(hole_bound, vec_init(pos_x, pos_y));
             create_collision(scene, ball, hole_bound, level_end, scene, NULL);
             for (size_t j = 0; j < list_size(hole_elements); j++) {
+                printf("%zu\n", j);
                 scene_add_body(scene, list_get(hole_elements, j));
             }
+            free(hole_elements);
         }
         else if(strcmp(type, "GRASS") == 0) {
             body_t *grass = generate_grass(scene, ball, shape);
