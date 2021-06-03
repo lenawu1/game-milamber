@@ -17,6 +17,7 @@ const double PADDING = 0.03;
 
 typedef struct scene {
     list_t *bodies;
+    list_t *background_elements;
     list_t *force_bundles;
     size_t points;
     size_t level;
@@ -59,6 +60,7 @@ scene_t *scene_init(void) {
     scene_t *scene = malloc(sizeof(scene_t));
     assert(scene != NULL);
     scene->bodies = list_init(INIT_CAPACITY, (free_func_t) body_free);
+    scene->background_elements = list_init(INIT_CAPACITY, (free_func_t) body_free);
     scene->force_bundles = list_init(INIT_CAPACITY, (free_func_t) force_bundle_free);
     scene->points = 0;
     scene->state = 0;
@@ -78,9 +80,18 @@ size_t scene_bodies(scene_t *scene) {
     return list_size(scene->bodies);
 }
 
+size_t scene_background_elements(scene_t *scene) {
+    return list_size(scene->background_elements);
+}
+
 body_t *scene_get_body(scene_t *scene, size_t index) {
     assert(index < scene_bodies(scene));
     return list_get(scene->bodies, index);
+}
+
+body_t *scene_get_background_element(scene_t *scene, size_t index) {
+    assert(index < list_size(scene->background_elements));
+    return list_get(scene->background_elements, index);
 }
 
 list_t *scene_get_force_bundles(scene_t *scene) {
@@ -105,6 +116,10 @@ vector_t scene_get_bound(scene_t *scene) {
 
 void scene_add_body(scene_t *scene, body_t *body) {
     list_add(scene->bodies, body);
+}
+
+void scene_add_background_element(scene_t *scene, body_t *body) {
+    list_add(scene->background_elements, body);
 }
 
 size_t scene_add_point(scene_t *scene) {
@@ -144,8 +159,6 @@ size_t scene_add_level(scene_t *scene) {
     build_level(scene);
     return scene->level;
 }
-
-
 
 int scene_set_state(scene_t *scene, int state) {
     scene->state = state;
@@ -232,21 +245,8 @@ void scene_tick(scene_t *scene, double dt) { // Adding the force creators
         body_set_collided(curr_body, false);
     }
 
-// for (size_t i = 0; i < scene_bodies(scene); i++) { // Remove bodies & forces if necessary
-//         body_t *curr_body = scene_get_body(scene, i);
-//         if (body_is_removed(curr_body)) {
-//             for (size_t j = 0; j < list_size(scene->force_bundles); j++) {
-//                 force_bundle_t *force_bundle = list_get(scene->force_bundles, j);
-//                 list_t *bodies = force_bundle->bodies;
-//                 if (list_contains(bodies, curr_body)) {
-//                     force_bundle_free(list_remove(scene->force_bundles, j)); 
-//                     j--;
-//                 }
-//             }
-//             list_remove(scene->bodies, i);
-//             i--;
-//             continue;
-//         }
-//         body_tick(curr_body, dt);
-//     }
+    for (size_t i = 0; i < list_size(scene->background_elements); i++) {
+        body_t *curr_body = scene_get_background_element(scene, i);
+        body_translate(curr_body, vec_multiply(PADDING / 10, ball_disp)); // Parallax effect
+    }
 }

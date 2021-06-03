@@ -26,4 +26,6 @@ body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape);
 
 void generate_level(scene_t *scene, body_t *ball, char* level);
 
+void generate_background(scene_t *scene);
+
 #endif // ifndef __TERRAIN_H__

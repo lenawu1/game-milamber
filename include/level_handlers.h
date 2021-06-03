@@ -14,6 +14,7 @@ typedef enum {
     WATER,
     BOOST,
     PORTAL,
+    BACKGROUND,
 } body_type_t;
 
 typedef struct score {

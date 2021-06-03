@@ -317,6 +317,13 @@ void sdl_render_scene(scene_t *scene) {
         center_display("Press up arrow to continue.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
     }
     else if (state == 0) {
+        size_t background_element_count = scene_background_elements(scene);
+        for (size_t i = 0; i < background_element_count; i++) {
+            body_t *body = scene_get_background_element(scene, i);
+            list_t *shape = body_get_shape(body);
+            sdl_draw_polygon(shape, body_get_color(body));
+            list_free(shape);
+        }
         size_t body_count = scene_bodies(scene);
         for (size_t i = 0; i < body_count; i++) {
             body_t *body = scene_get_body(scene, i);

@@ -28,6 +28,7 @@ const double WATER_HEIGHT = 50;
 const double HOLE_RADIUS = 30;
 const rgb_color_t WATER_COLOR = {.r = .196, .g = 0.666, .b = 0.8117};
 const rgb_color_t GRASS_COLOR = {.r = .388, .g = .788, .b = 0.0};
+const rgb_color_t SKY_COLOR = {.r = 0.651, .g = 0.914, .b = 0.953};
 const rgb_color_t T_IN_COLOR = {.r = .1, .g = .913, .b = 0.886};
 const rgb_color_t T_OUT_COLOR = {.r = 1.0, .g = .6, .b = 0.2};
 
@@ -247,6 +248,51 @@ void generate_level(scene_t *scene, body_t *ball, char* level) {
         }
     }
     goto end;
+
+    end:
+        free(data);
+        cJSON_Delete(monitor_json);
+}
+
+void generate_background(scene_t *scene) {
+    char *data = read_file("resources/background.txt");
+    const cJSON *objects = NULL;
+    const cJSON *object = NULL;
+    int status = 0;
+    cJSON *monitor_json = cJSON_Parse(data);
+    if (monitor_json == NULL) {
+        const char *error_ptr = cJSON_GetErrorPtr();
+        if (error_ptr != NULL)
+        {
+            fprintf(stderr, "Error before: %s\n", error_ptr);
+        }
+        status = 0;
+        goto end;
+    }
+
+    objects = cJSON_GetObjectItemCaseSensitive(monitor_json, "objects");
+
+    cJSON_ArrayForEach(object, objects) {
+        cJSON *type_p = cJSON_GetObjectItemCaseSensitive(object, "type");
+        char* type = type_p->valuestring;
+        list_t *shape = list_init(5, free);
+        cJSON *shape_p = cJSON_GetObjectItemCaseSensitive(object, "shape");
+        cJSON *vertex_p = NULL;
+        shape = list_init(5, free);
+        cJSON_ArrayForEach(vertex_p, shape_p)
+        {
+            cJSON *x_p = cJSON_GetObjectItemCaseSensitive(vertex_p, "x");
+            cJSON *y_p = cJSON_GetObjectItemCaseSensitive(vertex_p, "y");
+            vector_t *vertex = vec_init_ptr(x_p->valuedouble, y_p->valuedouble);
+            list_add(shape, vertex);
+        }
+        rgb_color_t color = rgb_color_init(0, 0, 0);
+        if(strcmp(type, "SKY") == 0) {
+            color = SKY_COLOR;
+        }
+        body_t *cbody = body_init_with_info(shape, INFINITY, color, make_type_info(BACKGROUND), free);
+        scene_add_background_element(scene, cbody);
+    }
 
     end:
         free(data);

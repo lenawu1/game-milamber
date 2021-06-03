@@ -139,6 +139,7 @@ body_t *build_level(scene_t *scene) {
         for(size_t i = 0; i < list_size(ball_elements); i++) {
             scene_add_body(scene, list_get(ball_elements, i));
         }
+        generate_background(scene);
         generate_level(scene, player, level_data[level - 1]);
         scene_set_first_try(scene, false);
     } 
@@ -148,6 +149,7 @@ body_t *build_level(scene_t *scene) {
             exit(0);
         }
         player = scene_get_body(scene, 0);
+        generate_background(scene);
         generate_level(scene, player, level_data[level - 1]);
     }
     return player;

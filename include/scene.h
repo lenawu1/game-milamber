@@ -45,6 +45,12 @@ void scene_free(scene_t *scene);
  */
 size_t scene_bodies(scene_t *scene);
 
+size_t scene_background_elements(scene_t *scene);
+
+body_t *scene_get_background_element(scene_t *scene, size_t index);
+
+void scene_add_background_element(scene_t *scene, body_t *body);
+
 list_t *scene_get_force_bundles(scene_t *scene);
 
 force_creator_t get_force_bundle_forcer(force_bundle_t *force_bundle);
