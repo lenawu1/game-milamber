@@ -59,7 +59,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                 body_translate(golfball, vec_init(0, 10));
                 body_set_velocity(golfball, right_v);
                 scene_add_point(scene);
-                sdl_load_sound(filepath, 50);
+                sdl_load_sound(filepath, 50, 4);
             }
         }
         else if (key == LEFT_ARROW) {
@@ -68,7 +68,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                 body_translate(golfball, vec_init(0, 10));
                 body_set_velocity(golfball, left_v);
                 scene_add_point(scene);
-                sdl_load_sound(filepath, 50);
+                sdl_load_sound(filepath, 50, 4);
             }
         }
         else if (key == UP_ARROW) {
@@ -88,24 +88,25 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             }  
         }
         else if (key == SPACE) {
-            if(scene_get_state(scene) == -1 || 1)
-            {
-                if(scene_get_level(scene) == 1)
-                {
-                    scene_set_level(scene,1);
-                    reset_scene(scene);
-                    build_level(scene);
-                    scene_set_points(scene, 0);
+            Mix_HaltChannel(7);
+            if (scene_get_state(scene) == -5) {
+                scene_set_state(scene, 0);
+            }
+            else {
+                if(scene_get_state(scene) == -1 || 1) {
                     body_set_velocity(golfball, VEC_ZERO);
-                }
-                else
-                {
-                    scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
-                    scene_add_level(scene);
+                    if(scene_get_level(scene) == 1) {
+                        scene_set_level(scene, 1);
+                        reset_scene(scene);
+                        build_level(scene);
+                    }
+                    else {
+                        scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
+                        scene_add_level(scene);
+                    }
                     scene_set_points(scene, 0);
-                    body_set_velocity(golfball, VEC_ZERO);
-                }
-                scene_set_state(scene, 0); // Continue playing
+                    scene_set_state(scene, 0); // Continue playing
+                }  
             }
         }
         else if (key == Q_CHARACTER) {
@@ -126,7 +127,9 @@ int main(int argc, char *argv[]) {
     while (!sdl_is_done(scene)) {
         double dt = time_since_last_tick();
         clock += dt;
-        do_gravity(player, GRAV_VAL, dt);
+        if (scene_get_state(scene) == 0) {
+            do_gravity(player, GRAV_VAL, dt);
+        }
         scene_tick(scene, dt);
         sdl_render_scene(scene);
     }

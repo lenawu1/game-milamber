@@ -70,7 +70,7 @@ bool sdl_is_done(scene_t *scene);
  */
 void sdl_clear(void);
 
-void sdl_load_sound(char *filepath, int volume);
+void sdl_load_sound(char *filepath, int volume, int channel);
 
 void sdl_free_sound(Mix_Chunk *sound);
 

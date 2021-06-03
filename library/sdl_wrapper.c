@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "sdl_wrapper.h"
+#include "terrain.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_render.h>
@@ -126,7 +127,7 @@ void sdl_init(vector_t min, vector_t max) {
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
-void sdl_load_sound(char *filepath, int volume) {
+void sdl_load_sound(char *filepath, int volume, int channel) {
     Mix_Chunk *sound = NULL;
     int success = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     if (success < 0) {
@@ -134,7 +135,7 @@ void sdl_load_sound(char *filepath, int volume) {
     }
     sound = Mix_LoadWAV(filepath);
     Mix_VolumeChunk(sound, volume);
-    Mix_PlayChannel(-1, sound, 0);
+    Mix_PlayChannel(channel, sound, 0);
     //sdl_free_sounds(pop); TODO: memory leak?
 }
 
@@ -280,6 +281,14 @@ void sdl_show(void) {
 void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
+    if (state == -5) {
+        center_display(("Welcome to Flappy Golf!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
+
+        center_display(("Use the left and right arrows to control the ball."), 140, 30, 440, 130, 70, rgb_color_rainbows(1));
+
+        center_display("Press space to start.", 225, 30, 370, 250, 50, rgb_color_rainbows(3));
+        center_display("Press 'q' at any time to quit.", 275, 30, 450, 200, 80, rgb_color_rainbows(3));
+    }
     if (state == -1) {
         center_display(("You Lost this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
 

@@ -11,6 +11,7 @@
 #include "collision.h"
 #include "level_handlers.h"
 #include "body.h"
+#include "SDL2/SDL_mixer.h"
 
 const size_t INIT_CAPACITY = 100;
 const double PADDING = 0.03;
@@ -63,10 +64,14 @@ scene_t *scene_init(void) {
     scene->background_elements = list_init(INIT_CAPACITY, (free_func_t) body_free);
     scene->force_bundles = list_init(INIT_CAPACITY, (free_func_t) force_bundle_free);
     scene->points = 0;
-    scene->state = 0;
+    scene->state = -5;
     scene->bound = (vector_t) {.x = 2000, .y = 1000};
     scene->level = 1;
     scene->first_try = true;
+
+    char *filepath = "../resources/intro.wav";
+    sdl_load_sound(filepath, 8, 7);
+    
     return scene;
 }
 
