@@ -14,7 +14,7 @@
 #include "SDL2/SDL_mixer.h"
 
 const size_t INIT_CAPACITY = 100;
-const double PADDING = 0.03;
+const double PADDING = 0.05;
 
 typedef struct scene {
     list_t *bodies;
