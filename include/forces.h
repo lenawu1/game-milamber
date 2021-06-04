@@ -85,7 +85,7 @@ void drag_force_creator(drag_aux_t *aux, list_t *bodies);
  * 
  * @param bodies the body to apply collision force to
  */
-void collision_force_creator(collision_aux_t *aux, list_t *bodies);
+void collision_force_creator(collision_aux_t *aux, list_t *bodies, scene_t *scene);
 
 /**
  * Adds a force creator to a scene that applies gravity between two bodies.

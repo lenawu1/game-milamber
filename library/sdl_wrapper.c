@@ -127,7 +127,7 @@ void sdl_init(vector_t min, vector_t max) {
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
-void sdl_load_sound(char *filepath, int volume, int channel) {
+Mix_Chunk *sdl_load_sound(scene_t *scene, char *filepath, int volume, int channel) {
     Mix_Chunk *sound = NULL;
     int success = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     if (success < 0) {
@@ -136,13 +136,12 @@ void sdl_load_sound(char *filepath, int volume, int channel) {
     sound = Mix_LoadWAV(filepath);
     Mix_VolumeChunk(sound, volume);
     Mix_PlayChannel(channel, sound, 0);
-    //sdl_free_sounds(pop); TODO: memory leak?
+    return sound;
 }
 
 void sdl_free_sound(Mix_Chunk *sound) {
     Mix_FreeChunk(sound);
-    //Mix_CloseAudio();
-    Mix_Quit();
+    //Mix_Quit();
 }
 
 void center_display(char *message, int text_height, int font_size, int x_pos, int width, int height, rgb_color_t color){

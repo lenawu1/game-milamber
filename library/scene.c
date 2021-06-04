@@ -25,6 +25,7 @@ typedef struct scene {
     int state;
     bool first_try;
     vector_t bound;
+    list_t *sounds;
 } scene_t;
 
 typedef struct force {
@@ -68,9 +69,10 @@ scene_t *scene_init(void) {
     scene->bound = (vector_t) {.x = 2000, .y = 1000};
     scene->level = 1;
     scene->first_try = true;
+    scene->sounds = list_init(INIT_CAPACITY, (free_func_t) sdl_free_sound);
 
     char *filepath = "../resources/intro.wav";
-    sdl_load_sound(filepath, 8, 7);
+    sdl_load_sound(scene, filepath, 8, 7);
     
     return scene;
 }
@@ -78,7 +80,13 @@ scene_t *scene_init(void) {
 void scene_free(scene_t *scene) {
     list_free(scene->bodies);
     list_free(scene->force_bundles);
+    list_free(scene->sounds);
+    Mix_Quit();
     free(scene);
+}
+
+void scene_add_sound(scene_t *scene, Mix_Chunk *sound) {
+    list_add(scene->sounds, sound);
 }
 
 size_t scene_bodies(scene_t *scene) {

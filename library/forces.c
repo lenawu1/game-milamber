@@ -233,7 +233,7 @@ void create_physics_collision(
     create_collision(scene, body1, body2, (collision_handler_t) physics_collision_handler, elas, free);
 }
 
-void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
+void collision_force_creator(collision_aux_t *auxil, list_t *bodies, scene_t *scene) {
     body_t *body1 = list_get(bodies, 0);
     body_t *body2 = list_get(bodies, 1);
     collision_handler_t handler = auxil->handler;
@@ -261,7 +261,7 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies) {
         else if (!auxil->collided) {
             char *teleportsound = "../resources/teleport.wav";
             if(get_type(body2) == PORTAL) {
-                sdl_load_sound(teleportsound, 8, 5);
+                sdl_load_sound(NULL, teleportsound, 8, 5);
             }
             handler(body1, body2, info.axis, coaux);
         }

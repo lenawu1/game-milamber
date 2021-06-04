@@ -3,6 +3,7 @@
 
 #include "body.h"
 #include "list.h"
+#include <SDL2/SDL_mixer.h>
 
 /**
  * A collection of bodies and force creators.
@@ -44,6 +45,8 @@ void scene_free(scene_t *scene);
  * @return the number of bodies added with scene_add_body()
  */
 size_t scene_bodies(scene_t *scene);
+
+void scene_add_sound(scene_t *scene, Mix_Chunk *sound);
 
 size_t scene_background_elements(scene_t *scene);
 

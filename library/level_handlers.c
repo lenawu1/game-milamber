@@ -90,19 +90,19 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
         if (scene_get_level(scene) == LEVELS) {
             scene_set_state(scene, 2);
             char *filepath = "../resources/gamewin.wav";
-            sdl_load_sound(filepath, 8, 1);
+            sdl_load_sound(scene, filepath, 20, 1);
         }
         // Win condition
         // scene_add_level(scene);
         else {
             scene_set_state(scene, 1);
             char *filepath = "../resources/levelwin.wav";
-            sdl_load_sound(filepath, 50, 2);
+            sdl_load_sound(scene, filepath, 30, 2);
         }
     }
     if(target_info == WATER) {
         char *filepath = "../resources/lost.wav";
-        sdl_load_sound(filepath, 15, 3);
+        sdl_load_sound(scene, filepath, 15, 3);
         // Lose condition
         scene_set_state(scene, -1);
     }
@@ -116,12 +116,13 @@ void sanded(body_t *ball, body_t *target, vector_t axis, void *aux) {
 }
 
 void power_up(body_t *ball, body_t *target, vector_t axis, void *aux) {
+    scene_t *scene = aux;
     body_type_t ball_info = get_type(ball);
     assert(ball_info == BALL);
     body_set_velocity(ball, vec_multiply(2.0, body_get_velocity(ball)));
     body_remove(target);
     char *filepath = "../resources/powerup.wav";
-    sdl_load_sound(filepath, 8, 6);
+    sdl_load_sound(scene, filepath, 8, 6);
 }
 
 body_t *build_level(scene_t *scene) {
