@@ -39,15 +39,16 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
-const int LEVELS = 6;
+const int LEVELS = 7;
 
-char level_data[6][50] = {
+char level_data[7][50] = {
                             "resources/level1.txt",
                             "resources/level2.txt",
                             "resources/level3.txt",
                             "resources/level4.txt",
                             "resources/level5.txt",
-                            "resources/level6.txt"
+                            "resources/level6.txt",
+                            "resources/level7.txt"
                             };
 
 const double BALL_SIZE = 20;

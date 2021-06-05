@@ -28,7 +28,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
-const int NUM_LEVELS = 6;
+const int NUM_LEVELS = 7;
 
 
 // const double SCREEN_SIZE_Y = 750;
@@ -55,7 +55,8 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     if (type == KEY_PRESSED) {
         if (key == RIGHT_ARROW) {
             if (scene_get_state(scene) == 0) {
-                vector_t right_v = vec_init(PLAYER_SPEED.x + body_get_velocity(golfball).x, PLAYER_SPEED.y);
+                //vector_t right_v = vec_init(PLAYER_SPEED.x + body_get_velocity(golfball).x, PLAYER_SPEED.y);
+                vector_t right_v = PLAYER_SPEED;
                 body_translate(golfball, vec_init(0, 10));
                 body_set_velocity(golfball, right_v);
                 scene_add_point(scene);
@@ -64,7 +65,8 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
         }
         else if (key == LEFT_ARROW) {
             if (scene_get_state(scene) == 0) {
-                vector_t left_v = vec_init(body_get_velocity(golfball).x - PLAYER_SPEED.x, PLAYER_SPEED.y);
+               //vector_t left_v = vec_init(body_get_velocity(golfball).x - PLAYER_SPEED.x, PLAYER_SPEED.y);
+               vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
                 body_translate(golfball, vec_init(0, 10));
                 body_set_velocity(golfball, left_v);
                 scene_add_point(scene);
