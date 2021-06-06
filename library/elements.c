@@ -8,7 +8,7 @@
 #include "collision.h"
 #include "forces.h"
 
-const rgb_color_t FLAG_COLOR = (rgb_color_t) {0.93, 0.325, 0.325};
+const rgb_color_t FLAG_COLOR = (rgb_color_t) {1.0, 0.549, 0.0};
 
 list_t *create_golf_ball(double radius, rgb_color_t color, double mass, vector_t location) {
     list_t *golf_ball = list_init(3, (free_func_t) body_free);
