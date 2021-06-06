@@ -4,6 +4,7 @@
 #include "body.h"
 #include "list.h"
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
 
 /**
  * A collection of bodies and force creators.
@@ -67,6 +68,10 @@ size_t scene_get_level(scene_t *scene);
 void reset_scene(scene_t *scene);
 
 bool scene_set_first_try(scene_t *scene, bool retry_first_level);
+
+void scene_set_img(scene_t *scene, SDL_Texture *img);
+
+SDL_Texture *scene_get_img(scene_t *scene);
 
 bool scene_get_first_try(scene_t *scene);
 

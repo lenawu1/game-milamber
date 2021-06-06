@@ -116,7 +116,7 @@ void sdl_init(vector_t min, vector_t max) {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     TTF_Init();
-    window = SDL_CreateWindow(
+    SDL_Window *window = SDL_CreateWindow(
         WINDOW_TITLE,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -124,6 +124,8 @@ void sdl_init(vector_t min, vector_t max) {
         WINDOW_HEIGHT,
         SDL_WINDOW_RESIZABLE
     );
+    assert (window != NULL);
+
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
@@ -142,6 +144,18 @@ Mix_Chunk *sdl_load_sound(scene_t *scene, char *filepath, int volume, int channe
 void sdl_free_sound(Mix_Chunk *sound) {
     Mix_FreeChunk(sound);
     //Mix_Quit();
+}
+
+SDL_Texture *sdl_load_image(char *filepath){
+    SDL_Texture *img = NULL;
+    img = IMG_LoadTexture(renderer, filepath);
+
+    int w, h;
+    SDL_QueryTexture(img, NULL, NULL, &w, &h);
+    SDL_Rect texr; texr.x = 0; texr.y = 0; texr.w = w/2.15; texr.h = h/2.8;
+    SDL_RenderCopy(renderer, img, NULL, &texr);
+
+    return img;
 }
 
 void center_display(char *message, int text_height, int font_size, int x_pos, int width, int height, rgb_color_t color){
@@ -281,14 +295,20 @@ void sdl_render_scene(scene_t *scene) {
     sdl_clear();
     int state = scene_get_state(scene);
     if (state == -5) {
+        char *filepath = "../resources/intro_img.png";
+        scene_set_img(scene, sdl_load_image(filepath));
+
         center_display(("Welcome to Flappy Golf!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
 
-        center_display(("Use the left and right arrows to control the ball."), 140, 30, 440, 130, 70, rgb_color_rainbows(1));
+        center_display(("Use left & right arrows to control the ball."), 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
         center_display("Press space to start.", 225, 30, 370, 250, 50, rgb_color_rainbows(3));
         center_display("Press 'q' at any time to quit.", 275, 30, 450, 200, 80, rgb_color_rainbows(3));
     }
-    if (state == -1) {
+    else if (state == -1) {
+        char *filepath = "../resources/intro_img.png";
+        scene_set_img(scene, sdl_load_image(filepath));
+
         center_display(("You Lost this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
 
         char score_str[50];
@@ -307,6 +327,9 @@ void sdl_render_scene(scene_t *scene) {
 
     }
     else if (state == 1) {
+        char *filepath = "../resources/intro_img.png";
+        scene_set_img(scene, sdl_load_image(filepath));
+
         body_set_velocity(scene_get_body(scene, 0), VEC_ZERO); //necessary to stop the ball from "rolling" even when game is done.
         center_display(("You Win this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
         char score_str[50];
@@ -325,6 +348,7 @@ void sdl_render_scene(scene_t *scene) {
         center_display("Press up arrow to continue.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
     }
     else if (state == 0) {
+        sdl_clear();
         size_t background_element_count = scene_background_elements(scene);
         for (size_t i = 0; i < background_element_count; i++) {
             body_t *body = scene_get_background_element(scene, i);
@@ -344,6 +368,9 @@ void sdl_render_scene(scene_t *scene) {
         point_display(score_str);
     }
     else if (state == 2) {
+        char *filepath = "../resources/intro_img.png";
+        sdl_load_image(filepath);
+
         center_display(("You've won all the levels. Good job!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
 
         char score_str[50];

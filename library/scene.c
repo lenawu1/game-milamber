@@ -12,6 +12,7 @@
 #include "level_handlers.h"
 #include "body.h"
 #include "SDL2/SDL_mixer.h"
+#include <SDL2/SDL_image.h>
 
 const size_t INIT_CAPACITY = 100;
 const double PADDING = 0.05;
@@ -26,6 +27,7 @@ typedef struct scene {
     bool first_try;
     vector_t bound;
     list_t *sounds;
+    SDL_Texture *image;
 } scene_t;
 
 typedef struct force {
@@ -81,6 +83,7 @@ void scene_free(scene_t *scene) {
     list_free(scene->bodies);
     list_free(scene->force_bundles);
     list_free(scene->sounds);
+    SDL_DestroyTexture(scene->image);
     Mix_Quit();
     free(scene);
 }
@@ -129,6 +132,14 @@ vector_t scene_get_bound(scene_t *scene) {
 
 void scene_add_body(scene_t *scene, body_t *body) {
     list_add(scene->bodies, body);
+}
+
+void scene_set_img(scene_t *scene, SDL_Texture *img){
+    scene->image = img;
+}
+
+SDL_Texture *scene_get_img(scene_t *scene) {
+    return scene->image;
 }
 
 void scene_add_background_element(scene_t *scene, body_t *body) {

@@ -121,7 +121,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
 
 int main(int argc, char *argv[]) {
     sdl_init(VEC_ZERO, SCREEN_SIZE);
-    
+
     scene_t *scene = scene_init();
 
     body_t *player = build_level(scene);

@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "vector.h"
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
 
 // Values passed to a key handler when the given arrow key is pressed
 typedef enum {
@@ -69,6 +70,8 @@ bool sdl_is_done(scene_t *scene);
  * Clears the screen. Should be called before drawing polygons in each frame.
  */
 void sdl_clear(void);
+
+SDL_Texture *sdl_load_image(char *filepath);
 
 Mix_Chunk *sdl_load_sound(scene_t *scene, char *filepath, int volume, int channel);
 
