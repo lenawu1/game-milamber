@@ -58,10 +58,10 @@ rgb_color_t rgb_color_rainbows(int i) {
     list_t *rainbow = list_init(6, (free_func_t) free);
     assert (rainbow != NULL);
 
-    list_add(rainbow, rgb_color_list_init(255, 50, 0));
-    list_add(rainbow, rgb_color_list_init(255, 127, 0));
-    list_add(rainbow, rgb_color_list_init(0, 241, 29));
-    list_add(rainbow, rgb_color_list_init(0, 121, 155));
+    list_add(rainbow, rgb_color_list_init(0, 51, 102));
+    list_add(rainbow, rgb_color_list_init(240, 110, 0));
+    list_add(rainbow, rgb_color_list_init(130, 130, 130));
+    list_add(rainbow, rgb_color_list_init(110, 110, 110));
     list_add(rainbow, rgb_color_list_init(168, 0, 255));
 
     list_add(rainbow, rgb_color_list_init(226, 240, 203));
@@ -78,27 +78,16 @@ rgb_color_t rgb_color_rainbows(int i) {
 }
 
 rgb_color_t rgb_color_pastel(){
-    rgb_color_t *pastel_blue = rgb_color_list_init(117, 199, 234);
-    rgb_color_t *spanish_pink = rgb_color_list_init(242, 183, 184);
-    rgb_color_t *pastel_orange = rgb_color_list_init(249, 216, 206);
-    rgb_color_t *salmon_pink = rgb_color_list_init(244, 179, 206);
-    rgb_color_t *pastel_yellow = rgb_color_list_init(244, 179, 206);
-    rgb_color_t *pastel_aqua = rgb_color_list_init(104, 209, 197);
-
-    list_t *pastels = list_init(6, (free_func_t) free);
+    list_t *pastels = list_init(3, (free_func_t) free);
     assert (pastels != NULL);
 
-    list_add(pastels, pastel_blue);
-    list_add(pastels, spanish_pink);
-    list_add(pastels, pastel_orange);
-    list_add(pastels, salmon_pink);
-    list_add(pastels, pastel_yellow);
-    list_add(pastels, pastel_aqua);
+    list_add(pastels, rgb_color_list_init(100, 149, 237)); // blue
+    list_add(pastels, rgb_color_list_init(255, 127, 80)); // orange
+    list_add(pastels, rgb_color_list_init(222, 49, 99)); // pink
 
-    int index = rand() % 6;
-    assert (index >= 0 & index <= 5);
+    int index = rand() % 3;
     rgb_color_t *my_pointer = list_get(pastels, index);
-    rgb_color_t my_color = {my_pointer->r, my_pointer->g, my_pointer->b};
+    rgb_color_t my_color = *my_pointer;
 
     list_free(pastels);
     return my_color;

@@ -168,10 +168,10 @@ void center_display(char *message, int text_height, int font_size, int x_pos, in
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
     int w = textSurface->w;
     int h = textSurface->h;
-    Message_rect->x = WINDOW_WIDTH/2 - (w/2); //controls the rect's x coordinate 
-    Message_rect->y = text_height; // controls the rect's y coordinte
-    Message_rect->w = w; // controls the width of the rect
-    Message_rect->h = h; // controls the height of the rect
+    Message_rect->x = WINDOW_WIDTH/2 - (w/2);  
+    Message_rect->y = text_height; 
+    Message_rect->w = w; 
+    Message_rect->h = h; 
 
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
     SDL_FreeSurface(textSurface);
@@ -183,7 +183,6 @@ void point_display(char *score) {
     TTF_Font* font = TTF_OpenFont("resources/gamefont.ttf", 50);
     if(!font) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
-   // handle error
     }
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, score, textColor);
     int w = textSurface->w;
@@ -192,16 +191,13 @@ void point_display(char *score) {
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
 
     SDL_Rect *Message_rect = malloc(sizeof(SDL_Rect));
-    Message_rect->x = 30; //controls the rect's x coordinate 
-    Message_rect->y = 30; // controls the rect's y coordinte
-    Message_rect->w = w; // controls the width of the rect
-    Message_rect->h = h; // controls the height of the rect
+    Message_rect->x = 30;
+    Message_rect->y = 30;
+    Message_rect->w = w;
+    Message_rect->h = h;
     SDL_RenderCopy(renderer, text, NULL, Message_rect);
-    // SDL_RenderPresent(renderer);
     SDL_FreeSurface(textSurface);
-    // SDL_DestroyTexture(text);
     TTF_CloseFont(font);
-    // TTF_Quit();
 }
 
 bool sdl_is_done(scene_t *scene) {

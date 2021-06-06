@@ -57,8 +57,6 @@ body_t *body_init_with_info(
     }
     object->bounding_radius = max_radius;
 
-    // Initialize other values
-    // object->centroid = polygon_centroid(shape); FIXME: Technically this is the right way to do it but its too much effort to change everything I think
     object->centroid = VEC_ZERO;
     object->velocity = VEC_ZERO;
     object->orientation = (double) 0.0;
@@ -81,7 +79,6 @@ void body_free(body_t *body) {
 }
 
 list_t *body_get_shape(body_t *body) {
-    // Returns newly allocated list by copying elements
     list_t *shape_cpy = list_init(10, NULL);
     for(size_t i = 0; i < list_size(body->shape); i++) {
         vector_t *temp = malloc(sizeof(vector_t));
@@ -156,8 +153,6 @@ void body_set_velocity(body_t *body, vector_t v) {
 }
 
 void body_set_rotation(body_t *body, double angle) {
-    // Rotation is absolute not relative
-    // Rotate body upright then rotate to new orientation
     polygon_rotate(body->shape, -1 * (body->orientation), body->centroid);
     polygon_rotate(body->shape, angle, body->centroid);
     body->orientation = angle;

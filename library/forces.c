@@ -187,7 +187,6 @@ void physics_collision_handler(body_t *body1, body_t *body2, vector_t axis, void
     else if (m2 == INFINITY) {
         coeff = m1 * (1.0 + Cr) * (u2 - u1);
         impulse = vec_multiply(coeff, axis);
-        // vector_t displacement = vec_subtract(body_get_centroid(body1), body_get_centroid(body2));
         body_add_impulse(body1, impulse);
     }
     else {
@@ -196,7 +195,6 @@ void physics_collision_handler(body_t *body1, body_t *body2, vector_t axis, void
         body_add_impulse(body1, impulse);
         body_add_impulse(body2, vec_negate(impulse));
     }
-    //printf("%f, %f \n", axis.x, axis.y);
 }
 
 void create_collision(
@@ -250,7 +248,6 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies, scene_t *sc
         if((get_type(body2) == GRASS)) {
             if(fabs(vec_dot(body_get_velocity(body1), info.axis)) < 150) {
                 body_set_velocity(body1, vec_multiply(vec_dot(body_get_velocity(body1), vec_orthogonal(info.axis)), vec_orthogonal(info.axis)));
-                // body_set_velocity(body1, VEC_ZERO);
             }
         }
         if((get_type(body1) == SAND || get_type(body2) == SAND)) {

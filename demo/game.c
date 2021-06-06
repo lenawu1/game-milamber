@@ -30,23 +30,16 @@
 
 const int NUM_LEVELS = 7;
 
-
-// const double SCREEN_SIZE_Y = 750;
-// const double SCREEN_SIZE_X = 750;
 const vector_t SCREEN_SIZE = {.x = 2000, .y = 1000};
 const vector_t PLAYER_SPEED = {.x = 500, .y = 700};
-// const vector_t INIT_POS = {.x = 50, .y = 1000};
 
-// const double BALL_MASS = 40.0;
 const double MASS = 10;
 const double RADIUS = 10;
-// const double BALL_SIZE = 20;
 const double PLAYER_POS = 20;
 const double LARGE_MASS = INFINITY;
 const double WALL_THICKNESS = 10;
 const double TRAIL_SIZE = 6;
 const double GRAV_VAL = 1800;
-// const rgb_color_t PORTAL_COLOR = {.R = 170, .G = 0, .B = 255}; just to remember the color
 size_t LEVEL = 1;
 
 void handler(char key, key_event_type_t type, double held_time, scene_t *scene) {
@@ -55,7 +48,6 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
     if (type == KEY_PRESSED) {
         if (key == RIGHT_ARROW) {
             if (scene_get_state(scene) == 0) {
-                //vector_t right_v = vec_init(PLAYER_SPEED.x + body_get_velocity(golfball).x, PLAYER_SPEED.y);
                 vector_t right_v = PLAYER_SPEED;
                 body_translate(golfball, vec_init(0, 10));
                 body_set_velocity(golfball, right_v);
@@ -65,8 +57,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
         }
         else if (key == LEFT_ARROW) {
             if (scene_get_state(scene) == 0) {
-               //vector_t left_v = vec_init(body_get_velocity(golfball).x - PLAYER_SPEED.x, PLAYER_SPEED.y);
-               vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
+                vector_t left_v = {.x = -1.0*PLAYER_SPEED.x, .y = PLAYER_SPEED.y};
                 body_translate(golfball, vec_init(0, 10));
                 body_set_velocity(golfball, left_v);
                 scene_add_point(scene);
@@ -85,7 +76,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                     scene_add_level(scene);
                     scene_set_points(scene, 0);
                     body_set_velocity(golfball, VEC_ZERO);
-                    scene_set_state(scene, 0); // Continue playing
+                    scene_set_state(scene, 0);
                 }
             }  
         }
@@ -103,11 +94,11 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
                         build_level(scene);
                     }
                     else {
-                        scene_set_level(scene, scene_get_level(scene) - 1); // decrement scene
+                        scene_set_level(scene, scene_get_level(scene) - 1);
                         scene_add_level(scene);
                     }
                     scene_set_points(scene, 0);
-                    scene_set_state(scene, 0); // Continue playing
+                    scene_set_state(scene, 0);
                 }  
             }
         }

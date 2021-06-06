@@ -88,13 +88,12 @@ void level_end(body_t *ball, body_t *target, vector_t axis, void *aux) {
     assert(ball_info == BALL);
 
     if(target_info == HOLE) {
+        // Win condition
         if (scene_get_level(scene) == LEVELS) {
             scene_set_state(scene, 2);
             char *filepath = "../resources/gamewin.wav";
             sdl_load_sound(scene, filepath, 20, 1);
         }
-        // Win condition
-        // scene_add_level(scene);
         else {
             scene_set_state(scene, 1);
             char *filepath = "../resources/levelwin.wav";

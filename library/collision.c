@@ -101,13 +101,8 @@ collision_info_t find_collision(list_t *shape1, list_t *shape2) {
             min_vector = *cur_vec;
         }
     }
-    // Check that it points from shape 1 to shape 2
-    // vector_t displacement = vec_subtract(polygon_centroid(shape1), polygon_centroid(shape2));
-
+    
     vector_t normalized_axis = (vec_multiply(1/vec_norm(min_vector), min_vector));
-    // if(fabs(vec_dot(displacement, normalized_axis)) < 0.5) { // Is pointing from shape 2 to shape 1
-    //     normalized_axis = vec_orthogonal(normalized_axis);
-    // }
     res.collided = true;
     res.axis = normalized_axis;
     return res;
