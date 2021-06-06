@@ -116,7 +116,7 @@ void sdl_init(vector_t min, vector_t max) {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     TTF_Init();
-    SDL_Window *window = SDL_CreateWindow(
+    window = SDL_CreateWindow(
         WINDOW_TITLE,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
