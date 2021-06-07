@@ -179,12 +179,12 @@ void center_display(char *message, int text_height, int font_size, int x_pos, in
 }
 
 void point_display(char *score) {
-    SDL_Color textColor = {0, 0, 0, 255};
+    SDL_Color textColor = {0, 51, 102, 255};
     TTF_Font* font = TTF_OpenFont("resources/gamefont.ttf", 50);
     if(!font) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
     }
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, score, textColor);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, score, textColor);
     int w = textSurface->w;
     int h = textSurface->h;
 
@@ -294,22 +294,22 @@ void sdl_render_scene(scene_t *scene) {
         char *filepath = "../resources/intro_img.png";
         scene_set_img(scene, sdl_load_image(filepath));
 
-        center_display(("Welcome to Flappy Golf!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
+        center_display(("Welcome to Flappy Golf!"), 60, 40, 320, 400, 100, rgb_color_rainbows(3));
 
-        center_display(("Use left & right arrows to control the ball."), 140, 30, 440, 130, 70, rgb_color_rainbows(1));
+        center_display(("Use left & right arrows to control the ball."), 190, 30, 440, 130, 70, rgb_color_rainbows(0));
 
-        center_display("Press space to start.", 225, 30, 370, 250, 50, rgb_color_rainbows(3));
-        center_display("Press 'q' at any time to quit.", 275, 30, 450, 200, 80, rgb_color_rainbows(3));
+        center_display("Press space to start.", 280, 30, 370, 250, 50, rgb_color_rainbows(1));
+        center_display("Press 'q' at any time to quit.", 320, 30, 450, 200, 80, rgb_color_rainbows(1));
     }
     else if (state == -1) {
         char *filepath = "../resources/intro_img.png";
         scene_set_img(scene, sdl_load_image(filepath));
 
-        center_display(("You Lost this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
+        center_display(("You Lost this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(3));
 
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
-        char str1[100] = "Score: ";
+        char str1[100] = "Flaps: ";
         strcat(str1, score_str);
         center_display(str1, 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
@@ -319,7 +319,7 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 450, 200, 80, rgb_color_rainbows(1));
 
-        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
+        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(0));
 
     }
     else if (state == 1) {
@@ -327,10 +327,10 @@ void sdl_render_scene(scene_t *scene) {
         scene_set_img(scene, sdl_load_image(filepath));
 
         body_set_velocity(scene_get_body(scene, 0), VEC_ZERO); //necessary to stop the ball from "rolling" even when game is done.
-        center_display(("You Win this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
+        center_display(("You Win this Level!"), 60, 40, 320, 400, 100, rgb_color_rainbows(3));
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
-        char str1[100] = "Score: ";
+        char str1[100] = "Flaps: ";
         strcat(str1, score_str);
         center_display(str1, 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
@@ -340,8 +340,8 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 450, 200, 80, rgb_color_rainbows(1));
 
-        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
-        center_display("Press up arrow to continue.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
+        center_display("Press space to retry.", 260, 30, 370, 250, 50, rgb_color_rainbows(0));
+        center_display("Press up arrow to continue.", 310, 30, 330, 280, 45, rgb_color_rainbows(0));
     }
     else if (state == 0) {
         sdl_clear();
@@ -361,17 +361,19 @@ void sdl_render_scene(scene_t *scene) {
         }
         char score_str[10];
         sprintf(score_str, "%zu", scene_get_points(scene));
-        point_display(score_str);
+        char str1[100] = "Flaps: ";
+        strcat(str1, score_str);
+        point_display(str1);
     }
     else if (state == 2) {
         char *filepath = "../resources/intro_img.png";
         sdl_load_image(filepath);
 
-        center_display(("You've won all the levels. Good job!"), 60, 40, 320, 400, 100, rgb_color_rainbows(0));
+        center_display(("You've won all the levels. Good job!"), 60, 40, 320, 400, 100, rgb_color_rainbows(3));
 
         char score_str[50];
         sprintf(score_str, "%zu", scene_get_points(scene));
-        char str1[100] = "Score: ";
+        char str1[100] = "Flaps: ";
         strcat(str1, score_str);
         center_display(str1, 140, 30, 440, 130, 70, rgb_color_rainbows(1));
 
@@ -381,8 +383,8 @@ void sdl_render_scene(scene_t *scene) {
         strcat(str2, level_str);
         center_display(str2, 190, 30, 400, 200, 80, rgb_color_rainbows(1));
 
-        center_display("Press space to retry this level.", 260, 30, 370, 250, 50, rgb_color_rainbows(3));
-        center_display("Press 'q' to quit.", 310, 30, 330, 280, 45, rgb_color_rainbows(3));
+        center_display("Press space to retry this level.", 260, 30, 370, 250, 50, rgb_color_rainbows(0));
+        center_display("Press 'q' to quit.", 310, 30, 330, 280, 45, rgb_color_rainbows(0));
     }
     sdl_show();
 }
