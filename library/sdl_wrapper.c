@@ -279,6 +279,7 @@ void sdl_draw_polygon(body_t *body) {
     else if (get_type(body) == GRASS) { //FIXME: WHAT IS GOING ON
         int suc = texturedPolygon(renderer, x_points, y_points, n, body_get_surface(body), 0, 0);
         printf("Made some %d with %zu sides, success: %d\n", get_type(body), n, suc);
+        SDL_Delay(1000);
     }
     else {
         double minx = INFINITY;
