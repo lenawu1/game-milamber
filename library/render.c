@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
+#include <SDL2/SDL_image.h>
+#include "sdl_wrapper.h"
 #include "render.h"
 #include "scene.h" 
 #include "color.h"
-#include <stdbool.h>
 #include "vector.h"
+#include "body.h"
 
 const int CIRCLE_APPROX = 50;
 
