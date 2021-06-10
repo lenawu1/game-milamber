@@ -6,7 +6,6 @@
 #include <math.h>
 #include <stdbool.h>
 #include "render.h"
-#include "compound_body.h"
 
 /**
  * Creates a colored golf ball with wings and mass.

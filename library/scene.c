@@ -4,7 +4,6 @@
 #include <assert.h>
 #include <string.h>
 #include "forces.h"
-#include "compound_body.h"
 #include "scene.h"
 #include "math.h"
 #include "list.h"
@@ -84,6 +83,8 @@ void scene_free(scene_t *scene) {
     list_free(scene->force_bundles);
     list_free(scene->sounds);
     SDL_DestroyTexture(scene->image);
+    IMG_Quit();
+    SDL_Quit();
     Mix_Quit();
     free(scene);
 }

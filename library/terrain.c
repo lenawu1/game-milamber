@@ -3,7 +3,6 @@
 #include <math.h>
 #include <stdbool.h>
 #include "render.h"
-#include "compound_body.h"
 #include "collision.h"
 #include "forces.h"
 #include "color.h"
@@ -27,7 +26,7 @@ const double WATER_LENGTH = 10;
 const double WATER_HEIGHT = 50;
 const double HOLE_RADIUS = 30;
 const rgb_color_t WATER_COLOR = {.r = .196, .g = 0.666, .b = 0.8117};
-const rgb_color_t GRASS_COLOR = {.r = .388, .g = .788, .b = 0.0};
+const rgb_color_t GRASS_COLOR = {.r = 0.278, .g = .722, .b = 0.408};
 const rgb_color_t SKY_COLOR = {.r = 0.651, .g = 0.914, .b = 0.953};
 const rgb_color_t MOUNTAIN_COLOR = {.r = 0.294, .g = 0.431, .b = 0.318};
 const rgb_color_t SNOW_COLOR = {.r = 0.717, .g = 0.968, .b = 0.960};

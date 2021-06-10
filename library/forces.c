@@ -246,7 +246,7 @@ void collision_force_creator(collision_aux_t *auxil, list_t *bodies, scene_t *sc
     collision_info_t info = find_collision(body_get_shape(body1), body_get_shape(body2));
     if(info.collided) {
         if((get_type(body2) == GRASS)) {
-            if(fabs(vec_dot(body_get_velocity(body1), info.axis)) < 150) {
+            if(fabs(vec_dot(body_get_velocity(body1), info.axis)) < 100) {
                 body_set_velocity(body1, vec_multiply(vec_dot(body_get_velocity(body1), vec_orthogonal(info.axis)), vec_orthogonal(info.axis)));
             }
         }

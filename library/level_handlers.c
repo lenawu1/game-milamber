@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "sdl_wrapper.h"
-#include "compound_body.h"
 #include "body.h"
 #include "level_handlers.h"
 #include "terrain.h"
@@ -26,7 +25,6 @@
 #include "render.h"
 #include "collision.h"
 #include "polygon.h"
-#include "compound_body.h"
 #include "elements.h"
 #include "physics.h"
 #include "terrain.h"
@@ -49,7 +47,7 @@ char level_data[7][50] = {
                             "resources/level5.txt",
                             "resources/level6.txt",
                             "resources/level7.txt"
-                            };
+                        };
 
 const double BALL_SIZE = 20;
 const vector_t INIT_POS1 = {.x = 50, .y = 1000};

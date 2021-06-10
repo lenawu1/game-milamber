@@ -15,7 +15,6 @@
 #include "render.h"
 #include "collision.h"
 #include "polygon.h"
-#include "compound_body.h"
 #include "elements.h"
 #include "physics.h"
 #include "terrain.h"
@@ -70,7 +69,7 @@ void handler(char key, key_event_type_t type, double held_time, scene_t *scene) 
             }
             else {
                 if (scene_get_level(scene) == NUM_LEVELS && scene_get_state(scene) == 1) {
-                scene_set_state(scene, 2);
+                    scene_set_state(scene, 2);
                 }
                 else if (scene_get_state(scene) == 1) {
                     scene_add_level(scene);
