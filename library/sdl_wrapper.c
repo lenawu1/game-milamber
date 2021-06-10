@@ -12,7 +12,7 @@
 #include "terrain.h"
 #include "level_handlers.h"
 
-const char WINDOW_TITLE[] = "CS 3";
+const char WINDOW_TITLE[] = "Flappy Golf";
 const int WINDOW_WIDTH = 1000;
 const int WINDOW_HEIGHT = 500;
 const double MS_PER_S = 1e3;
@@ -150,7 +150,6 @@ Mix_Chunk *sdl_load_sound(scene_t *scene, char *filepath, int volume, int channe
 
 void sdl_free_sound(Mix_Chunk *sound) {
     Mix_FreeChunk(sound);
-    //Mix_Quit();
 }
 
 SDL_Texture *sdl_load_image(char *filepath){
@@ -263,7 +262,7 @@ void sdl_draw_polygon(body_t *body) {
         y_points[i] = pixel.y;
     }
 
-    if (body_get_texture(body) == NULL && body_get_surface(body) == NULL) {
+    if (body_get_texture(body) == NULL) {
         rgb_color_t color = body_get_color(body);
         assert(0 <= color.r && color.r <= 1);
         assert(0 <= color.g && color.g <= 1);
@@ -276,11 +275,9 @@ void sdl_draw_polygon(body_t *body) {
             color.r * 255, color.g * 255, color.b * 255, 255
         );
     }
-    else if (get_type(body) == GRASS) { //FIXME: WHAT IS GOING ON
-        int suc = texturedPolygon(renderer, x_points, y_points, n, body_get_surface(body), 0, 0);
-        printf("Made some %d with %zu sides, success: %d\n", get_type(body), n, suc);
-        SDL_Delay(1000);
-    }
+    // else if (get_type(body) == GRASS) { //For textured grass when texturedPolygon works
+    //     texturedPolygon(renderer, x_points, y_points, n, body_get_surface(body), 0, 0);
+    // }
     else {
         double minx = INFINITY;
         double miny = INFINITY;
@@ -307,7 +304,6 @@ void sdl_draw_polygon(body_t *body) {
         rect->w = maxx - minx; rect->h = maxy - miny;
         SDL_RenderCopy(renderer, body_get_texture(body), NULL, rect);
         free(rect);
-        printf("Made some %d\n", get_type(body));
     }   
     free(x_points);
     free(y_points);
@@ -390,7 +386,6 @@ void sdl_render_scene(scene_t *scene) {
         center_display("Press up arrow to continue.", 310, 30, 330, 280, 45, rgb_color_rainbows(0));
     }
     else if (state == 0) {
-        sdl_clear();
         size_t background_element_count = scene_background_elements(scene);
         for (size_t i = 0; i < background_element_count; i++) {
             body_t *body = scene_get_background_element(scene, i);

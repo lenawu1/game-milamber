@@ -52,20 +52,15 @@ list_t *generate_grass_shape(){
 
 body_t *generate_grass(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *grass = body_init_with_info(shape, INFINITY, GRASS_COLOR, make_type_info(GRASS), free);
-    SDL_Surface *grass_surf = malloc(sizeof(SDL_Surface));
-    grass_surf = IMG_Load("../resources/grass_texture.png");
-    body_set_surface(grass, grass_surf);
-    SDL_Texture *grass_tex = sdl_load_texture("../resources/grass_texture.png");
-    body_set_texture(grass, grass_tex);
+    // SDL_Surface *grass_surf = malloc(sizeof(SDL_Surface)); //For when texturedPolygon works
+    // grass_surf = IMG_Load("../resources/grass_texture.png");
+    // body_set_surface(grass, grass_surf);
     create_physics_collision(scene, GRASS_ELAS, ball, grass);
     return grass;
 }
 
 body_t *generate_water(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *water = body_init_with_info(shape, INFINITY, WATER_COLOR, make_type_info(WATER), free);
-    SDL_Surface *water_surf = malloc(sizeof(SDL_Surface));
-    water_surf = IMG_Load("../resources/water_texture.png");
-    body_set_surface(water, water_surf);
     SDL_Texture *water_tex = sdl_load_texture("../resources/water_texture.png");
     body_set_texture(water, water_tex);
     create_collision(scene, ball, water, level_end, scene, NULL);
@@ -74,9 +69,6 @@ body_t *generate_water(scene_t *scene, body_t *ball, list_t *shape) {
 
 body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *sand = body_init_with_info(shape, INFINITY, SAND_COLOR, make_type_info(SAND), free);
-    SDL_Surface *sand_surf = malloc(sizeof(SDL_Surface));
-    sand_surf = IMG_Load("../resources/sand_texture.png");
-    body_set_surface(sand, sand_surf);
     SDL_Texture *sand_tex = sdl_load_texture("../resources/sand_texture.png");
     body_set_texture(sand, sand_tex);
     create_collision(scene, ball, sand, sanded, NULL, NULL);
@@ -85,9 +77,6 @@ body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape) {
 
 body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape) {
     body_t *boost = body_init_with_info(shape, INFINITY, rgb_color_pastel(), make_type_info(BOOST), free);
-    SDL_Surface *boost_surf = malloc(sizeof(SDL_Surface));
-    boost_surf = IMG_Load("../resources/glitter_star.png");
-    body_set_surface(boost, boost_surf);
     SDL_Texture *boost_tex = sdl_load_texture("../resources/glitter_star.png");
     body_set_texture(boost, boost_tex);
     create_collision(scene, ball, boost, power_up, NULL, NULL);
