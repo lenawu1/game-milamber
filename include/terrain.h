@@ -17,9 +17,9 @@
  * @param shape list of vectors where the sand particles belong
  * @return a compound body of the sand terrain that can be added to the scene
  */
-list_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape);
+body_t *generate_sand(scene_t *scene, body_t *ball, list_t *shape);
 
-list_t *generate_water(scene_t *scene, body_t *ball, list_t *shape);
+body_t *generate_water(scene_t *scene, body_t *ball, list_t *shape);
 
 body_t *generate_boost(scene_t *scene, body_t *ball, list_t *shape);
 

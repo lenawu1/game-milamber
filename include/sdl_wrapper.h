@@ -2,12 +2,13 @@
 #define __SDL_WRAPPER_H__
 
 #include <stdbool.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
 #include "color.h"
 #include "list.h"
 #include "scene.h"
 #include "vector.h"
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_image.h>
+#include "level_handlers.h"
 
 // Values passed to a key handler when the given arrow key is pressed
 typedef enum {
@@ -71,7 +72,7 @@ bool sdl_is_done(scene_t *scene);
  */
 void sdl_clear(void);
 
-SDL_Texture *sdl_load_image(char *filepath);
+SDL_Texture *sdl_load_texture(char *filepath);
 
 Mix_Chunk *sdl_load_sound(scene_t *scene, char *filepath, int volume, int channel);
 
@@ -79,12 +80,11 @@ void sdl_free_sound(Mix_Chunk *sound);
 
 
 /**
- * Draws a polygon from the given list of vertices and a color.
+ * Draws a polygon representing the body.
  *
- * @param points the list of vertices of the polygon
- * @param color the color used to fill in the polygon
+ * @param body the body whose shape is to be drawm
  */
-void sdl_draw_polygon(list_t *points, rgb_color_t color);
+void sdl_draw_polygon(body_t *body);
 
 /**
  * Displays the rendered frame on the SDL window.

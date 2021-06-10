@@ -1,8 +1,18 @@
 #ifndef __RENDER_H__
 #define __RENDER_H__
 
-#include "scene.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <stdbool.h>
+#include "render.h"
+#include "sdl_wrapper.h"
+#include "collision.h"
+#include "forces.h"
 #include "color.h"
+#include "level_handlers.h"
+#include "elements.h"
+#include "cJSON.h"
 
 list_t *create_triangle_shape(double a);
 

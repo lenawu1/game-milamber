@@ -6,6 +6,11 @@
 #include <math.h>
 #include <stdbool.h>
 #include "render.h"
+#include "sdl_wrapper.h"
+#include "body.h"
+#include "level_handlers.h"
+#include "collision.h"
+#include "forces.h"
 
 /**
  * Creates a colored golf ball with wings and mass.

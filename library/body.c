@@ -3,16 +3,19 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <SDL2/SDL_image.h>
 #include "body.h"
 #include "color.h"
 #include "list.h"
 #include "vector.h"
 #include "polygon.h"
 
-typedef struct body {
+typedef struct body_t {
     list_t *shape;
     double mass;
     rgb_color_t color;
+    SDL_Surface *surface;
+    SDL_Texture *texture;
     vector_t centroid;
     vector_t velocity;
     double orientation;
@@ -44,6 +47,8 @@ body_t *body_init_with_info(
     object->shape = shape;
     object->mass = mass;
     object->color = color;
+    object->surface = NULL;
+    object->texture = NULL;
     object->info = info;
     object->info_freer = info_freer;
     object->anchors = NULL;
@@ -122,6 +127,14 @@ rgb_color_t body_get_color(body_t *body) {
     return body->color;
 }
 
+SDL_Texture *body_get_texture(body_t *body) {
+    return body->texture;
+}
+
+SDL_Surface *body_get_surface(body_t *body) {
+    return body->surface;
+}
+
 void *body_get_info(body_t *body) {
     return body->info;
 }
@@ -187,6 +200,14 @@ vector_t body_get_impulse(body_t *body) {
 
 void body_set_color(body_t *body, rgb_color_t color) {
     body->color = color;
+}
+
+void body_set_surface(body_t *body, SDL_Surface *surf) {
+    body->surface = surf;
+}
+
+void body_set_texture(body_t *body, SDL_Texture *tex) {
+    body->texture = tex;
 }
 
 void body_tick(body_t *body, double dt) {

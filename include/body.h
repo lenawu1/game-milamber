@@ -2,9 +2,11 @@
 #define __BODY_H__
 
 #include <stdbool.h>
+#include <SDL2/SDL_image.h>
 #include "color.h"
 #include "list.h"
 #include "vector.h"
+
 
 /**
  * A rigid body constrained to the plane.
@@ -12,7 +14,7 @@
  * Bodies can accumulate forces and impulses during each tick.
  * Angular physics (i.e. torques) are not currently implemented.
  */
-typedef struct body body_t;
+typedef struct body_t body_t;
 
 /**
  * Initializes a body without any info.
@@ -108,6 +110,16 @@ double body_get_mass(body_t *body);
  */
 rgb_color_t body_get_color(body_t *body);
 
+SDL_Surface *body_get_surface(body_t *body);
+
+/**
+ * Gets the texture information struct of a body.
+ *
+ * @param body a pointer to a body returned from body_init()
+ * @return the texture_info struct of the body
+ */
+SDL_Texture *body_get_texture(body_t *body);
+
 /**
  * Gets the information associated with a body.
  *
@@ -156,6 +168,10 @@ void body_add_anchor(body_t *body, body_t *anchor);
 list_t *body_get_anchors(body_t *body);
 
 void body_set_color(body_t *body, rgb_color_t color);
+
+void body_set_surface(body_t *body, SDL_Surface *surf);
+
+void body_set_texture(body_t *body, SDL_Texture *tex);
 
 /**
  * Changes a body's velocity (the time-derivative of its position).

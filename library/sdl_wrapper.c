@@ -2,14 +2,15 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include "sdl_wrapper.h"
-#include "terrain.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL_mixer.h>
+#include "sdl_wrapper.h"
+#include "terrain.h"
+#include "level_handlers.h"
 
 const char WINDOW_TITLE[] = "CS 3";
 const int WINDOW_WIDTH = 1000;
@@ -129,6 +130,12 @@ void sdl_init(vector_t min, vector_t max) {
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
+SDL_Texture *sdl_load_texture(char *filepath) {
+    SDL_Texture *tex = IMG_LoadTexture(renderer, filepath);
+    assert (tex != NULL);
+    return tex;
+}
+
 Mix_Chunk *sdl_load_sound(scene_t *scene, char *filepath, int volume, int channel) {
     Mix_Chunk *sound = NULL;
     int success = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -236,13 +243,11 @@ void sdl_clear(void) {
     SDL_RenderClear(renderer);
 }
 
-void sdl_draw_polygon(list_t *points, rgb_color_t color) {
+void sdl_draw_polygon(body_t *body) {
+    list_t *points = body_get_shape(body);
     // Check parameters
     size_t n = list_size(points);
     assert(n >= 3);
-    assert(0 <= color.r && color.r <= 1);
-    assert(0 <= color.g && color.g <= 1);
-    assert(0 <= color.b && color.b <= 1);
 
     vector_t window_center = get_window_center();
 
@@ -258,14 +263,54 @@ void sdl_draw_polygon(list_t *points, rgb_color_t color) {
         y_points[i] = pixel.y;
     }
 
-    // Draw polygon with the given color
-    filledPolygonRGBA(
-        renderer,
-        x_points, y_points, n,
-        color.r * 255, color.g * 255, color.b * 255, 255
-    );
+    if (body_get_texture(body) == NULL && body_get_surface(body) == NULL) {
+        rgb_color_t color = body_get_color(body);
+        assert(0 <= color.r && color.r <= 1);
+        assert(0 <= color.g && color.g <= 1);
+        assert(0 <= color.b && color.b <= 1);
+
+        // Draw polygon with the given color
+        filledPolygonRGBA(
+            renderer,
+            x_points, y_points, n,
+            color.r * 255, color.g * 255, color.b * 255, 255
+        );
+    }
+    else if (get_type(body) == GRASS) { //FIXME: WHAT IS GOING ON
+        int suc = texturedPolygon(renderer, x_points, y_points, n, body_get_surface(body), 0, 0);
+        printf("Made some %d with %zu sides, success: %d\n", get_type(body), n, suc);
+    }
+    else {
+        double minx = INFINITY;
+        double miny = INFINITY;
+        double maxx = -INFINITY;
+        double maxy = -INFINITY;
+        for (size_t i = 0; i < list_size(points); i++) {
+            vector_t *vertex = list_get(points, i);
+            vector_t curr = get_window_position(*vertex, window_center);
+            if (curr.x < minx) {
+                minx = curr.x;
+            }
+            if (curr.y < miny) {
+                miny = curr.y;
+            }
+            if (curr.x > maxx) {
+                maxx = curr.x;
+            }
+            if (curr.y > maxy) {
+                maxy = curr.y;
+            }
+        }
+        SDL_Rect *rect = malloc(sizeof(SDL_Rect));
+        rect->x = minx; rect->y = miny;
+        rect->w = maxx - minx; rect->h = maxy - miny;
+        SDL_RenderCopy(renderer, body_get_texture(body), NULL, rect);
+        free(rect);
+        printf("Made some %d\n", get_type(body));
+    }   
     free(x_points);
     free(y_points);
+    free(points);
 }
 
 void sdl_show(void) {
@@ -348,16 +393,12 @@ void sdl_render_scene(scene_t *scene) {
         size_t background_element_count = scene_background_elements(scene);
         for (size_t i = 0; i < background_element_count; i++) {
             body_t *body = scene_get_background_element(scene, i);
-            list_t *shape = body_get_shape(body);
-            sdl_draw_polygon(shape, body_get_color(body));
-            list_free(shape);
+            sdl_draw_polygon(body);
         }
         size_t body_count = scene_bodies(scene);
         for (size_t i = 0; i < body_count; i++) {
             body_t *body = scene_get_body(scene, i);
-            list_t *shape = body_get_shape(body);
-            sdl_draw_polygon(shape, body_get_color(body));
-            list_free(shape);
+            sdl_draw_polygon(body);
         }
         char score_str[10];
         sprintf(score_str, "%zu", scene_get_points(scene));
