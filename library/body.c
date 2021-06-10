@@ -226,7 +226,6 @@ void body_tick(body_t *body, double dt) {
     if(body->anchors != NULL) {
         for(size_t i = 0; i < list_size(body->anchors); i++) {
             body_translate(list_get(body->anchors, i), dx);
-            //FIXME: check ball rotations
         }
     }
 

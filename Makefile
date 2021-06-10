@@ -190,7 +190,7 @@ out/%.obj: demo/%.c # or "demo"
 out/%.obj: tests/%.c # or "tests"
 	$(CC) -c $^ $(CFLAGS) -Fo"$@"
 
-# bin/bounce.exe bin\bounce.exe: out/bounce.obj out/sdl_wrapper.obj $(STUDENT_OBJS) //TODO: Left here for example
+# bin/bounce.exe bin\bounce.exe: out/bounce.obj out/sdl_wrapper.obj $(STUDENT_OBJS)
 # 	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) $(LIBS) -out:"$@"
 
 # Builds the test suite executables from the corresponding test .o file
@@ -200,7 +200,7 @@ bin/test_suite_%.exe bin\test_suite_%.exe: out/test_suite_%.obj out/test_util.ob
 	$(CC) $^ $(CFLAGS) -link $(LINKEROPTS) -out:"$@"
 
 # Empty recipes for cross-OS task compatibility.
-# bin/bounce bin\bounce: bin/bounce.exe ; //TODO: EXAMPLE
+# bin/bounce bin\bounce: bin/bounce.exe ;
 bin/test_suite_% bin\test_suite_%: bin/test_suite_%.exe ;
 
 # CMD commands to test and clean

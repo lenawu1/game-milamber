@@ -18,7 +18,7 @@ list_t *create_golf_ball(double radius, rgb_color_t color, double mass, vector_t
     SDL_Surface *ball_surf = malloc(sizeof(SDL_Surface));
     ball_surf = IMG_Load("../resources/pixel_ball.png");
     body_set_surface(ball, ball_surf);
-    SDL_Texture *ball_tex = sdl_load_texture("../resources/pixel_ball.png"); //FIXME: temp
+    SDL_Texture *ball_tex = sdl_load_texture("../resources/pixel_ball.png");
     body_set_texture(ball, ball_tex);
 
     body_set_color(ball, color);
